@@ -1,0 +1,63 @@
+.divPositions{
+    margin: auto;
+    width: 300px;
+    height: 300px;
+}
+
+.mainn{
+    width: 1282px;
+    margin: auto;
+}
+
+#topPart{
+    height: 50px;
+    margin: 20px 20px 20px 20px;
+    padding: 5px;
+    background: url("img/header.png") top repeat-x;
+}
+
+#btn-group{
+    margin: 0px auto 0px auto;
+}
+
+#leftPart{
+    width: 400px;
+    height: 800px;
+    margin: 20px 20px 20px 20px;
+    background-color: burlywood;
+    float: left;
+    background: url("img/body.png") top repeat-x;
+}
+
+#rightPart{
+    width: 800px;
+    height: 800px;
+    margin: 20px 20px 20px 20px;
+    background-color: darkgoldenrod;
+    float: left;
+    background: url("img/body.png") top repeat-x;
+}
+
+.clear{
+    clear: both;
+}
+
+.body{
+    background-color: #eeeeee;
+}
+.form-group{
+    width: 300px;
+    margin: 10px;
+}
+
+.tablePanel{
+    height: 600;
+}
+
+.name_surname {
+    color: #eeeeee;
+    font-size: 15px;
+    font-family: Times new Roman;
+}
+
+

@@ -1,0 +1,214 @@
+#body {
+    background: url("img/background.jpg");
+    background: no-repeat;
+    background-size: 100%;
+}
+
+.main {
+    width: 1282px;
+    /*min-height: 800px;*/
+    margin: 20px auto;
+}
+
+.contactInformation {
+    width: 200px;
+    height: 300px;
+    background-color: aliceblue;
+    position: inherit;
+    margin-left: 10px;
+    margin-top: 280px;
+    margin-bottom: 10px;
+    border-width: 1px;
+    border-color: #6FBBDB;
+}
+
+.banner {
+    margin: 10px auto;
+    width: 600px;
+    height: 400px;
+}
+
+.authentication {
+    width: 200px;
+    margin: 10px;
+    float: right;
+}
+
+.registration {
+    margin: 10px;
+}
+
+#name {
+    text-align: right;
+}
+
+#surname {
+    text-align: left;
+}
+
+.name_surname {
+    color: black;
+    font-size: 15px;
+    margin: 0px;
+    font-family: Times new Roman;
+}
+
+text {
+    margin: 5px;
+}
+
+.registrationbtn {
+    padding: 5;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    float: right;
+}
+
+.loginbtn {
+    padding: 5;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+
+.border {
+    margin: 5px;
+    padding: 0px;
+    border: solid;
+    border-width: 1px;
+    border-color: #6FBBDB;
+}
+
+.logoutbtn {
+    width: 100%;
+    height: 20px;
+    padding: 0px;
+}
+
+#Welcome {
+    margin: 0px 50px;
+}
+
+.alignHorizontalCenter {
+    margin-top: 5px;
+    margin-bottom: 0px;
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+.orderText {
+    width: 40%;
+    float: left;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.orderListHeight {
+    /*height: 85%;*/
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.orderList {
+    border-color: #6FBBDB;
+    /*height: 600px;*/
+    margin: 10px 10px 10px 10px;
+}
+
+.pagination {
+    margin: auto;
+}
+
+.searchRow {
+    margin-top: 10px;
+    margin-left: 33%;
+    margin-bottom: 10px;
+}
+
+.searcheWidth {
+    width: 150px;
+}
+
+.cancelOrderButton {
+    float: left;
+    width: 150px;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.createOrderPanel {
+    padding: 20px;
+    width: 250px;
+    background: #eeeeee;
+    border: #282828 2px solid;
+    font-family: Georgia;
+}
+
+.edit {
+    float: left;
+    width: 100px;
+    margin: 10px;
+}
+
+.save-panel {
+    margin-top: 160px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.edit-panel {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.edit-panel-heading {
+    background-color: #428BCA;
+    text-decoration-color: #428BCA;
+    color: #428BCA;
+    outline-color: #428BCA;
+    text-emphasis-color: #428BCA;
+}
+
+.panel-body-input {
+
+}
+
+.datepicker {
+    z-index: 1151 !important;
+}
+
+.rows-count {
+    width: 280px;
+}
+
+.rows-count-height {
+    height: 30px;
+}
+
+.floatRight {
+    float: right;
+    margin-right: 10px;
+    height: 18px;
+}
+
+.switcher {
+    width: 150px;
+    height: 30px;
+}
+
+.labelCount {
+    float: left;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+.textCount {
+    float: left;
+    height: 30px;
+    width: 50px;
+}
+

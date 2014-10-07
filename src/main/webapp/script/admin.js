@@ -1,0 +1,6 @@
+$('#datepickerLog').datepicker({
+
+});
+$('#datepickerReport').datepicker({
+
+});
