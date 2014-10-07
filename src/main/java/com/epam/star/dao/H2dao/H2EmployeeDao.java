@@ -192,25 +192,6 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     }
 
     @Override
-    public int getRecordsCount() {
-        int result = 0;
-
-        PreparedStatement prstm = null;
-        ResultSet resultSet = null;
-        try {
-            prstm = conn.prepareStatement("SELECT COUNT(*) FROM users where position_id != 11");
-            resultSet = prstm.executeQuery();
-            while (resultSet.next())
-                result = resultSet.getInt("count(*)");
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            closeStatement(prstm, resultSet);
-        }
-        return result;
-    }
-
-    @Override
     protected String getFindByParameters() {
         return FIND_BY_PARAMETERS;
     }

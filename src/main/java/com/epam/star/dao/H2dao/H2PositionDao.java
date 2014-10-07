@@ -128,25 +128,6 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
         return position;
     }
 
-//    @Override
-//    public int getRecordsCount() {
-//        int result = 0;
-//
-//        PreparedStatement prstm = null;
-//        ResultSet resultSet = null;
-//        try {
-//            prstm = conn.prepareStatement("SELECT COUNT(*) FROM position");
-//            resultSet = prstm.executeQuery();
-//            while (resultSet.next())
-//                result = resultSet.getInt("count(*)");
-//        } catch (SQLException e) {
-//            throw new DaoException(e);
-//        } finally {
-//            closeStatement(prstm, resultSet);
-//        }
-//        return result;
-//    }
-
     @Override
     public Map<String, String> getParametersMap() {
         return fieldsQueryMap;

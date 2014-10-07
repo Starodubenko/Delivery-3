@@ -127,11 +127,6 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
         }
         return status;
     }
-//
-//    @Override
-//    public int getRecordsCount() {
-//        return 0;
-//    }
 
     @Override
     public Map<String, String> getParametersMap() {

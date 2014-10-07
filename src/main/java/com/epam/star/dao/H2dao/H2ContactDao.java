@@ -152,25 +152,6 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
         return null;
     }
 
-//    @Override
-//    public int getRecordsCount() {
-//        int result = 0;
-//
-//        PreparedStatement prstm = null;
-//        ResultSet resultSet = null;
-//        try {
-//            prstm = conn.prepareStatement("SELECT COUNT(*) FROM contacts");
-//            resultSet = prstm.executeQuery();
-//            while (resultSet.next())
-//                result = resultSet.getInt("count(*)");
-//        } catch (SQLException e) {
-//            throw new DaoException(e);
-//        } finally {
-//            closeStatement(prstm, resultSet);
-//        }
-//        return result;
-//    }
-
     @Override
     public Map<String, String> getParametersMap() {
         return fieldsQueryMap;

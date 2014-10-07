@@ -25,9 +25,9 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
 
     private static final String FIND_BY_PARAMETERS =
             " SELECT *" +
-            " FROM users" +
-            " inner join positions" +
-            " on users.position_id = positions.id" +
+                    " FROM users" +
+                    " inner join positions" +
+                    " on users.position_id = positions.id" +
                     " %s LIMIT ? OFFSET ?";
     private static Map<String, String> fieldsQueryMap = new HashMap<>();
 
@@ -52,25 +52,6 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     protected H2ClientDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
     }
-
-//    @Override
-//    public int getRecordsCount() {
-//        int result = 0;
-//
-//        PreparedStatement prstm = null;
-//        ResultSet resultSet = null;
-//        try {
-//            prstm = conn.prepareStatement("SELECT COUNT(*) FROM users");
-//            resultSet = prstm.executeQuery();
-//            while (resultSet.next())
-//                result = resultSet.getInt("count(*)");
-//        } catch (SQLException e) {
-//            throw new DaoException(e);
-//        } finally {
-//            closeStatement(prstm, resultSet);
-//        }
-//        return result;
-//    }
 
     private Map<String, String> correctFields(Map<String, String> fields) {
 
