@@ -16,6 +16,7 @@ import java.util.Map;
 
 public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2OrderDao.class);
+    private static final String TABLE_NAME = "orders";
     private static final String INSERT_ORDER = "INSERT INTO  orders VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String RANGE_ORDERS = "SELECT * FROM orders LIMIT ? OFFSET ?";
     private static final String CANCEL_ORDER = " UPDATE orders SET id = ?, user_id = ?, count = ?, period_id = ?," +
@@ -26,15 +27,15 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             " SELECT orders.id, orders.user_id, users.lastname ,users.firstname, users.middlename, users.address," +
                     " orders.order_date, orders.goods_id, goods.goods_name, orders.count, orders.order_cost, orders.paid," +
                     " orders.delivery_date, orders.period_id, period.period, orders.additional_info, orders.status_id, status.status_name" +
-            " FROM orders" +
-            " inner join users" +
-            " on orders.user_id = users.id" +
-            " inner join period" +
-            " on orders.period_id = period.id" +
-            " inner join goods" +
-            " on orders.goods_id = goods.id" +
-            " inner join status" +
-            " on orders.status_id = status.id" +
+                    " FROM orders" +
+                    " inner join users" +
+                    " on orders.user_id = users.id" +
+                    " inner join period" +
+                    " on orders.period_id = period.id" +
+                    " inner join goods" +
+                    " on orders.goods_id = goods.id" +
+                    " inner join status" +
+                    " on orders.status_id = status.id" +
                     " %s LIMIT ? OFFSET ? ";
 
     private static Map<String, String> fieldsQueryMap = new HashMap<>();
@@ -46,6 +47,11 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     @Override
     public Map<String, String> getParametersMap() {
         return fieldsQueryMap;
+    }
+
+    @Override
+    public String getTableName() {
+        return TABLE_NAME;
     }
 
     static {
@@ -60,8 +66,8 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         fieldsQueryMap.put("order-goods-name", " goods.goods_name = ?");
         fieldsQueryMap.put("order-goods-count", " orders.count = ?");
         fieldsQueryMap.put("order-cost", " orders.order_cost = ?");
-        fieldsQueryMap.put("delivery-date", " orders.delivery_date = ?");
-        fieldsQueryMap.put("delivery-time", " period.period = ?");
+        fieldsQueryMap.put("order-delivery-date", " orders.delivery_date = ?");
+        fieldsQueryMap.put("order-delivery-time", " period.period = ?");
         fieldsQueryMap.put("order-addInfo", " orders.additional_info = ?");
         fieldsQueryMap.put("order-status", " status.status_name = ?");
     }
@@ -230,42 +236,24 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         return null;
     }
 
-    private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
-        if (prstm != null) {
-            try {
-                prstm.close();
-            } catch (SQLException e) {
-                throw new DaoException(e);
-            }
-        }
-
-        if (resultSet != null) {
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                throw new DaoException(e);
-            }
-        }
-    }
-
-    @Override
-    public int getRecordsCount() {
-        int result = 0;
-
-        PreparedStatement prstm = null;
-        ResultSet resultSet = null;
-        try {
-            prstm = conn.prepareStatement("SELECT COUNT(*) FROM orders");
-            resultSet = prstm.executeQuery();
-            while (resultSet.next())
-                result = resultSet.getInt("count(*)");
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            closeStatement(prstm, resultSet);
-        }
-        return result;
-    }
+//    @Override
+//    public int getRecordsCount() {
+//        int result = 0;
+//
+//        PreparedStatement prstm = null;
+//        ResultSet resultSet = null;
+//        try {
+//            prstm = conn.prepareStatement("SELECT COUNT(*) FROM orders");
+//            resultSet = prstm.executeQuery();
+//            while (resultSet.next())
+//                result = resultSet.getInt("count(*)");
+//        } catch (SQLException e) {
+//            throw new DaoException(e);
+//        } finally {
+//            closeStatement(prstm, resultSet);
+//        }
+//        return result;
+//    }
 
     @Override
     protected String getFindByParameters() {

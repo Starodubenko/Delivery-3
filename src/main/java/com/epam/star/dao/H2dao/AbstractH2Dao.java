@@ -32,7 +32,23 @@ public abstract class AbstractH2Dao<T extends AbstractEntity> {
         this.conn = conn;
     }
 
-    public abstract int getRecordsCount();
+    public int getRecordsCount() {
+        int result = 0;
+
+        PreparedStatement prstm = null;
+        ResultSet resultSet = null;
+        try {
+            prstm = conn.prepareStatement("SELECT COUNT(*) FROM " + getTableName());
+            resultSet = prstm.executeQuery();
+            while (resultSet.next())
+                result = resultSet.getInt("count(*)");
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm, resultSet);
+        }
+        return result;
+    }
 
     public PaginatedList<T> findRange(int firstRow, int rowsCount, Map<String, String> fieldsMap) {
         int count = getRecordsCount();
@@ -164,7 +180,11 @@ public abstract class AbstractH2Dao<T extends AbstractEntity> {
 
     public abstract Map<String, String> getParametersMap();
 
-    private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
+    public abstract String getTableName();
+
+    public abstract T getEntityFromResultSet(ResultSet resultSet) throws DaoException;
+
+    protected void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
         if (prstm != null) {
             try {
                 prstm.close();
@@ -181,8 +201,6 @@ public abstract class AbstractH2Dao<T extends AbstractEntity> {
             }
         }
     }
-
-    public abstract T getEntityFromResultSet(ResultSet resultSet) throws DaoException;
 
     public String createQueryString(Map<String, String> fields) {
 

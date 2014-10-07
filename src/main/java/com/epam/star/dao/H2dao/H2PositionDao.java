@@ -1,7 +1,6 @@
 package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.PositionDao;
-import com.epam.star.entity.AbstractEntity;
 import com.epam.star.entity.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,12 +9,27 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class H2PositionDao extends AbstractH2Dao implements PositionDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2PositionDao.class);
+    private static final String TABLE_NAME = "positions";
     private static final String ADD_POSITION = "INSERT INTO  positions VALUES (?, ?)";
     private static final String DELETE_POSITION = "DELETE FROM positions WHERE id = ?";
+    private static final String UPDATE_PERIOD = "UPDATE position SET id = ?, position_name = ? WHERE id = ?";
+
+    private static Map<String, String> fieldsQueryMap = new HashMap<>();
+
+    private static final String FIND_BY_PARAMETERS =
+            " SELECT *" +
+                    " FROM position" +
+                    " %s LIMIT ? OFFSET ?";
+
+    static {
+        fieldsQueryMap.put("position-id", " position.id = ?");
+        fieldsQueryMap.put("position-name", " position.position_name = ?");
+    }
 
     protected H2PositionDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
@@ -32,7 +46,7 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
             resultSet = prstm.executeQuery();
 
             if (resultSet.next())
-                position = getStatusFromResultSet(resultSet);
+                position = getEntityFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -52,7 +66,7 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
             resultSet = prstm.executeQuery();
 
             if (resultSet.next())
-                position = getStatusFromResultSet(resultSet);
+                position = getEntityFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -62,8 +76,22 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
     }
 
     @Override
-    public String insert(Position entity) throws DaoException {
-        return null;
+    public String insert(Position position) throws DaoException {
+        String statuss = "Period do not added";
+
+        PreparedStatement prstm = null;
+        try {
+            prstm = conn.prepareStatement(ADD_POSITION);
+            prstm.setString(1, null);
+            prstm.setString(2, position.getPositionName());
+            prstm.execute();
+            statuss = "Period added successfully";
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm, null);
+        }
+        return statuss;
     }
 
     @Override
@@ -72,11 +100,24 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
     }
 
     @Override
-    public String updateEntity(Position entity) throws DaoException {
+    public String updateEntity(Position position) throws DaoException {
+        PreparedStatement prstm = null;
+        try {
+            prstm = conn.prepareStatement(UPDATE_PERIOD);
+            prstm.setInt(1, position.getId());
+            prstm.setString(2, position.getPositionName());
+            prstm.setInt(3, position.getId());
+            prstm.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm, null);
+        }
         return null;
     }
 
-    private Position getStatusFromResultSet(ResultSet resultSet) throws DaoException {
+    @Override
+    public Position getEntityFromResultSet(ResultSet resultSet) throws DaoException {
         Position position = new Position();
         try {
             position.setId(resultSet.getInt("id"));
@@ -87,41 +128,37 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
         return position;
     }
 
-    private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
-        if (prstm != null) {
-            try {
-                prstm.close();
-            } catch (SQLException e) {
-                throw new DaoException(e);
-            }
-        }
-
-        if (resultSet != null) {
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                throw new DaoException(e);
-            }
-        }
-    }
-
-    @Override
-    public AbstractEntity getEntityFromResultSet(ResultSet resultSet) throws DaoException {
-        return null;
-    }
-
-    @Override
-    public int getRecordsCount() {
-        return 0;
-    }
+//    @Override
+//    public int getRecordsCount() {
+//        int result = 0;
+//
+//        PreparedStatement prstm = null;
+//        ResultSet resultSet = null;
+//        try {
+//            prstm = conn.prepareStatement("SELECT COUNT(*) FROM position");
+//            resultSet = prstm.executeQuery();
+//            while (resultSet.next())
+//                result = resultSet.getInt("count(*)");
+//        } catch (SQLException e) {
+//            throw new DaoException(e);
+//        } finally {
+//            closeStatement(prstm, resultSet);
+//        }
+//        return result;
+//    }
 
     @Override
     public Map<String, String> getParametersMap() {
-        return null;
+        return fieldsQueryMap;
+    }
+
+    @Override
+    public String getTableName() {
+        return TABLE_NAME;
     }
 
     @Override
     protected String getFindByParameters() {
-        return null;
+        return FIND_BY_PARAMETERS;
     }
 }

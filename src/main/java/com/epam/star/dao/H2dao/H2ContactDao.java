@@ -14,6 +14,7 @@ import java.util.Map;
 
 public class H2ContactDao extends AbstractH2Dao implements ContactDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
+    private static final String TABLE_NAME = "contacts";
     private static final String ADD_CONTACT = "INSERT INTO CONTACTS VALUES (?, ?, ?)";
     private static final String DELETE_CONTACT = "DELETE FROM CONTACTS WHERE id = ?";
     private static final String UPDATE_CONTACT = "UPDATE contacts SET id = ?, telephone = ?, owner = ? WHERE id = ?";
@@ -21,15 +22,14 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
     private static Map<String, String> fieldsQueryMap = new HashMap<>();
 
     private static final String FIND_BY_PARAMETERS =
-            " SELECT " +
-                    " contacts.id, contacts.telephone, contacts.owner" +
+            " SELECT *" +
                     " FROM contacts" +
                     " %s LIMIT ? OFFSET ?";
 
     static {
         fieldsQueryMap.put("contact-id", " contacts.id = ?");
-        fieldsQueryMap.put("contact-id", " contacts.telephone = ?");
-        fieldsQueryMap.put("contact-id", " contacts.owner = ?");
+        fieldsQueryMap.put("contact-telephone", " contacts.telephone = ?");
+        fieldsQueryMap.put("contact-telephone", " contacts.owner = ?");
     }
 
     protected H2ContactDao(Connection conn, DaoManager daoManager) {
@@ -147,51 +147,38 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
         return contact;
     }
 
-    private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
-        if (prstm != null) {
-            try {
-                prstm.close();
-            } catch (SQLException e) {
-                throw new DaoException(e);
-            }
-        }
-
-        if (resultSet != null) {
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                throw new DaoException(e);
-            }
-        }
-    }
-
     @Override
     public AbstractEntity getEntityFromResultSet(ResultSet resultSet) throws DaoException {
         return null;
     }
 
-    @Override
-    public int getRecordsCount() {
-        int result = 0;
-
-        PreparedStatement prstm = null;
-        ResultSet resultSet = null;
-        try {
-            prstm = conn.prepareStatement("SELECT COUNT(*) FROM contacts");
-            resultSet = prstm.executeQuery();
-            while (resultSet.next())
-                result = resultSet.getInt("count(*)");
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            closeStatement(prstm, resultSet);
-        }
-        return result;
-    }
+//    @Override
+//    public int getRecordsCount() {
+//        int result = 0;
+//
+//        PreparedStatement prstm = null;
+//        ResultSet resultSet = null;
+//        try {
+//            prstm = conn.prepareStatement("SELECT COUNT(*) FROM contacts");
+//            resultSet = prstm.executeQuery();
+//            while (resultSet.next())
+//                result = resultSet.getInt("count(*)");
+//        } catch (SQLException e) {
+//            throw new DaoException(e);
+//        } finally {
+//            closeStatement(prstm, resultSet);
+//        }
+//        return result;
+//    }
 
     @Override
     public Map<String, String> getParametersMap() {
         return fieldsQueryMap;
+    }
+
+    @Override
+    public String getTableName() {
+        return TABLE_NAME;
     }
 
     @Override

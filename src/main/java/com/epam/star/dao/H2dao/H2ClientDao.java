@@ -16,6 +16,7 @@ import java.util.Map;
 
 public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
+    private static final String TABLE_NAME = "users";
     private static final String ADD_CLIENT = "INSERT INTO  users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String RANGE_CLIENT = "SELECT * FROM users LIMIT ? OFFSET ?";
     private static final String UPDATE_CLIENT = "UPDATE users SET id = ?, login = ?, password = ?, firstname = ?, lastname = ?, middlename = ?," +
@@ -23,10 +24,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             "position_id = ?, virtual_balance = ? WHERE id = ?";
 
     private static final String FIND_BY_PARAMETERS =
-            " SELECT " +
-                    " users.id, users.login, users.password, users.firstname, users.lastname, users.middlename," +
-                    " users.address, users.telephone, users.mobilephone, users.identitycard, users.workbook," +
-                    " users.rnn, users.sik, users.position_id, positions.position_name, virtual_balance" +
+            " SELECT *" +
             " FROM users" +
             " inner join positions" +
             " on users.position_id = positions.id" +
@@ -34,45 +32,45 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     private static Map<String, String> fieldsQueryMap = new HashMap<>();
 
     static {
-        fieldsQueryMap.put("id", " users.id = ?");
-        fieldsQueryMap.put("login", " users.login = ?");
-        fieldsQueryMap.put("password", " users.password = ?");
-        fieldsQueryMap.put("first-name", " users.firstname = ?");
-        fieldsQueryMap.put("middle-name", " users.middlename = ?");
-        fieldsQueryMap.put("last-name", " users.lastname = ?");
-        fieldsQueryMap.put("address", " users.address = ?");
-        fieldsQueryMap.put("telephone", " users.telephone = ?");
-        fieldsQueryMap.put("mobilephone", " users.mobilephone = ?");
-        fieldsQueryMap.put("identitycard", " users.identitycard = ?");
-        fieldsQueryMap.put("workbook", " users.workbook = ?");
-        fieldsQueryMap.put("rnn", " users.rnn = ?");
-        fieldsQueryMap.put("sik", " users.sik = ?");
-        fieldsQueryMap.put("position_id", " users.position_id = ?");
-        fieldsQueryMap.put("virtual_balance", " users.virtual_balance = ?");
+        fieldsQueryMap.put("client-id", " users.id = ?");
+        fieldsQueryMap.put("client-login", " users.login = ?");
+        fieldsQueryMap.put("client-password", " users.password = ?");
+        fieldsQueryMap.put("client-first-name", " users.firstname = ?");
+        fieldsQueryMap.put("client-middle-name", " users.middlename = ?");
+        fieldsQueryMap.put("client-last-name", " users.lastname = ?");
+        fieldsQueryMap.put("client-address", " users.address = ?");
+        fieldsQueryMap.put("client-telephone", " users.telephone = ?");
+        fieldsQueryMap.put("client-mobilephone", " users.mobilephone = ?");
+        fieldsQueryMap.put("client-identitycard", " users.identitycard = ?");
+        fieldsQueryMap.put("client-workbook", " users.workbook = ?");
+        fieldsQueryMap.put("client-rnn", " users.rnn = ?");
+        fieldsQueryMap.put("client-sik", " users.sik = ?");
+        fieldsQueryMap.put("client-position_id", " users.position_id = ?");
+        fieldsQueryMap.put("client-virtual_balance", " users.virtual_balance = ?");
     }
 
     protected H2ClientDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
     }
 
-    @Override
-    public int getRecordsCount() {
-        int result = 0;
-
-        PreparedStatement prstm = null;
-        ResultSet resultSet = null;
-        try {
-            prstm = conn.prepareStatement("SELECT COUNT(*) FROM users");
-            resultSet = prstm.executeQuery();
-            while (resultSet.next())
-                result = resultSet.getInt("count(*)");
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            closeStatement(prstm, resultSet);
-        }
-        return result;
-    }
+//    @Override
+//    public int getRecordsCount() {
+//        int result = 0;
+//
+//        PreparedStatement prstm = null;
+//        ResultSet resultSet = null;
+//        try {
+//            prstm = conn.prepareStatement("SELECT COUNT(*) FROM users");
+//            resultSet = prstm.executeQuery();
+//            while (resultSet.next())
+//                result = resultSet.getInt("count(*)");
+//        } catch (SQLException e) {
+//            throw new DaoException(e);
+//        } finally {
+//            closeStatement(prstm, resultSet);
+//        }
+//        return result;
+//    }
 
     private Map<String, String> correctFields(Map<String, String> fields) {
 
@@ -350,22 +348,9 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
         return fieldsQueryMap;
     }
 
-    private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
-        if (prstm != null) {
-            try {
-                prstm.close();
-            } catch (SQLException e) {
-                throw new DaoException(e);
-            }
-        }
-
-        if (resultSet != null) {
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                throw new DaoException(e);
-            }
-        }
+    @Override
+    public String getTableName() {
+        return TABLE_NAME;
     }
 
     @Override

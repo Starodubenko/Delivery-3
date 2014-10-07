@@ -1,7 +1,6 @@
 package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.PayCardStatusDao;
-import com.epam.star.entity.AbstractEntity;
 import com.epam.star.entity.StatusPayCard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,12 +9,27 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
+    private static final String TABLE_NAME = "status_card";
     private static final String ADD_STATUS_PAY_CARD = "INSERT INTO status_card VALUES (?, ?)";
     private static final String DELETE_STATUS_PAY_CARD = "DELETE FROM status_card WHERE id = ?";
+    private static final String UPDATE_STATUS_PAY_CARD = "UPDATE status_card SET id = ?, status_name = ? WHERE id = ?";
+
+    private static Map<String, String> fieldsQueryMap = new HashMap<>();
+
+    private static final String FIND_BY_PARAMETERS =
+            " SELECT *" +
+                    " FROM status_card" +
+                    " %s LIMIT ? OFFSET ?";
+
+    static {
+        fieldsQueryMap.put("status-card-id", " status_card.id = ?");
+        fieldsQueryMap.put("status-card-status-name", " status_card.status_name = ?");
+    }
 
     protected H2PayCardStatusDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
@@ -32,7 +46,7 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
             resultSet = prstm.executeQuery();
 
             if (resultSet.next())
-                statusPayCard = getStatusPayCardFromResultSet(resultSet);
+                statusPayCard = getEntityFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -52,7 +66,7 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
             resultSet = prstm.executeQuery();
 
             if (resultSet.next())
-                statusPayCard = getStatusPayCardFromResultSet(resultSet);
+                statusPayCard = getEntityFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -86,11 +100,24 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
     }
 
     @Override
-    public String updateEntity(StatusPayCard entity) throws DaoException {
+    public String updateEntity(StatusPayCard statusPayCard) throws DaoException {
+        PreparedStatement prstm = null;
+        try {
+            prstm = conn.prepareStatement(UPDATE_STATUS_PAY_CARD);
+            prstm.setInt(1, statusPayCard.getId());
+            prstm.setString(2, statusPayCard.getStatusName());
+            prstm.setInt(3, statusPayCard.getId());
+            prstm.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm, null);
+        }
         return null;
     }
 
-    private StatusPayCard getStatusPayCardFromResultSet(ResultSet resultSet) throws DaoException {
+    @Override
+    public StatusPayCard getEntityFromResultSet(ResultSet resultSet) throws DaoException {
         StatusPayCard statusPayCard = new StatusPayCard();
         try {
             statusPayCard.setId(resultSet.getInt("id"));
@@ -101,41 +128,37 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
         return statusPayCard;
     }
 
-    private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
-        if (prstm != null) {
-            try {
-                prstm.close();
-            } catch (SQLException e) {
-                throw new DaoException(e);
-            }
-        }
-
-        if (resultSet != null) {
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                throw new DaoException(e);
-            }
-        }
-    }
-
-    @Override
-    public AbstractEntity getEntityFromResultSet(ResultSet resultSet) throws DaoException {
-        return null;
-    }
-
-    @Override
-    public int getRecordsCount() {
-        return 0;
-    }
+//    @Override
+//    public int getRecordsCount() {
+//        int result = 0;
+//
+//        PreparedStatement prstm = null;
+//        ResultSet resultSet = null;
+//        try {
+//            prstm = conn.prepareStatement("SELECT COUNT(*) FROM status_card");
+//            resultSet = prstm.executeQuery();
+//            while (resultSet.next())
+//                result = resultSet.getInt("count(*)");
+//        } catch (SQLException e) {
+//            throw new DaoException(e);
+//        } finally {
+//            closeStatement(prstm, resultSet);
+//        }
+//        return result;
+//    }
 
     @Override
     public Map<String, String> getParametersMap() {
-        return null;
+        return fieldsQueryMap;
+    }
+
+    @Override
+    public String getTableName() {
+        return TABLE_NAME;
     }
 
     @Override
     protected String getFindByParameters() {
-        return null;
+        return FIND_BY_PARAMETERS;
     }
 }
