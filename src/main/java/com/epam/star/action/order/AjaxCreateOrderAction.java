@@ -6,7 +6,6 @@ import com.epam.star.action.ActionResult;
 import com.epam.star.dao.*;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
-import com.epam.star.entity.AbstractUser;
 import com.epam.star.entity.Client;
 import com.epam.star.entity.Employee;
 import com.epam.star.entity.Order;
@@ -53,11 +52,11 @@ public class AjaxCreateOrderAction implements Action {
             ClientDao clientDao = daoManager.getClientDao();
             EmployeeDao employeeDao = daoManager.getEmployeeDao();
 
-            AbstractUser user = clientDao.findById((Integer) request.getAttribute("idUser"));
+            Client user = clientDao.findById((Integer) request.getAttribute("idUser"));
             if (user == null)
                 user = employeeDao.findById((Integer) request.getAttribute("idUser"));
             if (user == null)
-                user = (AbstractUser) request.getSession().getAttribute("user");
+                user = (Client) request.getSession().getAttribute("user");
             BigDecimal clientBalance = user.getVirtualBalance();
             BigDecimal goodsPricee = goodsDao.findByGoodsName(request.getParameter("goodsname")).getPrice();
             BigDecimal orderCost = goodsPricee.multiply(new BigDecimal(request.getParameter("goodscount")));
@@ -91,7 +90,7 @@ public class AjaxCreateOrderAction implements Action {
         boolean onlinePayment;
 
         String paymentType = request.getParameter("PaymentType");
-        AbstractUser user = (AbstractUser) request.getSession().getAttribute("user");
+        Client user = (Client) request.getSession().getAttribute("user");
 
         StatusDao statusDao = daoManager.getStatusDao();
         GoodsDao goodsDao = daoManager.getGoodsDao();

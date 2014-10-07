@@ -41,7 +41,7 @@ public class PaymentAction implements Action {
             StatusPayCard currentStatus = payCard.getStatusPayCard();
 
             if (currentStatus.equals(notActivatedStatus)) {
-                AbstractUser user = (AbstractUser) request.getSession().getAttribute("user");
+                Client user = (Client) request.getSession().getAttribute("user");
 
                 BigDecimal userbal = user.getVirtualBalance();
                 BigDecimal payBal = payCard.getBalance();

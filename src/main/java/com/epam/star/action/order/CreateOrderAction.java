@@ -7,7 +7,6 @@ import com.epam.star.action.MappedAction;
 import com.epam.star.dao.*;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
-import com.epam.star.entity.AbstractUser;
 import com.epam.star.entity.Client;
 import com.epam.star.entity.Employee;
 import com.epam.star.entity.Order;
@@ -66,16 +65,16 @@ public class CreateOrderAction implements Action {
         if (idString != null)
             index = Integer.parseInt(request.getParameter("id"));
 
-        AbstractUser user = daoManager.getClientDao().findById(index);
+        Client user = daoManager.getClientDao().findById(index);
         if (user == null) daoManager.getEmployeeDao().findById(index);
-        if (user == null) user = (AbstractUser) request.getSession().getAttribute("user");
+        if (user == null) user = (Client) request.getSession().getAttribute("user");
 
         try {
             PeriodDao periodDao = daoManager.getPeriodDao();
             GoodsDao goodsDao = daoManager.getGoodsDao();
             StatusDao statusDao = daoManager.getStatusDao();
 
-            if (user == null) user = (AbstractUser) request.getSession().getAttribute("user");
+            if (user == null) user = (Client) request.getSession().getAttribute("user");
             BigDecimal clientBalance = user.getVirtualBalance();
             BigDecimal goodsPricee = goodsDao.findByGoodsName(request.getParameter("goodsname")).getPrice();
             BigDecimal orderCost = goodsPricee.multiply(new BigDecimal(request.getParameter("goodscount")));
@@ -108,7 +107,7 @@ public class CreateOrderAction implements Action {
         return order;
     }
 
-    private boolean debitFunds(HttpServletRequest request, DaoManager daoManager, AbstractUser user) {
+    private boolean debitFunds(HttpServletRequest request, DaoManager daoManager, Client user) {
         boolean onlinePayment;
 
         String paymentType = request.getParameter("paymentType");

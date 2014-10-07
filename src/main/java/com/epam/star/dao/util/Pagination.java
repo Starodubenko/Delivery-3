@@ -30,15 +30,6 @@ public class Pagination<T extends AbstractEntity, E extends AbstractH2Dao> {
         }
         DEFAULT_PAGE_NUMBER = jdbcProperties.getIntProperty("default.page.number");
         DEFAULT_ROWS_COUNT = jdbcProperties.getIntProperty("default.rows.count");
-
-        fieldsMap.put("order-id", " orders.id = ?");
-        fieldsMap.put("order-date", " orders.order_date = ?");
-        fieldsMap.put("order-goods-name", " goods.goods_name = ?");
-        fieldsMap.put("order-cost", " orders.order_cost = ?");
-        fieldsMap.put("delivery-date", " orders.delivery_date = ?");
-        fieldsMap.put("delivery-time", " period.period = ?");
-        fieldsMap.put("order-addInfo", " orders.additional_info = ?");
-        fieldsMap.put("order-status", " status.status_name = ?");
     }
 
     public void paginationEntity(HttpServletRequest request, E genericDao, String targetName) throws DaoException {
@@ -60,12 +51,12 @@ public class Pagination<T extends AbstractEntity, E extends AbstractH2Dao> {
     private Map<String, String> getQueryMap(HttpServletRequest request, E genericDao) {
 
         Map<String, String> result = new HashMap<>();
-        Map<String, String> parsqlParametersMap = genericDao.getParametersMap();
+        Map<String, String> sqlParametersMap = genericDao.getParametersMap();
 
         Map<String, String[]> parameterMap = request.getParameterMap();
 
         for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
-            if (parsqlParametersMap.get(entry.getKey()) != null)
+            if (sqlParametersMap.get(entry.getKey()) != null)
                 if (entry.getValue() != null && entry.getValue()[0] != "")
                     result.put(entry.getKey(), entry.getValue()[0]);
         }

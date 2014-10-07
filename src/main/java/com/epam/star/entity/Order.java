@@ -5,7 +5,7 @@ import java.sql.Date;
 
 public class Order extends AbstractEntity {
 
-    private AbstractUser user;
+    private Client user;
     private int count;
     private Period period;
     private Goods goods;
@@ -111,11 +111,11 @@ public class Order extends AbstractEntity {
         this.count = count;
     }
 
-    public AbstractUser getUser() {
+    public Client getUser() {
         return user;
     }
 
-    public void setUser(AbstractUser user) {
+    public void setUser(Client user) {
         this.user = user;
     }
 

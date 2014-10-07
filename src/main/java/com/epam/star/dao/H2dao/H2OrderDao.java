@@ -24,8 +24,8 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
 
     private static final String FIND_BY_PARAMETERS =
             " SELECT orders.id, orders.user_id, users.lastname ,users.firstname, users.middlename, users.address," +
-                    " goods.goods_id, goods.goods_name, orders.count, orders.order_cost, orders.delivery_date, period.period," +
-                    " orders.additional_info, status.status_name" +
+                    " orders.order_date, orders.goods_id, goods.goods_name, orders.count, orders.order_cost, orders.paid," +
+                    " orders.delivery_date, orders.period_id, period.period, orders.additional_info, orders.status_id, status.status_name" +
             " FROM orders" +
             " inner join users" +
             " on orders.user_id = users.id" +

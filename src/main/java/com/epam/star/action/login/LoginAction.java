@@ -7,7 +7,7 @@ import com.epam.star.dao.ClientDao;
 import com.epam.star.dao.EmployeeDao;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
-import com.epam.star.entity.AbstractUser;
+import com.epam.star.entity.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +34,7 @@ public class LoginAction implements Action {
 
         String login = request.getParameter("authenticationLogin");
         String password = request.getParameter("authenticationPassword");
-        AbstractUser user = clientDao.findByCredentials(login, password);
+        Client user = clientDao.findByCredentials(login, password);
         if (user == null)
             user = employeeDao.findByCredentials(login, password);
 

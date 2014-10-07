@@ -7,7 +7,7 @@ import com.epam.star.action.MappedAction;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.PositionDao;
-import com.epam.star.entity.AbstractUser;
+import com.epam.star.entity.Client;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
@@ -25,7 +25,7 @@ public class GoToPersonalCabinet implements Action {
 
         PositionDao positionDao = daoManager.getPositionDao();
 
-        AbstractUser user = (AbstractUser) request.getSession().getAttribute("user");
+        Client user = (Client) request.getSession().getAttribute("user");
         if (user.getRole().equals(positionDao.findByPositionName("Client"))) return client;
         if (user.getRole().equals(positionDao.findByPositionName("Dispatcher"))) return dispatcher;
         if (user.getRole().equals(positionDao.findByPositionName("Admin"))) return admin;

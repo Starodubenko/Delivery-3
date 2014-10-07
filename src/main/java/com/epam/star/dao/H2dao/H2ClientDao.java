@@ -26,7 +26,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             " SELECT " +
                     " users.id, users.login, users.password, users.firstname, users.lastname, users.middlename," +
                     " users.address, users.telephone, users.mobilephone, users.identitycard, users.workbook," +
-                    " users.rnn, users.sik, positions.position_name, virtual_balance" +
+                    " users.rnn, users.sik, users.position_id, positions.position_name, virtual_balance" +
             " FROM users" +
             " inner join positions" +
             " on users.position_id = positions.id" +
