@@ -1,8 +1,8 @@
-Delivery_2
+Delivery
 ==========
 
 The final project.
 
-This is project, which describe process of working the compaty, which delivery a clean water.
+This is project, which describe process of working the company, which delivery a clean water.
 
 
