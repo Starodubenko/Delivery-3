@@ -16,6 +16,10 @@ public abstract class AbstractH2Dao<T extends AbstractEntity> {
         this.daoManager = daoManager;
     }
 
+    public void setConnection(Connection conn) {
+        this.conn = conn;
+    }
+
     public DaoManager getDaoManager() {
         return daoManager;
     }

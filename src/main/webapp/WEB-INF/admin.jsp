@@ -20,7 +20,7 @@
             <t:authentication></t:authentication>
 
         <div class="table-name form-group">
-            <select class="form-control" name="tableName" class="form-control">
+            <select class="form-control" name="tableName" id="tableName" class="form-control">
                 <option>Clients</option>
                 <option>Employers</option>
                 <option>Orders</option>

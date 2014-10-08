@@ -1,15 +1,33 @@
 package com.epam.star.dao.H2dao;
 
-import com.epam.star.dao.DaoCommand;
+import com.epam.star.dao.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DaoManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
     private static Connection connection;
+
+    private static Map<String, Class<? extends Dao>> daosMap = new HashMap<>();
+
+    static {
+        daosMap.put("Clients", ClientDao.class);
+        daosMap.put("Contacts", ContactDao.class);
+        daosMap.put("Goods", GoodsDao.class);
+        daosMap.put("Orders", OrderDao.class);
+        daosMap.put("Periods", PeriodDao.class);
+        daosMap.put("Positions", PositionDao.class);
+        daosMap.put("Status", StatusDao.class);
+        daosMap.put("Status card", PayCardStatusDao.class);
+        daosMap.put("Employees", EmployeeDao.class);
+    }
 
     public DaoManager(Connection connection) {
         this.connection = connection;
@@ -57,6 +75,22 @@ public class DaoManager {
                 throw new DaoException(e);
             }
         }
+    }
+
+    public AbstractH2Dao getDao(String name) {
+        Constructor<?> constructor;
+        constructor = daosMap.get(name).getConstructors()[1];
+        AbstractH2Dao dao = null;
+        try {
+            dao = (AbstractH2Dao) constructor.newInstance(connection, this);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return dao;
     }
 
     public H2ClientDao getClientDao() {
