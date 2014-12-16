@@ -43,7 +43,7 @@ public class Pagination<T extends AbstractEntity, E extends AbstractH2Dao> {
         int firstRow = pageNumber * rowsCount - rowsCount;
 
         Map<String, String> queryMap = getQueryMap(request, genericDao);
-        PaginatedList<T> paginatedList = genericDao.findRange(firstRow, rowsCount, queryMap);
+        PaginatedList<T> paginatedList = genericDao.findRange(firstRow, rowsCount, pageNumber, queryMap);
 
         request.setAttribute(targetName + "PaginatedList", paginatedList);
     }

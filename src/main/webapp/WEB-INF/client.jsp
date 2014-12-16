@@ -33,7 +33,7 @@
                 <img class="avatar panel panel-default" src="/image/${clientAvatar.getFilename()}">
             </div>
 
-            <form  id="image-form" action="<c:url value="/do/addingImage"/>" method="post" enctype="multipart/form-data">
+            <form  id="image-form" action="<c:url value="/do/setImageForUser"/>" method="post" enctype="multipart/form-data">
                 <input class="center-block" type="file" name="image" id="image">
 
                 <div class="save-button">

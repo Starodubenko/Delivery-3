@@ -38,6 +38,9 @@ $(document).ready(function () {
         var page = $('#clientsPageNumber').val() - 1 + 2;
         var rows = $('#clientsrows').val();
 
+        console.info("clientsPage=" + page);
+        console.info("clientsRows=" + rows);
+
         $('.cNumbered').removeClass("active");
         $("li.cNumbered[value=" + page + "]").addClass("active");
         $.get("ajaxChangeClientsPage",

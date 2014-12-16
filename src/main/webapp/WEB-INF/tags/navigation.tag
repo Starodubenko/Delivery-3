@@ -17,13 +17,18 @@
             </ul>
 
             <form method="post" action="<c:url value="/do/changeLocale"/>">
-            <select class="form-control language" id="switchLanguage" onchange="submit()" name="locale">
-                <option
-                        <c:if test="${locale == 'ru'}">selected</c:if> value="ru">ru</option>
-                <option
-                        <c:if test="${locale == 'en'}">selected</c:if> value="en">en</option>
-            </select>
+                <select class="form-control language" id="switchLanguage" onchange="submit()" name="locale">
+                        <%--<select class="form-control language" id="switchLanguage" name="locale">--%>
+                    <option class="language-icon"
+                            <c:if test="${locale == 'ru'}">selected</c:if> value="ru"><fmt:message key="navigation.rus"/></option>
+                    <option class="language-icon"
+                            <c:if test="${locale == 'en'}">selected</c:if> value="en"><fmt:message key="navigation.eng"/>
+                    </option>
+                </select>
             </form>
         </nav>
     </div>
+
+    <script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
+    <script src="<c:url value="/script/navigation.js"/>"></script>
 </fmt:bundle>

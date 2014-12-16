@@ -54,7 +54,7 @@ public abstract class AbstractH2Dao<T extends AbstractEntity> {
         return result;
     }
 
-    public PaginatedList<T> findRange(int firstRow, int rowsCount, Map<String, String> fieldsMap) {
+    public PaginatedList<T> findRange(int firstRow, int rowsCount, int pageNumber, Map<String, String> fieldsMap) {
         int count = getRecordsCount();
 
         PaginatedList<T> result;
@@ -106,7 +106,7 @@ public abstract class AbstractH2Dao<T extends AbstractEntity> {
             }
 
             result.setTotalRowsCount(count);
-            result.setPageNumber(firstRow);
+            result.setPageNumber(pageNumber);
             result.setRowsPerPage(rowsCount);
 
         } catch (SQLException e) {

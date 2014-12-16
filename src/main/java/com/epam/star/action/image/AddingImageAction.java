@@ -4,11 +4,9 @@ import com.epam.star.action.Action;
 import com.epam.star.action.ActionException;
 import com.epam.star.action.ActionResult;
 import com.epam.star.action.MappedAction;
-import com.epam.star.dao.ClientDao;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.H2dao.H2ImageDao;
-import com.epam.star.entity.Client;
 import com.epam.star.entity.Image;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,33 +23,19 @@ public class AddingImageAction implements Action {
 
         DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
 
+
         String page = request.getHeader("referer");
-        page = page.substring(page.indexOf("/do/")+4);
+        page = page.substring(page.indexOf("/do/") + 4);
 
-        ActionResult currentPage = new ActionResult(page,true);
+        ActionResult currentPage = new ActionResult(page, true);
 
-        try {
-            daoManager.beginTransaction();
+        H2ImageDao imageDao = daoManager.getImageDao();
+        Image image = getImageFromRequestPart(request, IMAGE);
 
-            H2ImageDao imageDao = daoManager.getImageDao();
-            ClientDao clientDao = daoManager.getClientDao();
-            Image image = getImageFromRequestPart(request, IMAGE);
+        imageDao.insert(image);
 
-            Client user = (Client) request.getSession().getAttribute("user");
 
-            imageDao.insert(image);
-            Image imageForUser = imageDao.findLastAddedImage();
-            if (user.getAvatar() != null) imageDao.deleteEntity(user.getAvatar().intValue());
-
-            user.setAvatar(imageForUser.getId());
-            clientDao.updateEntity(user);
-
-            daoManager.commit();
-        } catch (Exception e) {
-            daoManager.rollback();
-        } finally {
-            daoManager.closeConnection();
-        }
+        daoManager.closeConnection();
 
         return currentPage;
     }
