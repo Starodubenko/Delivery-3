@@ -7,9 +7,11 @@ import com.epam.star.action.MappedAction;
 import com.epam.star.dao.ClientDao;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
+import com.epam.star.dao.ImageDao;
 import com.epam.star.dao.OrderDao;
 import com.epam.star.entity.Client;
 import com.epam.star.entity.Goods;
+import com.epam.star.entity.Image;
 import com.epam.star.entity.Period;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,8 +29,11 @@ public class ShowClientPageAction implements Action {
 
         OrderDao orderDao = daoManager.getOrderDao();
         ClientDao clientDao = daoManager.getClientDao();
+        ImageDao imageDao = daoManager.getImageDao();
+
         Client currentClient = (Client) request.getSession().getAttribute("user");
         Client user = clientDao.findById(currentClient.getId());
+        Image clientAvatar = imageDao.findById(user.getAvatar());
 
         int clientOrdersCount = orderDao.getClientOrdersCount(user.getId());
 
@@ -40,6 +45,7 @@ public class ShowClientPageAction implements Action {
         session.setAttribute("periods", periods);
         session.setAttribute("goods", goods);
         session.setAttribute("ordersCount", clientOrdersCount);
+        session.setAttribute("clientAvatar", clientAvatar);
 
         daoManager.closeConnection();
 

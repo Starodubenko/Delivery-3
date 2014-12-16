@@ -26,6 +26,7 @@ public class ShowClientInfoPageAction implements Action {
 
         OrderDao orderDao = daoManager.getOrderDao();
         ClientDao clientDao = daoManager.getClientDao();
+
         Client currentClient = (Client) request.getSession().getAttribute("user");
         Client user = clientDao.findById(currentClient.getId());
 

@@ -20,8 +20,8 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     private static final String ADD_CLIENT = "INSERT INTO  users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String RANGE_CLIENT = "SELECT * FROM users LIMIT ? OFFSET ?";
     private static final String UPDATE_CLIENT = "UPDATE users SET id = ?, login = ?, password = ?, firstname = ?, lastname = ?, middlename = ?," +
-            "address = ?, telephone = ?, mobilephone = ?, identitycard = ?, workbook = ?, rnn = ?, sik = ?, " +
-            "position_id = ?, virtual_balance = ? WHERE id = ?";
+            "address = ?, telephone = ?, mobilephone = ?," +
+            "position_id = ?, virtual_balance = ?, avatar = ? WHERE id = ?";
 
     private static final String FIND_BY_PARAMETERS =
             " SELECT *" +
@@ -307,13 +307,10 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm.setString(7, client.getAddress());
             prstm.setString(8, client.getTelephone());
             prstm.setString(9, client.getMobilephone());
-            prstm.setString(10, null);
-            prstm.setString(11, null);
-            prstm.setString(12, null);
-            prstm.setString(13, null);
-            prstm.setInt(14, client.getRole().getId());
-            prstm.setBigDecimal(15, client.getVirtualBalance());
-            prstm.setInt(16, client.getId());
+            prstm.setInt(10, client.getRole().getId());
+            prstm.setBigDecimal(11, client.getVirtualBalance());
+            prstm.setInt(12, client.getAvatar().intValue());
+            prstm.setInt(13, client.getId());
             prstm.executeUpdate();
             status = "Client updated successfully";
         } catch (SQLException e) {
@@ -346,6 +343,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
         Client client = new Client();
         try {
             client.setId(resultSet.getInt("id"));
+            client.setAvatar(resultSet.getInt("avatar"));
             client.setLogin(resultSet.getString("login"));
             client.setPassword(resultSet.getString("password"));
             client.setFirstName(resultSet.getString("firstname"));

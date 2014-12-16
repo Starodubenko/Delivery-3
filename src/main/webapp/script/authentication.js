@@ -23,7 +23,7 @@ $('#goRegistration').click(function () {
     $('div[class="registration"]').children('div').removeClass("has-error");
     $('div[class="registration"]').children('div').children('p').html("");
 
-    $.post("ajaxClientRegistration", $('#regForm').serialize(),
+    $.post("ajaxClientRegistration",
         function (data) {
             $('.modal-footer.reg').html(data);
         }).fail(function () {

@@ -65,11 +65,17 @@
             <%--</c:forEach>--%>
             <%--</div>--%>
 
+        <form action="<c:url value="/do/addingImage"/>" method="post" enctype="multipart/form-data">
+            <input type="file" name="image">
+            <button type="submit">OK</button>
+        </form>
+
+
         <div class="clear"></div>
 
     </div>
 
-    <t:footer></t:footer>
+    <t:footer/>
 
     <div class="modal fade" id="RegistrationForm" tabindex="-1" role="dialog" aria-labelledby="RegistrationFormLabel"
          aria-hidden="true">

@@ -2,6 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<fmt:setLocale value="${locale}"/>
 
 <fmt:bundle basename="i18n.messages">
     <html>
@@ -15,7 +16,7 @@
 
         <link rel='stylesheet' href='<c:url value="/style/client.css"/>'>
     </head>
-    <body background="<c:url value="/style/img/background.jpg"/>">
+    <body>
 
     <t:navigation></t:navigation>
 
@@ -28,12 +29,17 @@
         </div>
 
         <div class="panel panel-default border client-avatar">
-            <img src="/style/img/no%20avatar.jpg">
-
-            <div class="form-group">
-                <label for="inputAvatarUrl">Avatar</label>
-                <input type="text" class="form-control" id="inputAvatarUrl" placeholder="Avatar url">
+            <div class="image-block">
+                <img class="avatar panel panel-default" src="/image/${clientAvatar.getFilename()}">
             </div>
+
+            <form  id="image-form" action="<c:url value="/do/addingImage"/>" method="post" enctype="multipart/form-data">
+                <input class="center-block" type="file" name="image" id="image">
+
+                <div class="save-button">
+                    <button class="btn btn-default logoutbtn" type="submit">Save</button>
+                </div>
+            </form>
         </div>
 
         <div class="clear"></div>

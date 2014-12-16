@@ -133,4 +133,8 @@ public class DaoManager {
     public H2PositionDao getPositionDao() {
         return new H2PositionDao(connection, this);
     }
+
+    public H2ImageDao getImageDao() {
+        return new H2ImageDao(connection, this);
+    }
 }

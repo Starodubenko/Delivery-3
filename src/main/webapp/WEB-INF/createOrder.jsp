@@ -2,12 +2,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<fmt:setLocale value="${locale}"/>
 
 <fmt:bundle basename="i18n.messages">
     <html>
 
     <head>
-        <title>Welcome</title>
+        <title>Доставка</title>
         <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>'>
         <link rel='stylesheet' href='<c:url value="/webjars/bootstrap-datepicker/1.3.0/css/datepicker3.css"/>'>
         <link rel='stylesheet'

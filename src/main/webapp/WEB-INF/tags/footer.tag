@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<fmt:setLocale value="${locale}"/>
 <link rel='stylesheet' href='<c:url value="/style/footer.css"/>'>
 
 <div class="footer panel panel-default">

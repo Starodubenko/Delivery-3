@@ -1,6 +1,7 @@
 <%@tag description="authentication template" pageEncoding="UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<fmt:setLocale value="${locale}"/>
 
 <link rel='stylesheet' href='<c:url value="/style/authentication.css"/>'>
 
@@ -42,6 +43,7 @@
             </div>
         </c:if>
     </div>
-</fmt:bundle>
+
 <script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
 <script src="<c:url value="/script/authentication.js"/>"></script>
+</fmt:bundle>

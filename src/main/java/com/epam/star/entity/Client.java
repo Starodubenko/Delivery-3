@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public class Client extends AbstractEntity {
 
+    private Integer avatar;
     private String login;
     private String password;
     private String firstName;
@@ -18,9 +19,9 @@ public class Client extends AbstractEntity {
     public Client() {
     }
 
-    public Client(int id, String login, String password, String firstName, String lastName, String middleName,
-                  String address, String telephone, String mobilephone, Position role, BigDecimal virtualBalance) {
+    public Client(int id, Integer avatar, String login, String password, String firstName, String lastName, String middleName, String address, String telephone, String mobilephone, Position role, BigDecimal virtualBalance) {
         super(id);
+        this.avatar = avatar;
         this.login = login;
         this.password = password;
         this.firstName = firstName;
@@ -30,7 +31,15 @@ public class Client extends AbstractEntity {
         this.telephone = telephone;
         this.mobilephone = mobilephone;
         this.role = role;
-        VirtualBalance = virtualBalance;
+        this.VirtualBalance = virtualBalance;
+    }
+
+    public Integer getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Integer avatar) {
+        this.avatar = avatar;
     }
 
     public String getMobilephone() {

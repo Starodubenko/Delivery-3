@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<fmt:setLocale value="${locale}"/>
 <link rel='stylesheet' href='<c:url value="/style/navigation.css"/>'>
 
 <fmt:bundle basename="i18n.messages">
@@ -16,10 +16,14 @@
                 </li>
             </ul>
 
-            <select class="form-control language" id="switchLanguage">
-                <option>en</option>
-                <option>ru</option>
+            <form method="post" action="<c:url value="/do/changeLocale"/>">
+            <select class="form-control language" id="switchLanguage" onchange="submit()" name="locale">
+                <option
+                        <c:if test="${locale == 'ru'}">selected</c:if> value="ru">ru</option>
+                <option
+                        <c:if test="${locale == 'en'}">selected</c:if> value="en">en</option>
             </select>
+            </form>
         </nav>
     </div>
 </fmt:bundle>

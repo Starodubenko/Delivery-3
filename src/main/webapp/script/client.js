@@ -27,4 +27,23 @@ $('#browse-orders').click(function () {
     }
 });
 
+$('form input[type=file]').change(function () {
+    var form = document.getElementById('image');
+    var formData = new FormData(form);
+
+    formData.append("image", $("#image")[0].files[0]);
+
+    $.ajax({
+            url: "ajaxShowCurrentAvatar",
+            type: "POST",
+            data: formData,
+            mimeType: "multipart/form-data",
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data) {
+                $('.image-block').html(data);
+            }
+        });
+});
 
