@@ -26,10 +26,17 @@ public class Controller extends HttpServlet {
 
         Action action = ActionFactory.getAction(actionName);
 
-//        if (action == null) {
-//            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "url not found");
-//            return;
-//        }
+        if (action == null) {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        String actionS = actionName.substring(actionName.indexOf("/")+1);
+        String banActions = "admin"+"clientInfo"+"createOrder"+"dispatcher"+"personal-cabinet";
+        if (banActions.contains(actionS) && req.getSession().getAttribute("user") == null){
+            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
 
         ActionResult result = null;
         try {

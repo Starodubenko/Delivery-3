@@ -178,9 +178,9 @@
                     </div>
                 </div>
 
-                <input type="button" class="ordersButtons btn btn-primary" value="Cancel the Order" id="cancel">
-                <input type="button" class="ordersButtons btn btn-primary" value="accept the order" id="accept">
-                <input type="button" class="ordersButtons btn btn-primary" value="restore order" id="restore">
+                <input type="button" class="ordersButtons btn btn-primary" value="<fmt:message key="view.dispatcher.button.cancel.the.order"/>" id="cancel">
+                <input type="button" class="ordersButtons btn btn-primary" value="<fmt:message key="view.dispatcher.button.accept.the.order"/>" id="accept">
+                <input type="button" class="ordersButtons btn btn-primary" value="<fmt:message key="view.dispatcher.button.restore.the.order"/>" id="restore">
 
             </div>
 

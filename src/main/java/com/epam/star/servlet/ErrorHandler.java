@@ -18,10 +18,10 @@ public class ErrorHandler extends HttpServlet {
                 req.getAttribute("javax.servlet.error.exception");
         Integer statusCode = (Integer)
                 req.getAttribute("javax.servlet.error.status_code");
-        String servletName = (String)
-                req.getAttribute("javax.servlet.error.servlet_name");
         String message = (String)
                 req.getAttribute("javax.servlet.error.message");//TODO add properties
+        String servletName = (String)
+                req.getAttribute("javax.servlet.error.servlet_name");
         if (servletName == null) {
             servletName = "Unknown";
         }
@@ -30,6 +30,7 @@ public class ErrorHandler extends HttpServlet {
         if (requestUri == null) {
             requestUri = "Unknown";
         }
+
         LOGGER.error("Status code: {}; ", statusCode, message, requestUri, servletName, throwable);
         req.setAttribute("statusCode", statusCode);
         req.setAttribute("message", message);

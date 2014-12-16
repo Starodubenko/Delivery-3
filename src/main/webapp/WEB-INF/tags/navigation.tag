@@ -4,6 +4,7 @@
 <link rel='stylesheet' href='<c:url value="/style/navigation.css"/>'>
 
 <fmt:bundle basename="i18n.messages">
+    <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <div class="background-navigation">
         <nav class="center">
             <ul class="fancyNav">
