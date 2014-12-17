@@ -13,8 +13,12 @@
                 <li id="about"><a href="qwe.html"><fmt:message key="navigation.aboutus"/></a></li>
                 <li id="services"><a href="#services"><fmt:message key="navigation.services"/></a></li>
                 <li id="createOrder"><a href="createOrder"><fmt:message key="navigation.create.order"/></a></li>
-                <li id="personalCabinet"><a href="personal-cabinet"><fmt:message key="navigation.personal.cabinet"/></a>
-                </li>
+                <c:if test="${not empty user}">
+                    <li id="personalCabinet"><a href="personal-cabinet"><fmt:message key="navigation.personal.cabinet"/></a></li>
+                </c:if>
+                <c:if test="${not empty user && user.getRole().getPositionName() ne 'Client'}">
+                <li id="office"><a href="office"><fmt:message key="navigation.work.office"/></a></li>
+                </c:if>
             </ul>
 
             <form method="post" action="<c:url value="/do/changeLocale"/>">

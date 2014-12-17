@@ -31,9 +31,9 @@ public class UtilDao {
     }
 
     public Date getDateValue(String dateString) {
-        if (dateString != null && dateString.matches("[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])"))
+        if (dateString != null && dateString.matches("([0-2]\\d|3[01])\\.(0\\d|1[012])\\.(\\d{4})"))
             try {
-                return new Date(new SimpleDateFormat("yy-MM-dd").parse(dateString).getTime());
+                return new Date(new SimpleDateFormat("dd.MM.yyyy").parse(dateString).getTime());
             } catch (ParseException e) {
                 throw new DaoException(e);
             }

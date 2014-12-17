@@ -12,9 +12,10 @@ import com.epam.star.entity.Client;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
-@MappedAction("GET/personal-cabinet")
-public class GoToPersonalCabinet implements Action {
-    ActionResult client = new ActionResult("client", true);
+@MappedAction("GET/office")
+public class GoToOffice implements Action {
+    ActionResult dispatcher = new ActionResult("dispatcher", true);
+    ActionResult admin = new ActionResult("admin", true);
     ActionResult welcome = new ActionResult("welcome", true);
 
     @Override
@@ -24,7 +25,8 @@ public class GoToPersonalCabinet implements Action {
         PositionDao positionDao = daoManager.getPositionDao();
 
         Client user = (Client) request.getSession().getAttribute("user");
-        if (user != null) return client;
+        if (user.getRole().equals(positionDao.findByPositionName("Dispatcher"))) return dispatcher;
+        if (user.getRole().equals(positionDao.findByPositionName("Admin"))) return admin;
 
         return welcome;
     }

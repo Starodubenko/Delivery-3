@@ -2,6 +2,7 @@
 
 <fmt:bundle basename="i18n.messages">
     <form id="findForm">
+
         <div id="searcheFields">
             <div class="form-group edit">
                 <div class="center"><label for="first-name" class="edit-field"><fmt:message
