@@ -7,16 +7,19 @@ import com.epam.star.dao.util.Pagination;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.H2dao.H2OrderDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
 public class AjaxSelectOrderStatus implements Action {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AjaxSelectOrderStatus.class);
+
     private ActionResult ordersBlock = new ActionResult("ordersBlock");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
-
         DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
 
         H2OrderDao orderDao = daoManager.getOrderDao();

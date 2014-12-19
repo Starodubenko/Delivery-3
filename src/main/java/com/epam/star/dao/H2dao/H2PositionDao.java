@@ -14,17 +14,23 @@ import java.util.Map;
 
 public class H2PositionDao extends AbstractH2Dao implements PositionDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2PositionDao.class);
-    private static final String TABLE_NAME = "positions";
-    private static final String ADD_POSITION = "INSERT INTO  positions VALUES (?, ?)";
-    private static final String DELETE_POSITION = "DELETE FROM positions WHERE id = ?";
-    private static final String UPDATE_PERIOD = "UPDATE position SET id = ?, position_name = ? WHERE id = ?";
+    private static final String TABLE_NAME = "POSITIONS";
+    private static final String ADD_POSITION = "INSERT INTO  POSITIONS VALUES (?, ?)";
+    private static final String DELETE_POSITION = "DELETE FROM POSITIONS WHERE ID = ?";
+    private static final String UPDATE_PERIOD = "UPDATE position SET ID = ?, POSITION_NAME = ? WHERE ID = ?";
+
+    private static final String NECESSARY_COLUMNS =
+            " POSITIONS.ID, POSITIONS.POSITION_NAME ";
+
+    private static final String ADDITIONAL_COLUMNS =
+            "";
+
+    private static final String FIND_BY_PARAMETERS_WITHOUT_COLUMNS =
+            " SELECT %s FROM POSITIONS";
+
+    private static final String ID_FIELD = " POSITIONS.ID, ";
 
     private static Map<String, String> fieldsQueryMap = new HashMap<>();
-
-    private static final String FIND_BY_PARAMETERS =
-            " SELECT *" +
-                    " FROM position" +
-                    " %s LIMIT ? OFFSET ?";
 
     static {
         fieldsQueryMap.put("position-id", " position.id = ?");
@@ -139,7 +145,38 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
     }
 
     @Override
-    protected String getFindByParameters() {
-        return FIND_BY_PARAMETERS;
+    public String getFindByParameters(Boolean needAditionalColumns) {
+
+        String columns = NECESSARY_COLUMNS;
+
+        if (needAditionalColumns == true){
+            columns = columns + ADDITIONAL_COLUMNS;
+        }
+
+        String result = String.format(FIND_BY_PARAMETERS_WITHOUT_COLUMNS,columns);
+
+        result = String.format(result+"%s", LIMIT_OFFSET);
+
+        return result;
+    }
+
+    @Override
+    public String getFindByParametersWithoutColumns() {
+        return FIND_BY_PARAMETERS_WITHOUT_COLUMNS;
+    }
+
+    @Override
+    public String getNecessaryColumns() {
+        return NECESSARY_COLUMNS;
+    }
+
+    @Override
+    public String getAdditionalColumns() {
+        return ADDITIONAL_COLUMNS;
+    }
+
+    @Override
+    public String getIdField() {
+        return ID_FIELD;
     }
 }

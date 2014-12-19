@@ -1,11 +1,15 @@
 package com.epam.star.action;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Locale;
 
 @MappedAction("POST/changeLocale")
 public class ChangeLocaleAction implements Action {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChangeLocaleAction.class);
     public static final String LOCALE = "locale";
 
     @Override

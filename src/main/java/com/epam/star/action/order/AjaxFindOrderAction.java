@@ -17,6 +17,7 @@ import java.sql.SQLException;
 @MappedAction("GET/findOrder")
 public class AjaxFindOrderAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxFindOrderAction.class);
+
     private ActionResult orderr = new ActionResult("ordersBlock");
     private ActionResult jsonn = new ActionResult("json");
 

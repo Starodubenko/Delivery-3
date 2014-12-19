@@ -3,6 +3,8 @@ package com.epam.star.action.registration;
 import com.epam.star.action.Action;
 import com.epam.star.action.ActionException;
 import com.epam.star.action.ActionResult;
+import com.epam.star.dao.H2dao.DaoFactory;
+import com.epam.star.dao.H2dao.DaoManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,9 +13,11 @@ import java.sql.SQLException;
 
 public class EmployeeRegistrationAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientRergistrationAction.class);
+
     private ActionResult login = new ActionResult("welcome", true);
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
+        DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
 
 //        Validator validator = new Validator();
 //        Client client = createClient(request, validator);

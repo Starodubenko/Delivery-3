@@ -22,15 +22,15 @@ import java.sql.SQLException;
 @MappedAction("GET/cancel")
 public class AjaxCancelOrderAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxCancelOrderAction.class);
+
     ActionResult ordersTable = new ActionResult("ajaxOrdersTable");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
+        DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
         String stringCheckedOrders = request.getParameter("stringIdOrders");
 
         String[] idCheckedOrders = stringCheckedOrders.split(",");
-
-        DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
 
         StatusDao statusDao = daoManager.getStatusDao();
         OrderDao orderDao = daoManager.getOrderDao();

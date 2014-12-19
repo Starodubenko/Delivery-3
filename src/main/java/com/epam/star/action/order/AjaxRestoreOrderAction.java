@@ -19,15 +19,15 @@ import java.sql.SQLException;
 @MappedAction("GET/restore")
 public class AjaxRestoreOrderAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxRestoreOrderAction.class);
+
     ActionResult ordersTable = new ActionResult("ajaxOrdersTable");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
+        DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
         String stringCheckedOrders = request.getParameter("stringIdOrders");
 
         String[] idCheckedOrders = stringCheckedOrders.split(",");
-
-        DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
 
         try {
             if (idCheckedOrders.length > 0) {

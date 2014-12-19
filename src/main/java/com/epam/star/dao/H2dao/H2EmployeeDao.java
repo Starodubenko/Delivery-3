@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
-    private static final String TABLE_NAME = "users";
+    private static final String TABLE_NAME = "USERS";
     private static final String ADD_EMPLOYEE = "INSERT INTO  USERS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String DELETE_EMPLOYEE = "DELETE FROM users WHERE id = ?";
     private static final String UPDATE_EMPLOYEE =
@@ -24,12 +24,23 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
                     " address = ?, telephone = ?, mobilephone = ?, identitycard = ?, workbook = ?, rnn = ?, sik = ?," +
                     " position_id = ?, virtual_balance = ? WHERE id = ?";
 
-    private static final String FIND_BY_PARAMETERS =
-            " SELECT *" +
-                    " FROM users" +
-                    " inner join positions" +
-                    " on users.position_id = positions.id" +
-                    " %s LIMIT ? OFFSET ?";
+    private static final String NECESSARY_COLUMNS =
+            " USERS.ID, USERS.LOGIN, USERS.PASSWORD, USERS.FIRSTNAME, USERS.LASTNAME, " +
+                    "USERS.MIDDLENAME, USERS.ADDRESS, USERS.TELEPHONE, USERS.MOBILEPHONE, " +
+                    "USERS.IDENTITYCARD, USERS.WORKBOOK, USERS.RNN, USERS.SIK " +
+                    "POSITIONS.POSITION_NAME";
+
+    private static final String ADDITIONAL_COLUMNS =
+            " USERS.VIRTUAL_BALANCE, USERS.AVATAR, ";
+
+    private static final String FIND_BY_PARAMETERS_WITHOUT_COLUMNS =
+            " SELECT %s" +
+                    " FROM USERS" +
+                    " INNER JOIN POSITIONS" +
+                    " ON USERS.POSITION_ID = POSITIONS.ID";
+
+    private static final String ID_FIELD = " USERS.ID, ";
+
     private static Map<String, String> fieldsQueryMap = new HashMap<>();
 
     static {
@@ -192,7 +203,38 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     }
 
     @Override
-    protected String getFindByParameters() {
-        return FIND_BY_PARAMETERS;
+    public String getFindByParameters(Boolean needAditionalColumns) {
+
+        String columns = NECESSARY_COLUMNS;
+
+        if (needAditionalColumns == true){
+            columns = columns + ADDITIONAL_COLUMNS;
+        }
+
+        String result = String.format(FIND_BY_PARAMETERS_WITHOUT_COLUMNS,columns);
+
+        result = String.format(result+"%s", LIMIT_OFFSET);
+
+        return result;
+    }
+
+    @Override
+    public String getFindByParametersWithoutColumns() {
+        return FIND_BY_PARAMETERS_WITHOUT_COLUMNS;
+    }
+
+    @Override
+    public String getNecessaryColumns() {
+        return NECESSARY_COLUMNS;
+    }
+
+    @Override
+    public String getAdditionalColumns() {
+        return ADDITIONAL_COLUMNS;
+    }
+
+    @Override
+    public String getIdField() {
+        return ID_FIELD;
     }
 }

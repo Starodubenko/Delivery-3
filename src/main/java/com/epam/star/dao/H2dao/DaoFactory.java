@@ -1,6 +1,5 @@
 package com.epam.star.dao.H2dao;
 
-import com.epam.star.dao.util.Searcher;
 import com.epam.star.util.PropertiesManager;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
@@ -43,6 +42,10 @@ public class DaoFactory {
         //todo move to init() method and call this method from ContextListener
     }
 
+    public void destroy(){
+        connectionPool.shutdown();
+    }
+
     //todo create destroy() method for pool shutdowning and  call this method from ContextListener
 
     public static DaoFactory getInstance() {
@@ -57,16 +60,6 @@ public class DaoFactory {
             throw new DaoException(e);
         }
         return new DaoManager(connection);
-    }
-
-    public Searcher getSearcher() throws DaoException {
-        Connection connection;
-        try {
-            connection = connectionPool.getConnection();
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
-        return new Searcher(connection);
     }
 
     private static class InstanceHolder {

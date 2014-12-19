@@ -13,19 +13,62 @@ public class H2ImageDao extends AbstractH2Dao implements ImageDao {
     private static final String ID = "id";
     private static final String FILENAME = "filename";
     private static final String CONTENT = "content";
+    private static final String TABLE_NAME = "IMAGE";
     private static final String FIND_BY_FILENAME = "SELECT * FROM image WHERE filename = ?";
     private static final String GET_LAST_ELEMENT = "SELECT * FROM image ORDER BY id DESC LIMIT 1";
     private static final String FIND_BY_ID = "SELECT * FROM image WHERE id = ?";
     private static final String INSERT = "INSERT INTO image VALUES (?, ?, ?)";
     private static final String DELETE = "delete from image where ID = ?";
 
+    private static final String NECESSARY_COLUMNS =
+            " IMAGE.ID, IMAGE.FILENAME, IMAGE.CONTENT";
+
+    private static final String ADDITIONAL_COLUMNS =
+            "";
+
+    private static final String FIND_BY_PARAMETERS_WITHOUT_COLUMNS =
+            " SELECT %s FROM IMAGE";
+
+    private static final String ID_FIELD = " IMAGE.ID, ";
+
     protected H2ImageDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
     }
 
     @Override
-    protected String getFindByParameters() {
-        return null;
+    public String getFindByParameters(Boolean needAditionalColumns) {
+
+        String columns = NECESSARY_COLUMNS;
+
+        if (needAditionalColumns == true){
+            columns = columns + ADDITIONAL_COLUMNS;
+        }
+
+        String result = String.format(FIND_BY_PARAMETERS_WITHOUT_COLUMNS,columns);
+
+        result = String.format(result+"%s", LIMIT_OFFSET);
+
+        return result;
+    }
+
+    @Override
+    public String getFindByParametersWithoutColumns() {
+        return FIND_BY_PARAMETERS_WITHOUT_COLUMNS;
+    }
+
+    @Override
+    public String getNecessaryColumns() {
+        return NECESSARY_COLUMNS;
+    }
+
+    @Override
+    public String getAdditionalColumns() {
+        return ADDITIONAL_COLUMNS;
+    }
+
+    @Override
+    public String getIdField() {
+        return ID_FIELD;
     }
 
     @Override
@@ -35,7 +78,7 @@ public class H2ImageDao extends AbstractH2Dao implements ImageDao {
 
     @Override
     public String getTableName() {
-        return null;
+        return TABLE_NAME;
     }
 
     @Override

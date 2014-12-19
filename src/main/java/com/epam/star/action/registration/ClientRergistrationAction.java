@@ -20,17 +20,17 @@ import java.sql.SQLException;
 @MappedAction("POST/ClientRegistration")
 public class ClientRergistrationAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientRergistrationAction.class);
+
     private ActionResult login = new ActionResult("welcome", true);
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
+        DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
 
         Validator validator = new Validator();
         Client client = createClient(request, validator);
 
         if (client != null) {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DaoManager daoManager = daoFactory.getDaoManager();
 
             daoManager.beginTransaction();
             try {

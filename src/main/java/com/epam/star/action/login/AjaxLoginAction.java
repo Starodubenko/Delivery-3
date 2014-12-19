@@ -20,8 +20,9 @@ import java.sql.SQLException;
 
 @MappedAction("POST/ajaxLogin")
 public class AjaxLoginAction implements Action {
-    private ActionResult result = new ActionResult("json");
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxLoginAction.class);
+
+    private ActionResult result = new ActionResult("json");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {

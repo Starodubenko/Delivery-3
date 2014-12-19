@@ -9,6 +9,7 @@ import java.sql.SQLException;
 @MappedAction("GET/checkTable")
 public class AjaxCheckTableAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxCheckTableAction.class);
+
     ActionResult tableRow = new ActionResult("ajaxSearchRow");
 
     @Override
@@ -17,6 +18,7 @@ public class AjaxCheckTableAction implements Action {
         String name = request.getParameter("entityName");
         System.out.println(name);
         request.setAttribute("entityName", name);
+
         return tableRow;
     }
 }

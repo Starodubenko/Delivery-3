@@ -7,9 +7,7 @@ import com.epam.star.util.PropertiesManager;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Pagination<T extends AbstractEntity, E extends AbstractH2Dao> {
@@ -42,8 +40,10 @@ public class Pagination<T extends AbstractEntity, E extends AbstractH2Dao> {
             rowsCount = utilDao.getIntValue(targetName + "rows", request);
         int firstRow = pageNumber * rowsCount - rowsCount;
 
-        Map<String, String> queryMap = getQueryMap(request, genericDao);
-        PaginatedList<T> paginatedList = genericDao.findRange(firstRow, rowsCount, pageNumber, queryMap);
+//        Map<String, String> queryMap = getQueryMap(request, genericDao);
+//        PaginatedList<T> paginatedList = genericDao.findRange(firstRow, rowsCount, pageNumber,  queryMap);
+        String searchString = utilDao.getString("searchString", request);
+        PaginatedList<T> paginatedList = genericDao.findRange(firstRow, rowsCount, pageNumber, genericDao, searchString);
 
         request.setAttribute(targetName + "PaginatedList", paginatedList);
     }
@@ -61,21 +61,5 @@ public class Pagination<T extends AbstractEntity, E extends AbstractH2Dao> {
                     result.put(entry.getKey(), entry.getValue()[0]);
         }
         return result;
-    }
-
-    private static List parseSearchStaring(String searchString) {
-        List parametersValue = new ArrayList<>();
-        String[] value = searchString.split(" ");
-
-        Object val = null;
-
-        for (String s : value) {
-            val = utilDao.getIntValue(s);
-            if (val == null) val = utilDao.getDateValue(s);
-            if (val == null) val = s;
-
-            parametersValue.add(val);
-        }
-        return parametersValue;
     }
 }

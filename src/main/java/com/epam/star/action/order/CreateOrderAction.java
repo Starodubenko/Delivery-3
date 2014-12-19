@@ -24,13 +24,14 @@ import java.util.Date;
 @MappedAction("GET/fastCreateOrder")
 public class CreateOrderAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateOrderAction.class);
+
     ActionResult client = new ActionResult("ordersTable", true);
     ActionResult jsonn = new ActionResult("json");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
-
         DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
+
         Order order = null;
         try {
             OrderDao orderDao = daoManager.getOrderDao();

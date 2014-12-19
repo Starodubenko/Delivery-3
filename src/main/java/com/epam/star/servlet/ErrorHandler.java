@@ -14,26 +14,26 @@ public class ErrorHandler extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Throwable throwable = (Throwable)
-                req.getAttribute("javax.servlet.error.exception");
-        Integer statusCode = (Integer)
-                req.getAttribute("javax.servlet.error.status_code");
-        String message = (String)
-                req.getAttribute("javax.servlet.error.message");//TODO add properties
-        String servletName = (String)
-                req.getAttribute("javax.servlet.error.servlet_name");
-        if (servletName == null) {
-            servletName = "Unknown";
-        }
-        String requestUri = (String)
-                req.getAttribute("javax.servlet.error.request_uri");
-        if (requestUri == null) {
-            requestUri = "Unknown";
-        }
-
-        LOGGER.error("Status code: {}; ", statusCode, message, requestUri, servletName, throwable);
-        req.setAttribute("statusCode", statusCode);
-        req.setAttribute("message", message);
-        req.getRequestDispatcher("/WEB-INF/error.jsp").forward(req, resp);
+//        Throwable throwable = (Throwable)
+//                req.getAttribute("javax.servlet.error.exception");
+//        Integer statusCode = (Integer)
+//                req.getAttribute("javax.servlet.error.status_code");
+//        String message = (String)
+//                req.getAttribute("javax.servlet.error.message");//TODO add properties
+//        String servletName = (String)
+//                req.getAttribute("javax.servlet.error.servlet_name");
+//        if (servletName == null) {
+//            servletName = "Unknown";
+//        }
+//        String requestUri = (String)
+//                req.getAttribute("javax.servlet.error.request_uri");
+//        if (requestUri == null) {
+//            requestUri = "Unknown";
+//        }
+//
+//        LOGGER.error("Status code: {}; ", statusCode, message, requestUri, servletName, throwable);
+//        req.setAttribute("statusCode", statusCode);
+//        req.setAttribute("message", message);
+//        req.getRequestDispatcher("/WEB-INF/error.jsp").forward(req, resp);
     }
 }

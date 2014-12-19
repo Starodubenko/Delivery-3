@@ -8,12 +8,16 @@ import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.PositionDao;
 import com.epam.star.entity.Client;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
 @MappedAction("GET/office")
 public class GoToOffice implements Action {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GoToOffice.class);
+
     ActionResult dispatcher = new ActionResult("dispatcher", true);
     ActionResult admin = new ActionResult("admin", true);
     ActionResult welcome = new ActionResult("welcome", true);
@@ -27,6 +31,8 @@ public class GoToOffice implements Action {
         Client user = (Client) request.getSession().getAttribute("user");
         if (user.getRole().equals(positionDao.findByPositionName("Dispatcher"))) return dispatcher;
         if (user.getRole().equals(positionDao.findByPositionName("Admin"))) return admin;
+
+        daoManager.closeConnection();
 
         return welcome;
     }

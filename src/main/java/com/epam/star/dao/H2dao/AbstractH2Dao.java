@@ -1,15 +1,21 @@
 package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.util.PaginatedList;
+import com.epam.star.dao.util.Searcher;
 import com.epam.star.entity.AbstractEntity;
 
-import java.sql.*;
-import java.text.SimpleDateFormat;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Map;
 
-public abstract class AbstractH2Dao<T extends AbstractEntity> {
+public abstract class AbstractH2Dao<T extends AbstractEntity, E extends AbstractH2Dao> {
     protected Connection conn;
     protected DaoManager daoManager;
+
+    protected static final String LIMIT_OFFSET = " LIMIT ? OFFSET ? ";
+    private static final Searcher SEARCHER = new Searcher();
 
     protected AbstractH2Dao(Connection conn, DaoManager daoManager) {
         this.conn = conn;
@@ -54,70 +60,28 @@ public abstract class AbstractH2Dao<T extends AbstractEntity> {
         return result;
     }
 
-    public PaginatedList<T> findRange(int firstRow, int rowsCount, int pageNumber, Map<String, String> fieldsMap) {
+    public PaginatedList<T> findRange(int firstRow, int rowsCount, int pageNumber,  E genericDao, String searchString) {
         int count = getRecordsCount();
 
-        PaginatedList<T> result;
+        PaginatedList<T> result = new PaginatedList<>();
+//        Searcher searcher = daoManager.getSearcher();
+        Map<Integer, Integer> foundEntitiesProbabilityMap = SEARCHER.find(searchString, genericDao, rowsCount, firstRow);
 
-        String findByParameters = getFindByParameters();
-
-        String conditionsForFindEntity = createQueryString(fieldsMap);
-
-        String query = String.format(findByParameters, conditionsForFindEntity);
-
-        PreparedStatement prstm = null;//todo try-with-resources
-        ResultSet resultSet = null;
-        try {
-            prstm = conn.prepareStatement(query);
-
-            int prstmIndex = 0;
-
-//            Identification obtained data, for setting it to PreparedStatement
-            for (Map.Entry<String, String> entry : fieldsMap.entrySet()) {//todo create separate method
-                String dynamicalString = String.valueOf(fieldsMap.get(entry.getKey()));
-                try {
-                    if (dynamicalString != null & dynamicalString != "") {
-                        int num = Integer.parseInt(dynamicalString);
-                        prstmIndex++;
-                        prstm.setInt(prstmIndex, num);
-                    }
-                } catch (Exception e) {
-                    try {
-                        Date date = new Date(new SimpleDateFormat("yy-MM-dd").parse(dynamicalString).getTime());
-                        prstmIndex++;
-                        prstm.setDate(prstmIndex, date);
-                    } catch (Exception e1) {
-                        prstmIndex++;
-                        prstm.setString(prstmIndex, dynamicalString);
-                    }
-                }
-            }
-
-            prstmIndex++;
-            prstm.setInt(prstmIndex, rowsCount);
-            prstmIndex++;
-            prstm.setInt(prstmIndex, firstRow);
-
-            result = new PaginatedList<>();
-
-            resultSet = prstm.executeQuery();
-            while (resultSet.next()) {
-                result.add(getEntityFromResultSet(resultSet));
-            }
-
-            result.setTotalRowsCount(count);
-            result.setPageNumber(pageNumber);
-            result.setRowsPerPage(rowsCount);
-
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            closeStatement(prstm, resultSet);
+        for (Integer id : foundEntitiesProbabilityMap.keySet()) {
+            AbstractEntity entity = genericDao.findById(id.intValue());
+            result.add((T) entity);
         }
+
+        result.setTotalRowsCount(count);
+        result.setPageNumber(pageNumber);
+        result.setRowsPerPage(rowsCount);
+
         return result;
     }
 
-//    public PaginatedList<T> findRange(int firstRow, int rowsCount, List list) {
+    protected abstract T findById(int i);
+
+//    public PaginatedList<T> findRange(int firstRow, int rowsCount, int pageNumber, Map<String, String> fieldsMap) {
 //        int count = getRecordsCount();
 //
 //        PaginatedList<T> result;
@@ -169,7 +133,7 @@ public abstract class AbstractH2Dao<T extends AbstractEntity> {
 //            }
 //
 //            result.setTotalRowsCount(count);
-//            result.setPageNumber(firstRow);
+//            result.setPageNumber(pageNumber);
 //            result.setRowsPerPage(rowsCount);
 //
 //        } catch (SQLException e) {
@@ -180,7 +144,16 @@ public abstract class AbstractH2Dao<T extends AbstractEntity> {
 //        return result;
 //    }
 
-    protected abstract String getFindByParameters();
+
+
+    public abstract String getFindByParameters(Boolean needAditionalColumns);
+    public abstract String getFindByParametersWithoutColumns();
+    public abstract String getNecessaryColumns();
+    public abstract String getAdditionalColumns();
+    public abstract String getIdField();
+    public String getLimitOffset(){
+        return LIMIT_OFFSET;
+    }
 
     public abstract Map<String, String> getParametersMap();
 

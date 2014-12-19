@@ -22,6 +22,8 @@ import java.util.Date;
 
 public class AjaxCreateOrderAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxCreateOrderAction.class);
+
+
     ActionResult client = new ActionResult("registration", true);
 
     @Override
@@ -111,7 +113,7 @@ public class AjaxCreateOrderAction implements Action {
         if (onlinePayment) {
             user.setVirtualBalance(res);
             if (user.getRole().equals(statusDao.findByStatusName("Client")))
-                clientDao.updateEntity((Client) user);
+                clientDao.updateEntity(user);
             else employeeDao.updateEntity((Employee) user);
         }
     }

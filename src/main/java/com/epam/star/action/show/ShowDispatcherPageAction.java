@@ -11,6 +11,8 @@ import com.epam.star.dao.H2dao.H2OrderDao;
 import com.epam.star.dao.util.Pagination;
 import com.epam.star.entity.Goods;
 import com.epam.star.entity.Period;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,11 +21,12 @@ import java.util.List;
 
 @MappedAction("GET/dispatcher")
 public class ShowDispatcherPageAction implements Action {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShowDispatcherPageAction.class);
+
     private ActionResult dispatcher = new ActionResult("dispatcher");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
-
         DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
 
         H2ClientDao clientDao = daoManager.getClientDao();

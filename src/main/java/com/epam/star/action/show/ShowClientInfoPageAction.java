@@ -10,6 +10,8 @@ import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.OrderDao;
 import com.epam.star.entity.Client;
 import com.epam.star.entity.Order;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,14 +20,16 @@ import java.util.List;
 
 @MappedAction("GET/clientInfo")
 public class ShowClientInfoPageAction implements Action {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShowClientInfoPageAction.class);
+    private static final DaoManager DAO_MANAGER = DaoFactory.getInstance().getDaoManager();
+
     private ActionResult clientInfo = new ActionResult("clientInfo");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
-        DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
 
-        OrderDao orderDao = daoManager.getOrderDao();
-        ClientDao clientDao = daoManager.getClientDao();
+        OrderDao orderDao = DAO_MANAGER.getOrderDao();
+        ClientDao clientDao = DAO_MANAGER.getClientDao();
 
         Client currentClient = (Client) request.getSession().getAttribute("user");
         Client user = clientDao.findById(currentClient.getId());
@@ -37,7 +41,7 @@ public class ShowClientInfoPageAction implements Action {
         session.setAttribute("todayOrders", todayOrders);
         session.setAttribute("pastOrders", pastOrders);
 
-        daoManager.closeConnection();
+        DAO_MANAGER.closeConnection();
 
         return clientInfo;
     }

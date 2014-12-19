@@ -1,94 +1,66 @@
 package com.epam.star.dao.util;
 
+import com.epam.star.dao.H2dao.AbstractH2Dao;
 import com.epam.star.dao.H2dao.DaoException;
-import com.epam.star.entity.Order;
+import com.epam.star.entity.AbstractEntity;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.*;
+import java.util.*;
 
-public class Searcher {
-    protected Connection conn;
-
-    public Searcher(Connection conn) {
-        this.conn = conn;
-    }
-
-    private Map<Integer, Integer> foundRecords = new HashMap<>();
-
+public class Searcher<T extends AbstractEntity, E extends AbstractH2Dao> {
     private static final UtilDao utilDao = new UtilDao();
-    private static final String TABLE_WITH_TYPE = "select COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME = 'ORDERS' and Data_Type = %s";
-    private static final String COLUMNS_WITH_DEFINED_TYPE = "select orders.id, %s from ";
 
-    private static Map<String, Integer> typesMap = new HashMap<>();
+//    public static Map<Integer,Integer> sortByValue(Map<Integer,Integer> unsortMap) {
+//        List list = new LinkedList(unsortMap.entrySet());
+//
+//        Collections.sort(list, new Comparator() {
+//            public int compare(Object o1, Object o2) {
+//                return ((Comparable) ((Map.Entry) (o1)).getValue()).compareTo(((Map.Entry) (o2)).getValue());
+//            }
+//        });
+//
+//        Map sortedMap = new LinkedHashMap();
+//        for (Iterator it = list.iterator(); it.hasNext();) {
+//            Map.Entry entry = (Map.Entry) it.next();
+//            sortedMap.put(entry.getKey(), entry.getValue());
+//        }
+//        return sortedMap;
+//    }
 
-    static {
-        typesMap.put("Date", 91);
-        typesMap.put("Integer", 4);
-        typesMap.put("String", 12);
-    }
 
+    private  Connection conn;
 
-    private List<Object> parseSearchString(String searchString){
+    private List<Object> parseSearchString(String searchString) {
         List<Object> findingValues = new ArrayList<>();
         String[] value = searchString.split(" ");
 
         Object val = null;
 
         for (String s : value) {
-            val = utilDao.getIntValue(s);
-            if (val == null) val = utilDao.getDateValue(s);
-            if (val == null) val = s;
+            try {
+                val = utilDao.getIntValue(s);
+            } catch (Exception e){
+                if (val == null) val = utilDao.getDateValue(s);
+                if (val == null) val = s;
+            }
 
             findingValues.add(val);
         }
         return findingValues;
     }
 
-    private List<String> getTableNamesFromDataBase(String query){
-
-        PreparedStatement prstm = null;
-        ResultSet resultSet = null;
-        List<String> tableNames = new ArrayList<>();
-//        String tableNames = null;
-        try {
-            prstm = conn.prepareStatement(query);
-            resultSet = prstm.executeQuery();
-            while (resultSet.next()) {
-                tableNames.add(getTableNamesFromResultSet(resultSet));
-            }
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            closeStatement(prstm, resultSet);
-        }
-
-        return tableNames;
-    }
-
-    private String getTableNamesString(List<String> query){
+    private String getTableNamesString(List<String> query) {
 
         StringBuilder tableNames = new StringBuilder();
 
         for (String name : query) {
-            tableNames.append(", ");
-            tableNames.append(name);
+            if (!name.equals("ID")) {
+                tableNames.append(", ");
+                tableNames.append(name);
+            }
         }
 
-        return tableNames.toString().substring(tableNames.toString().indexOf(" ")+1);
-    }
-
-    private String getTableNamesFromResultSet(ResultSet resultSet) {
-        try {
-            return resultSet.getString("COLUMN_NAME");
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
+        return tableNames.toString().substring(tableNames.toString().indexOf(" ") + 1);
     }
 
     protected void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
@@ -109,44 +81,111 @@ public class Searcher {
         }
     }
 
-    public List<Order> find(String findingString, String tableName){
+    private List<String> getNecessaryColumns(Object value, String findByParameters) {
+        List<String> columns = new ArrayList<>();
 
-        List<Order> orders = new ArrayList<>();
+        PreparedStatement prstm = null;
+        ResultSet resultSet = null;
+        ResultSetMetaData resultSetMetaData;
+        try {
+            findByParameters = String.format(findByParameters, "");// clear the %s in findByParameters
 
-        List<Object> values = parseSearchString(findingString);
+            prstm = conn.prepareStatement(findByParameters);
+            prstm.setInt(1, 0);
+            prstm.setInt(2, 0);
+            resultSet = prstm.executeQuery();
+            resultSetMetaData = resultSet.getMetaData();
 
-        String queryString = "";
-        for (Object value : values) {
-            String aClass = value.getClass().getSimpleName();
-            Integer classIdInSQL = typesMap.get(aClass);
-
-            queryString = String.format(TABLE_WITH_TYPE, classIdInSQL);
-            List<String> tableNames = getTableNamesFromDataBase(queryString);
-            String tableNamesString = getTableNamesString(tableNames);
-            queryString = String.format(COLUMNS_WITH_DEFINED_TYPE, tableNamesString);
-
-            queryString = String.format(queryString+"%s",tableName);
-
-
-            StringBuilder afterWherePartString = new StringBuilder();
-            for (String name : tableNames) {
-                afterWherePartString.append(" or ");
-                afterWherePartString.append(name);
-                afterWherePartString.append(" like '" + value + "'");
+            for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
+                String columnClassName = resultSetMetaData.getColumnClassName(i);
+                String necessaryType = value.getClass().getName();
+                if (necessaryType.equals(columnClassName)) {
+                    columns.add(resultSetMetaData.getColumnName(i));
+                }
             }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm, resultSet);
+        }
+
+        return columns;
+    }
+
+    public Map<Integer, Integer> find(String searchString, E genericDao, int rowsCount, int firstRow) {
+
+        Map<Integer, Integer> entitiesProbability = new HashMap<>();
+        conn = genericDao.getConn();
+
+        if (searchString != null && !searchString.equals("")){
+
+            List<Object> values = parseSearchString(searchString);
+
+            String findByParameters = genericDao.getFindByParameters(false);
+
+            String queryString;
+            for (Object value : values) {
+
+                List<String> necessaryColumns = getNecessaryColumns(value, findByParameters);
+                String tableNamesString = getTableNamesString(necessaryColumns);
+
+                String findByParametersWithoutColumns = genericDao.getFindByParametersWithoutColumns();
+                findByParametersWithoutColumns = String.format(findByParametersWithoutColumns, genericDao.getIdField() + " %s "); //add compulsory field
+                queryString = String.format(findByParametersWithoutColumns, tableNamesString);
+                queryString = String.format(queryString + " %s", "%s " + genericDao.getLimitOffset());
 
 
-            queryString = String.format(queryString+"%s"," where " + afterWherePartString.toString().substring(afterWherePartString.toString().indexOf("or")+3));
+                StringBuilder afterWherePartString = new StringBuilder();
+                for (String name : necessaryColumns) {
+                    afterWherePartString.append(" or ");
+                    if (!name.equals("ID")) afterWherePartString.append(name);
+                    else afterWherePartString.append(genericDao.getIdField().replace(",", ""));
+                    afterWherePartString.append(" like '%" + value + "%'");
+                }
+
+                queryString = String.format(queryString, " where " + afterWherePartString.toString().substring(afterWherePartString.toString().indexOf("or") + 3));
+
+                PreparedStatement prstm = null;
+                ResultSet resultSet = null;
+                try {
+                    prstm = conn.prepareStatement(queryString);
+                    prstm.setInt(1,rowsCount);
+                    prstm.setInt(2,firstRow);
+                    resultSet = prstm.executeQuery();
+                    while (resultSet.next()) {
+                        int id = resultSet.getInt("ID");
+                        if (entitiesProbability.get(id) != null) {
+                            entitiesProbability.replace(id, entitiesProbability.get(id) + 1);
+                        } else {
+                            entitiesProbability.put(id, 1);
+                        }
+                    }
+                } catch (SQLException e) {
+                    throw new DaoException(e);
+                } finally {
+                    closeStatement(prstm, resultSet);
+                }
+            }
+        } else {
+
+            String queryString = genericDao.getFindByParameters(false);
+            queryString = String.format(queryString, ""); //clear %s
 
             PreparedStatement prstm = null;
             ResultSet resultSet = null;
             try {
                 prstm = conn.prepareStatement(queryString);
+                prstm.setInt(1,rowsCount);
+                prstm.setInt(2,firstRow);
                 resultSet = prstm.executeQuery();
-//                while (resultSet.next()) {
-//                    tableNames.append(", ");
-//                    tableNames.append(getTableNamesFromResultSet(resultSet));
-//                }
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("ID");
+                    if (entitiesProbability.get(id) != null) {
+                        entitiesProbability.replace(id, entitiesProbability.get(id) + 1);
+                    } else {
+                        entitiesProbability.put(id, 1);
+                    }
+                }
             } catch (SQLException e) {
                 throw new DaoException(e);
             } finally {
@@ -154,6 +193,6 @@ public class Searcher {
             }
         }
 
-        return orders;
+        return entitiesProbability;
     }
 }

@@ -21,12 +21,13 @@ import java.sql.Time;
 @MappedAction("GET/saveOrderData")
 public class AjaxSaveOrderData implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxSaveOrderData.class);
+
     ActionResult jsonn = new ActionResult("json");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
-
         DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
+
         Order order = null;
         try {
             OrderDao orderDao = daoManager.getOrderDao();

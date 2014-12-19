@@ -27,14 +27,14 @@ public class AjaxClientRegistration implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
+        DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
+
         JSONObject jsonObject = new JSONObject();
         Validator validator = new Validator();
         Client client = createClient(request, validator, jsonObject);
 
         if (client != null) {
             jsonObject.put("registrationSuccessful", "Registration was successful");
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DaoManager daoManager = daoFactory.getDaoManager();
 
             daoManager.beginTransaction();
             try {

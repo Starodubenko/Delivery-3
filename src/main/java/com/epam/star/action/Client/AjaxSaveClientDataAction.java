@@ -21,8 +21,8 @@ public class AjaxSaveClientDataAction implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
-
         DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
+
         Client client = null;
         try {
             ClientDao clientDao = daoManager.getClientDao();

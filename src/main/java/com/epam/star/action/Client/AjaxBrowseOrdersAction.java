@@ -23,7 +23,6 @@ public class AjaxBrowseOrdersAction implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
-
         DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
 
         OrderDao orderDao = daoManager.getOrderDao();

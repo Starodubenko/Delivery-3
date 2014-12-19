@@ -46,6 +46,14 @@
         </div>
     </div>
 
+    <form class="navbar-form text-center" id="search-form" role="search">
+        <div class="form-group" id="searchRow">
+            <input type="text" class="form-control" name="searchString" id="search" placeholder="Search">
+            <input type="hidden" id="entityName" value="Order">
+        </div>
+        <button class="btn btn-default" id="search-button">Submit</button>
+    </form>
+
     <div class="orderList panel panel-default">
 
         <ul class="nav nav-tabs  nav-justified" role="tablist">

@@ -137,4 +137,5 @@ public class DaoManager {
     public H2ImageDao getImageDao() {
         return new H2ImageDao(connection, this);
     }
+
 }

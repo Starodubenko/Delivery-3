@@ -1,5 +1,25 @@
 $(document).ready(function () {
 
+    $('#search-button').click(function () {
+        var entityName = $('#entityName').val();
+
+        $.get("find" + entityName + "?" + $('#search-form').serialize(),
+            function (data) {
+                $("#" + entityName + "s-block").html(data);
+            })
+    });
+
+    $('#search').keydown(function () {
+        var entityName = $('#entityName').val();
+
+        if (event.keyCode == 13) {
+            $.get("find" + entityName + "?" + $('#search-form').serialize(),
+                function (data) {
+                    $("#" + entityName + "s-block").html(data);
+                })
+        }
+    });
+
     $('#Clients').on('click', '#cBack', function () {
         var page = $('#clientsPageNumber').val() - 1;
         var rows = $('#clientsrows').val();

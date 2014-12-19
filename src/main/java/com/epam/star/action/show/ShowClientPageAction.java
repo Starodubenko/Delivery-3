@@ -13,6 +13,8 @@ import com.epam.star.entity.Client;
 import com.epam.star.entity.Goods;
 import com.epam.star.entity.Image;
 import com.epam.star.entity.Period;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,6 +23,8 @@ import java.util.List;
 
 @MappedAction("GET/client")
 public class ShowClientPageAction implements Action {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShowClientPageAction.class);
+
     private ActionResult client = new ActionResult("client");
 
     @Override

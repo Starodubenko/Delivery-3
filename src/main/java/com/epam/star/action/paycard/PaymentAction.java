@@ -18,13 +18,12 @@ import java.sql.SQLException;
 @MappedAction("POST/payment")
 public class PaymentAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(PaymentAction.class);
+
     private ActionResult client = new ActionResult("registration");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
-
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        DaoManager daoManager = daoFactory.getDaoManager();
+        DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
 
         daoManager.beginTransaction();
         try {

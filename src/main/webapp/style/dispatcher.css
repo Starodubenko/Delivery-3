@@ -61,7 +61,7 @@ text {
 }
 
 .registrationbtn {
-    padding: 5;
+    padding: 5px;
     margin-right: 10px;
     margin-left: 10px;
     margin-top: 10px;
@@ -70,7 +70,7 @@ text {
 }
 
 .loginbtn {
-    padding: 5;
+    padding: 5px;
     margin-right: 10px;
     margin-left: 10px;
     margin-top: 10px;
@@ -213,5 +213,9 @@ text {
     float: left;
     height: 30px;
     width: 50px;
+}
+
+.find-form{
+    /*width: 300px;*/
 }
 

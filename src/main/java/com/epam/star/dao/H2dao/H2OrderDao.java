@@ -16,27 +16,33 @@ import java.util.Map;
 
 public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2OrderDao.class);
-    private static final String TABLE_NAME = "orders";
+    private static final String TABLE_NAME = "ORDERS";
     private static final String INSERT_ORDER = "INSERT INTO  orders VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String RANGE_ORDERS = "SELECT * FROM orders LIMIT ? OFFSET ?";
+    private static final String RANGE_ORDERS = "SELECT * FROM ORDERS LIMIT ? OFFSET ?";
     private static final String CANCEL_ORDER = " UPDATE orders SET id = ?, user_id = ?, count = ?, period_id = ?," +
             " goods_id = ?, order_cost = ?, paid = ?, delivery_date = ?, additional_info = ?," +
             " status_id = ?, order_date = ? where id = ?";
 
-    private static final String FIND_BY_PARAMETERS =
-            " SELECT orders.id, orders.user_id, users.lastname ,users.firstname, users.middlename, users.address," +
-                    " orders.order_date, orders.goods_id, goods.goods_name, orders.count, orders.order_cost, orders.paid," +
-                    " orders.delivery_date, orders.period_id, period.period, orders.additional_info, orders.status_id, status.status_name" +
-                    " FROM orders" +
-                    " inner join users" +
-                    " on orders.user_id = users.id" +
-                    " inner join period" +
-                    " on orders.period_id = period.id" +
-                    " inner join goods" +
-                    " on orders.goods_id = goods.id" +
-                    " inner join status" +
-                    " on orders.status_id = status.id" +
-                    " %s LIMIT ? OFFSET ? ";
+    private static final String NECESSARY_COLUMNS =
+            " ORDERS.ID, USERS.FIRSTNAME , USERS.LASTNAME, USERS.MIDDLENAME, USERS.ADDRESS," +
+                    " ORDERS.ORDER_DATE, GOODS.GOODS_NAME, ORDERS.COUNT, ORDERS.ORDER_COST, ORDERS.PAID," +
+                    " ORDERS.DELIVERY_DATE, PERIOD.PERIOD, ORDERS.ADDITIONAL_INFO, STATUS.STATUS_NAME";
+
+    private static final String ADDITIONAL_COLUMNS = "";
+
+    private static final String FIND_BY_PARAMETERS_WITHOUT_COLUMNS =
+            " SELECT %s" +
+                    " FROM ORDERS" +
+                    " INNER JOIN USERS" +
+                    " ON ORDERS.USER_ID = USERS.ID" +
+                    " INNER JOIN PERIOD" +
+                    " ON ORDERS.PERIOD_ID = PERIOD.ID" +
+                    " INNER JOIN GOODS" +
+                    " ON ORDERS.GOODS_ID = GOODS.ID" +
+                    " INNER JOIN STATUS" +
+                    " ON ORDERS.STATUS_ID = STATUS.ID  ";
+
+    private static final String ID_FIELD = " ORDERS.ID, ";
 
     private static Map<String, String> fieldsQueryMap = new HashMap<>();
 
@@ -47,11 +53,6 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     @Override
     public Map<String, String> getParametersMap() {
         return fieldsQueryMap;
-    }
-
-    @Override
-    public String getTableName() {
-        return TABLE_NAME;
     }
 
     static {
@@ -237,8 +238,44 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     }
 
     @Override
-    protected String getFindByParameters() {
-        return FIND_BY_PARAMETERS;
+    public String getTableName() {
+        return TABLE_NAME;
+    }
+
+    @Override
+    public String getFindByParameters(Boolean needAditionalColumns) {
+
+        String columns = NECESSARY_COLUMNS;
+
+        if (needAditionalColumns == true){
+            columns = columns + ADDITIONAL_COLUMNS;
+        }
+
+        String result = String.format(FIND_BY_PARAMETERS_WITHOUT_COLUMNS,columns);
+
+        result = String.format(result+"%s", LIMIT_OFFSET);
+
+        return result;
+    }
+
+    @Override
+    public String getFindByParametersWithoutColumns() {
+        return FIND_BY_PARAMETERS_WITHOUT_COLUMNS;
+    }
+
+    @Override
+    public String getNecessaryColumns() {
+        return NECESSARY_COLUMNS;
+    }
+
+    @Override
+    public String getAdditionalColumns() {
+        return ADDITIONAL_COLUMNS;
+    }
+
+    @Override
+    public String getIdField() {
+        return ID_FIELD;
     }
 
 

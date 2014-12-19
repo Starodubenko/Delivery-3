@@ -14,17 +14,23 @@ import java.util.Map;
 
 public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
-    private static final String TABLE_NAME = "status_card";
+    private static final String TABLE_NAME = "STATUS_CARD";
     private static final String ADD_STATUS_PAY_CARD = "INSERT INTO status_card VALUES (?, ?)";
-    private static final String DELETE_STATUS_PAY_CARD = "DELETE FROM status_card WHERE id = ?";
-    private static final String UPDATE_STATUS_PAY_CARD = "UPDATE status_card SET id = ?, status_name = ? WHERE id = ?";
+    private static final String DELETE_STATUS_PAY_CARD = "DELETE FROM STATUS_CARD WHERE ID = ?";
+    private static final String UPDATE_STATUS_PAY_CARD = "UPDATE STATUS_CARD SET ID = ?, STATUS_NAME = ? WHERE ID = ?";
+
+    private static final String NECESSARY_COLUMNS =
+            " STATUS_CARD.ID, STATUS_CARD.STATUS_NAME ";
+
+    private static final String ADDITIONAL_COLUMNS =
+            "";
+
+    private static final String FIND_BY_PARAMETERS_WITHOUT_COLUMNS =
+            " SELECT %s FROM STATUS_CARD";
+
+    private static final String ID_FIELD = " STATUS_CARD.ID, ";
 
     private static Map<String, String> fieldsQueryMap = new HashMap<>();
-
-    private static final String FIND_BY_PARAMETERS =
-            " SELECT *" +
-                    " FROM status_card" +
-                    " %s LIMIT ? OFFSET ?";
 
     static {
         fieldsQueryMap.put("status-card-id", " status_card.id = ?");
@@ -139,7 +145,38 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
     }
 
     @Override
-    protected String getFindByParameters() {
-        return FIND_BY_PARAMETERS;
+    public String getFindByParameters(Boolean needAditionalColumns) {
+
+        String columns = NECESSARY_COLUMNS;
+
+        if (needAditionalColumns == true){
+            columns = columns + ADDITIONAL_COLUMNS;
+        }
+
+        String result = String.format(FIND_BY_PARAMETERS_WITHOUT_COLUMNS,columns);
+
+        result = String.format(result+"%s", LIMIT_OFFSET);
+
+        return result;
+    }
+
+    @Override
+    public String getFindByParametersWithoutColumns() {
+        return FIND_BY_PARAMETERS_WITHOUT_COLUMNS;
+    }
+
+    @Override
+    public String getNecessaryColumns() {
+        return NECESSARY_COLUMNS;
+    }
+
+    @Override
+    public String getAdditionalColumns() {
+        return ADDITIONAL_COLUMNS;
+    }
+
+    @Override
+    public String getIdField() {
+        return ID_FIELD;
     }
 }
