@@ -6,15 +6,15 @@ import com.epam.star.entity.Contact;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class H2ContactDao extends AbstractH2Dao implements ContactDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
-    private static final String TABLE_NAME = "CONTACTS";
     private static final String ADD_CONTACT = "INSERT INTO CONTACTS VALUES (?, ?, ?)";
     private static final String DELETE_CONTACT = "DELETE FROM CONTACTS WHERE ID = ?";
     private static final String UPDATE_CONTACT = "UPDATE CONTACTS SET ID = ?, TELEPHONE = ?, OWNER = ? WHERE ID = ?";
@@ -30,14 +30,6 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
 
     private static final String ID_FIELD = " CONTACTS.ID, ";
 
-    private static Map<String, String> fieldsQueryMap = new HashMap<>();
-
-
-    static {
-        fieldsQueryMap.put("contact-id", " contacts.id = ?");
-        fieldsQueryMap.put("contact-telephone", " contacts.telephone = ?");
-        fieldsQueryMap.put("contact-telephone", " contacts.owner = ?");
-    }
 
     protected H2ContactDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
@@ -157,16 +149,6 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
     @Override
     public AbstractEntity getEntityFromResultSet(ResultSet resultSet) throws DaoException {
         return null;
-    }
-
-    @Override
-    public Map<String, String> getParametersMap() {
-        return fieldsQueryMap;
-    }
-
-    @Override
-    public String getTableName() {
-        return TABLE_NAME;
     }
 
     @Override

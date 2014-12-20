@@ -10,13 +10,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2OrderDao.class);
-    private static final String TABLE_NAME = "ORDERS";
     private static final String INSERT_ORDER = "INSERT INTO  orders VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String RANGE_ORDERS = "SELECT * FROM ORDERS LIMIT ? OFFSET ?";
     private static final String CANCEL_ORDER = " UPDATE orders SET id = ?, user_id = ?, count = ?, period_id = ?," +
@@ -44,33 +41,9 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
 
     private static final String ID_FIELD = " ORDERS.ID, ";
 
-    private static Map<String, String> fieldsQueryMap = new HashMap<>();
 
     protected H2OrderDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
-    }
-
-    @Override
-    public Map<String, String> getParametersMap() {
-        return fieldsQueryMap;
-    }
-
-    static {
-        fieldsQueryMap.put("order-id", " orders.id = ?");
-        fieldsQueryMap.put("user-id", " orders.user_id = ?");
-        fieldsQueryMap.put("user-lastname", " users.lastname = ?");
-        fieldsQueryMap.put("user-firstname", " users.firstname = ?");
-        fieldsQueryMap.put("user-middlename", " users.middlename = ?");
-        fieldsQueryMap.put("user-address", " users.address = ?");
-        fieldsQueryMap.put("order-date", " orders.order_date = ?");
-        fieldsQueryMap.put("order-goods-id", " orders.goods_id = ?");
-        fieldsQueryMap.put("order-goods-name", " goods.goods_name = ?");
-        fieldsQueryMap.put("order-goods-count", " orders.count = ?");
-        fieldsQueryMap.put("order-cost", " orders.order_cost = ?");
-        fieldsQueryMap.put("order-delivery-date", " orders.delivery_date = ?");
-        fieldsQueryMap.put("order-delivery-time", " period.period = ?");
-        fieldsQueryMap.put("order-addInfo", " orders.additional_info = ?");
-        fieldsQueryMap.put("order-status", " status.status_name = ?");
     }
 
     public List<Order> findAllByClientIdToday(int id) throws DaoException {
@@ -235,11 +208,6 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             closeStatement(prstm, null);
         }
         return null;
-    }
-
-    @Override
-    public String getTableName() {
-        return TABLE_NAME;
     }
 
     @Override

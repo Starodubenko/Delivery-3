@@ -9,12 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class H2StatusDao extends AbstractH2Dao implements StatusDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
-    private static final String TABLE_NAME = "STATUS";
     private static final String ADD_STATUS = "INSERT INTO STATUS VALUES (?, ?)";
     private static final String DELETE_STATUS = "DELETE FROM STATUS WHERE ID = ?";
     private static final String UPDATE_STATUS = "UPDATE STATUS SET ID = ?, STATUS_NAME = ? WHERE ID = ?";
@@ -30,12 +27,6 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
 
     private static final String ID_FIELD = " STATUS.ID, ";
 
-    private static Map<String, String> fieldsQueryMap = new HashMap<>();
-
-    static {
-        fieldsQueryMap.put("status-id", " status.id = ?");
-        fieldsQueryMap.put("status-name", " status.status_name = ?");
-    }
 
     protected H2StatusDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
@@ -135,11 +126,6 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
     }
 
     @Override
-    public Map<String, String> getParametersMap() {
-        return fieldsQueryMap;
-    }
-
-    @Override
     public String getFindByParameters(Boolean needAditionalColumns) {
 
         String columns = NECESSARY_COLUMNS;
@@ -153,11 +139,6 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
         result = String.format(result+"%s", LIMIT_OFFSET);
 
         return result;
-    }
-
-    @Override
-    public String getTableName() {
-        return TABLE_NAME;
     }
 
     @Override

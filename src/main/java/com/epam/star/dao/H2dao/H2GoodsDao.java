@@ -10,13 +10,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
-    private static final String TABLE_NAME = "GOODS";
     private static final String ADD_GOODS = "INSERT INTO goods VALUES (?, ?, ?)";
     private static final String DELETE_GOODS = "DELETE FROM GOODS WHERE ID = ?";
     private static final String UPDATE_GOODS = "UPDATE goods SET id = ?, goods_name = ?, price = ? WHERE id = ?";
@@ -32,13 +29,6 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
 
     private static final String ID_FIELD = " GOODS.ID, ";
 
-    private static Map<String, String> fieldsQueryMap = new HashMap<>();
-
-    static {
-        fieldsQueryMap.put("goods-id", " goods.id = ?");
-        fieldsQueryMap.put("goods-name", " goods.goods_name = ?");
-        fieldsQueryMap.put("goods-price", " goods.price = ?");
-    }
 
     protected H2GoodsDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
@@ -148,16 +138,6 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
             closeStatement(prstm, null);
         }
         return status;
-    }
-
-    @Override
-    public Map<String, String> getParametersMap() {
-        return fieldsQueryMap;
-    }
-
-    @Override
-    public String getTableName() {
-        return TABLE_NAME;
     }
 
     @Override

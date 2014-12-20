@@ -38,15 +38,11 @@ public class DaoFactory {
         } catch (SQLException e) {
             throw new DaoException(e);
         }
-
-        //todo move to init() method and call this method from ContextListener
     }
 
     public void destroy(){
         connectionPool.shutdown();
     }
-
-    //todo create destroy() method for pool shutdowning and  call this method from ContextListener
 
     public static DaoFactory getInstance() {
         return InstanceHolder.instance;

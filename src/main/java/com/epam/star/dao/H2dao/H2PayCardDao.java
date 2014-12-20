@@ -12,12 +12,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
-    private static final String TABLE_NAME = "PAY_CARD";
     private static final String ADD_PAYCARD = "INSERT INTO pay_card VALUES (?, ?, ?, ?, ?)";
     private static final String UPDATE_PAYCARD = "UPDATE pay_card SET id = ?, serial_number = ?, secret_number = ?, balance = ?, id_status_pay_card = ?  WHERE id = ?";
 
@@ -36,15 +33,6 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
 
     private static final String ID_FIELD = " PAY_CARD.ID, ";
 
-    private static Map<String, String> fieldsQueryMap = new HashMap<>();
-
-    static {
-        fieldsQueryMap.put("paycard-id", " pay_card.id = ?");
-        fieldsQueryMap.put("paycard-serial-number", " pay_card.serial_number = ?");
-        fieldsQueryMap.put("paycard-secret-number", " pay_card.secret_number = ?");
-        fieldsQueryMap.put("paycard-balance", " pay_card.balance = ?");
-        fieldsQueryMap.put("paycard-id-status-pay-card", " pay_card.id_status_pay_card = ?");
-    }
 
     protected H2PayCardDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
@@ -195,16 +183,6 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
             throw new DaoException(e);
         }
         return payCard;
-    }
-
-    @Override
-    public Map<String, String> getParametersMap() {
-        return fieldsQueryMap;
-    }
-
-    @Override
-    public String getTableName() {
-        return TABLE_NAME;
     }
 
     @Override

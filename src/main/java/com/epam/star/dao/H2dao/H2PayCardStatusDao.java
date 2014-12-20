@@ -9,12 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
-    private static final String TABLE_NAME = "STATUS_CARD";
     private static final String ADD_STATUS_PAY_CARD = "INSERT INTO status_card VALUES (?, ?)";
     private static final String DELETE_STATUS_PAY_CARD = "DELETE FROM STATUS_CARD WHERE ID = ?";
     private static final String UPDATE_STATUS_PAY_CARD = "UPDATE STATUS_CARD SET ID = ?, STATUS_NAME = ? WHERE ID = ?";
@@ -30,12 +27,6 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
 
     private static final String ID_FIELD = " STATUS_CARD.ID, ";
 
-    private static Map<String, String> fieldsQueryMap = new HashMap<>();
-
-    static {
-        fieldsQueryMap.put("status-card-id", " status_card.id = ?");
-        fieldsQueryMap.put("status-card-status-name", " status_card.status_name = ?");
-    }
 
     protected H2PayCardStatusDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
@@ -132,16 +123,6 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
             throw new DaoException(e);
         }
         return statusPayCard;
-    }
-
-    @Override
-    public Map<String, String> getParametersMap() {
-        return fieldsQueryMap;
-    }
-
-    @Override
-    public String getTableName() {
-        return TABLE_NAME;
     }
 
     @Override

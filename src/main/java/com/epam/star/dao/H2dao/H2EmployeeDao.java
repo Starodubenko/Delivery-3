@@ -11,12 +11,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
-    private static final String TABLE_NAME = "USERS";
     private static final String ADD_EMPLOYEE = "INSERT INTO  USERS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String DELETE_EMPLOYEE = "DELETE FROM users WHERE id = ?";
     private static final String UPDATE_EMPLOYEE =
@@ -41,25 +38,6 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
 
     private static final String ID_FIELD = " USERS.ID, ";
 
-    private static Map<String, String> fieldsQueryMap = new HashMap<>();
-
-    static {
-        fieldsQueryMap.put("employee-id", " users.id = ?");
-        fieldsQueryMap.put("employee-login", " users.login = ?");
-        fieldsQueryMap.put("employee-password", " users.password = ?");
-        fieldsQueryMap.put("employee-first-name", " users.firstname = ?");
-        fieldsQueryMap.put("employee-middle-name", " users.middlename = ?");
-        fieldsQueryMap.put("employee-last-name", " users.lastname = ?");
-        fieldsQueryMap.put("employee-address", " users.address = ?");
-        fieldsQueryMap.put("employee-telephone", " users.telephone = ?");
-        fieldsQueryMap.put("employee-mobilephone", " users.mobilephone = ?");
-        fieldsQueryMap.put("employee-identitycard", " users.identitycard = ?");
-        fieldsQueryMap.put("employee-workbook", " users.workbook = ?");
-        fieldsQueryMap.put("employee-rnn", " users.rnn = ?");
-        fieldsQueryMap.put("employee-sik", " users.sik = ?");
-        fieldsQueryMap.put("employee-position_id", " users.position_id = ?");
-        fieldsQueryMap.put("employee-virtual_balance", " users.virtual_balance = ?");
-    }
 
     protected H2EmployeeDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
@@ -190,16 +168,6 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
             throw new DaoException(e);
         }
         return employee;
-    }
-
-    @Override
-    public Map<String, String> getParametersMap() {
-        return fieldsQueryMap;
-    }
-
-    @Override
-    public String getTableName() {
-        return TABLE_NAME;
     }
 
     @Override

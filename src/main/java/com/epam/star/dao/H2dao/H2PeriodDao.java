@@ -7,13 +7,10 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
-    private static final String TABLE_NAME = "PERIOD";
     private static final String ADD_PERIOD = "INSERT INTO period VALUES (?, ?)";
     private static final String DELETE_PERIOD = "DELETE FROM PERIOD WHERE ID = ?";
     private static final String UPDATE_PERIOD = "UPDATE period SET id = ?, period = ? WHERE id = ?";
@@ -29,12 +26,6 @@ public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
 
     private static final String ID_FIELD = " PERIOD.ID, ";
 
-    private static Map<String, String> fieldsQueryMap = new HashMap<>();
-
-    static {
-        fieldsQueryMap.put("period-id", " period.id = ?");
-        fieldsQueryMap.put("period-period", " period.period = ?");
-    }
 
     protected H2PeriodDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
@@ -151,16 +142,6 @@ public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
             throw new DaoException(e);
         }
         return period;
-    }
-
-    @Override
-    public Map<String, String> getParametersMap() {
-        return fieldsQueryMap;
-    }
-
-    @Override
-    public String getTableName() {
-        return TABLE_NAME;
     }
 
     @Override

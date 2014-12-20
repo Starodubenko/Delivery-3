@@ -7,13 +7,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
 public class H2ImageDao extends AbstractH2Dao implements ImageDao {
     private static final String ID = "id";
     private static final String FILENAME = "filename";
     private static final String CONTENT = "content";
-    private static final String TABLE_NAME = "IMAGE";
     private static final String FIND_BY_FILENAME = "SELECT * FROM image WHERE filename = ?";
     private static final String GET_LAST_ELEMENT = "SELECT * FROM image ORDER BY id DESC LIMIT 1";
     private static final String FIND_BY_ID = "SELECT * FROM image WHERE id = ?";
@@ -30,6 +28,7 @@ public class H2ImageDao extends AbstractH2Dao implements ImageDao {
             " SELECT %s FROM IMAGE";
 
     private static final String ID_FIELD = " IMAGE.ID, ";
+
 
     protected H2ImageDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
@@ -69,16 +68,6 @@ public class H2ImageDao extends AbstractH2Dao implements ImageDao {
     @Override
     public String getIdField() {
         return ID_FIELD;
-    }
-
-    @Override
-    public Map<String, String> getParametersMap() {
-        return null;
-    }
-
-    @Override
-    public String getTableName() {
-        return TABLE_NAME;
     }
 
     @Override

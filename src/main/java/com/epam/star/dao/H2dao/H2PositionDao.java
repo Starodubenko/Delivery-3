@@ -9,12 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class H2PositionDao extends AbstractH2Dao implements PositionDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2PositionDao.class);
-    private static final String TABLE_NAME = "POSITIONS";
     private static final String ADD_POSITION = "INSERT INTO  POSITIONS VALUES (?, ?)";
     private static final String DELETE_POSITION = "DELETE FROM POSITIONS WHERE ID = ?";
     private static final String UPDATE_PERIOD = "UPDATE position SET ID = ?, POSITION_NAME = ? WHERE ID = ?";
@@ -30,12 +27,6 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
 
     private static final String ID_FIELD = " POSITIONS.ID, ";
 
-    private static Map<String, String> fieldsQueryMap = new HashMap<>();
-
-    static {
-        fieldsQueryMap.put("position-id", " position.id = ?");
-        fieldsQueryMap.put("position-name", " position.position_name = ?");
-    }
 
     protected H2PositionDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
@@ -132,16 +123,6 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
             throw new DaoException(e);
         }
         return position;
-    }
-
-    @Override
-    public Map<String, String> getParametersMap() {
-        return fieldsQueryMap;
-    }
-
-    @Override
-    public String getTableName() {
-        return TABLE_NAME;
     }
 
     @Override
