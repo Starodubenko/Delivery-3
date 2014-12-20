@@ -25,33 +25,12 @@
         <c:redirect url="/do/welcome"/>
     </c:if>
 
-    <div class="panel-group save-panel">
-        <div class="panel panel-default">
-            <div class="panel-heading edit-panel-heading">
-                <h4 class="panel-title">
-                    <div class="center">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseSearche">
-                            <fmt:message key="view.dispatcher.message.serch"/>
-                        </a>
-                    </div>
-                </h4>
-            </div>
-            <div id="collapseSearche" class="panel-collapse collapse">
-                <div class="panel-body find">
-                    <form id="findForm">
-
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <form class="navbar-form text-center" id="search-form" role="search">
+    <form class="navbar-form text-center" id="search-form" onsubmit="return false;">
         <div class="form-group" id="searchRow">
             <input type="text" class="form-control" name="searchString" id="search" placeholder="Search">
-            <input type="hidden" id="entityName" value="Order">
         </div>
-        <button class="btn btn-default" id="search-button">Submit</button>
+        <input type="hidden" name="entityName" id="entityName" value="Client">
+        <input type="button" class="btn btn-default" id="search-button" value="Search">
     </form>
 
     <div class="orderList panel panel-default">
@@ -66,7 +45,7 @@
         </ul>
         <div class="tab-content">
             <div class="orderListHeight tab-pane active" id="Clients">
-                <div id="clients-block">
+                <div id="Clients-block">
                     <ul id="changee" class="pagination">
                         <li id="cBack"><a href="#page">&laquo;</a></li>
 
@@ -118,7 +97,7 @@
             </div>
 
             <div class="orderListHeight tab-pane" id="Orders">
-                <div id="orders-block">
+                <div id="Orders-block">
                     <ul id="change" class="pagination">
                         <li id="oBack"><a href="#page">&laquo;</a></li>
 

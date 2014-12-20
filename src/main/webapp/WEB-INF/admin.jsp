@@ -173,13 +173,12 @@
             <div class="clear"></div>
         </div>
 
-            <t:footer></t:footer>
-
-
         <script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
         <script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>
         <script src="<c:url value="/webjars/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"/>"></script>
         <script src="<c:url value="/script/admin.js"/>"></script>
     </body>
+
+    <t:footer></t:footer>
     </html>
 </fmt:bundle>

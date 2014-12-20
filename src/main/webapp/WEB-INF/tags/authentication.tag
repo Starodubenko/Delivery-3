@@ -32,8 +32,7 @@
                     <input type="text" name="authenticationPassword" class="form-control" id="inputPassword"
                            value="EleEle">
 
-                    <input type="button" class="loginbtn btn btn-primary"
-                           value="<fmt:message key="authentication.button.login"/>" id="goLogin">
+                    <input type="button" class="loginbtn btn btn-primary" value="<fmt:message key="authentication.button.login"/>" id="goLogin">
                     <button type="button" class="registrationbtn btn btn-primary" data-toggle="modal"
                             data-target="#RegistrationForm">
                         <fmt:message key="authentication.button.registration"/>

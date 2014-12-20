@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
-@MappedAction("GET/findClient")
+@MappedAction("POST/findClient")
 public class AjaxFindClientAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxFindClientAction.class);
     private ActionResult order = new ActionResult("clientsBlock");

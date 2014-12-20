@@ -9,26 +9,26 @@ import java.util.*;
 
 public class Searcher<T extends AbstractEntity, E extends AbstractH2Dao> {
     private static final UtilDao utilDao = new UtilDao();
+    private Connection conn;
 
-//    public static Map<Integer,Integer> sortByValue(Map<Integer,Integer> unsortMap) {
-//        List list = new LinkedList(unsortMap.entrySet());
-//
-//        Collections.sort(list, new Comparator() {
-//            public int compare(Object o1, Object o2) {
-//                return ((Comparable) ((Map.Entry) (o1)).getValue()).compareTo(((Map.Entry) (o2)).getValue());
-//            }
-//        });
-//
-//        Map sortedMap = new LinkedHashMap();
-//        for (Iterator it = list.iterator(); it.hasNext();) {
-//            Map.Entry entry = (Map.Entry) it.next();
-//            sortedMap.put(entry.getKey(), entry.getValue());
-//        }
-//        return sortedMap;
-//    }
+    public static Map sortByValue(Map unsortMap) {
+        List list = new LinkedList(unsortMap.entrySet());
 
+        Collections.sort(list, new Comparator() {
+            public int compare(Object o1, Object o2) {
+                int i = ((Comparable) ((Map.Entry) (o1)).getValue())
+                        .compareTo(((Map.Entry) (o2)).getValue());
+                return i * -1;
+            }
+        });
 
-    private  Connection conn;
+        Map sortedMap = new LinkedHashMap();
+        for (Iterator it = list.iterator(); it.hasNext(); ) {
+            Map.Entry entry = (Map.Entry) it.next();
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+        return sortedMap;
+    }
 
     private List<Object> parseSearchString(String searchString) {
         List<Object> findingValues = new ArrayList<>();
@@ -37,13 +37,11 @@ public class Searcher<T extends AbstractEntity, E extends AbstractH2Dao> {
         Object val = null;
 
         for (String s : value) {
-            try {
-                val = utilDao.getIntValue(s);
-            } catch (Exception e){
-                if (val == null) val = utilDao.getDateValue(s);
-                if (val == null) val = s;
-            }
-
+            val = utilDao.getIntValue(s);
+            if (val != null) findingValues.add(s);
+            if (val == null) val = utilDao.getDateValue(s);
+            if (val == null) val = utilDao.getTimeValue(s);
+            if (val == null) val = s;
             findingValues.add(val);
         }
         return findingValues;
@@ -112,12 +110,32 @@ public class Searcher<T extends AbstractEntity, E extends AbstractH2Dao> {
         return columns;
     }
 
-    public Map<Integer, Integer> find(String searchString, E genericDao, int rowsCount, int firstRow) {
+    private int getFoundEntitiesCount(String queryString) {
+        int count = 0;
+        queryString = "SELECT count(*) " + queryString.toUpperCase().substring(queryString.indexOf("FROM"),queryString.indexOf("LIMIT"));
 
-        Map<Integer, Integer> entitiesProbability = new HashMap<>();
+        PreparedStatement prstm = null;
+        ResultSet resultSet = null;
+        try {
+            prstm = conn.prepareStatement(queryString);
+            resultSet = prstm.executeQuery();
+            while (resultSet.next())
+                count = resultSet.getInt("count(*)");
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm, resultSet);
+        }
+        return count;
+    }
+
+    public SearchResult find(String searchString, E genericDao, int rowsCount, int firstRow) {
+
         conn = genericDao.getConn();
+        SearchResult result = new SearchResult();
+        Map<Integer, Integer> entitiesProbability = new HashMap<>();
 
-        if (searchString != null && !searchString.equals("")){
+        if (searchString != null && !searchString.equals("")) {
 
             List<Object> values = parseSearchString(searchString);
 
@@ -130,7 +148,11 @@ public class Searcher<T extends AbstractEntity, E extends AbstractH2Dao> {
                 String tableNamesString = getTableNamesString(necessaryColumns);
 
                 String findByParametersWithoutColumns = genericDao.getFindByParametersWithoutColumns();
-                findByParametersWithoutColumns = String.format(findByParametersWithoutColumns, genericDao.getIdField() + " %s "); //add compulsory field
+                String idField;
+                if (necessaryColumns.size() == 1 && necessaryColumns.get(0).equals("ID")) {
+                    idField = genericDao.getIdField().replace(",", "");
+                } else idField = genericDao.getIdField();
+                findByParametersWithoutColumns = String.format(findByParametersWithoutColumns, idField + " %s "); //add compulsory field
                 queryString = String.format(findByParametersWithoutColumns, tableNamesString);
                 queryString = String.format(queryString + " %s", "%s " + genericDao.getLimitOffset());
 
@@ -138,9 +160,9 @@ public class Searcher<T extends AbstractEntity, E extends AbstractH2Dao> {
                 StringBuilder afterWherePartString = new StringBuilder();
                 for (String name : necessaryColumns) {
                     afterWherePartString.append(" or ");
-                    if (!name.equals("ID")) afterWherePartString.append(name);
+                    if (!name.equals("ID")) afterWherePartString.append("lower(" + name + ")");
                     else afterWherePartString.append(genericDao.getIdField().replace(",", ""));
-                    afterWherePartString.append(" like '%" + value + "%'");
+                    afterWherePartString.append(" like lower('%" + value + "%')");
                 }
 
                 queryString = String.format(queryString, " where " + afterWherePartString.toString().substring(afterWherePartString.toString().indexOf("or") + 3));
@@ -149,8 +171,8 @@ public class Searcher<T extends AbstractEntity, E extends AbstractH2Dao> {
                 ResultSet resultSet = null;
                 try {
                     prstm = conn.prepareStatement(queryString);
-                    prstm.setInt(1,rowsCount);
-                    prstm.setInt(2,firstRow);
+                    prstm.setInt(1, rowsCount);
+                    prstm.setInt(2, firstRow);
                     resultSet = prstm.executeQuery();
                     while (resultSet.next()) {
                         int id = resultSet.getInt("ID");
@@ -160,6 +182,8 @@ public class Searcher<T extends AbstractEntity, E extends AbstractH2Dao> {
                             entitiesProbability.put(id, 1);
                         }
                     }
+
+                    result.setTotalFoundEntitiesCount(getFoundEntitiesCount(queryString));
                 } catch (SQLException e) {
                     throw new DaoException(e);
                 } finally {
@@ -175,8 +199,8 @@ public class Searcher<T extends AbstractEntity, E extends AbstractH2Dao> {
             ResultSet resultSet = null;
             try {
                 prstm = conn.prepareStatement(queryString);
-                prstm.setInt(1,rowsCount);
-                prstm.setInt(2,firstRow);
+                prstm.setInt(1, rowsCount);
+                prstm.setInt(2, firstRow);
                 resultSet = prstm.executeQuery();
                 while (resultSet.next()) {
                     int id = resultSet.getInt("ID");
@@ -186,6 +210,7 @@ public class Searcher<T extends AbstractEntity, E extends AbstractH2Dao> {
                         entitiesProbability.put(id, 1);
                     }
                 }
+                result.setTotalFoundEntitiesCount(getFoundEntitiesCount(queryString));
             } catch (SQLException e) {
                 throw new DaoException(e);
             } finally {
@@ -193,6 +218,7 @@ public class Searcher<T extends AbstractEntity, E extends AbstractH2Dao> {
             }
         }
 
-        return entitiesProbability;
+        result.setFoundEntitiesMap(sortByValue(entitiesProbability));
+        return result;
     }
 }

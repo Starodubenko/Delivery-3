@@ -14,11 +14,11 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
-@MappedAction("GET/findOrder")
+@MappedAction("POST/findOrder")
 public class AjaxFindOrderAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxFindOrderAction.class);
 
-    private ActionResult orderr = new ActionResult("ordersBlock");
+    private ActionResult order = new ActionResult("ordersBlock");
     private ActionResult jsonn = new ActionResult("json");
 
     @Override
@@ -32,6 +32,6 @@ public class AjaxFindOrderAction implements Action {
 
         daoManager.closeConnection();
 
-        return orderr;
+        return order;
     }
 }

@@ -1,19 +1,19 @@
 $(document).ready(function () {
 
-    $('#search-button').click(function () {
+    $('#search-form').on('click', '#search-button', function (){
         var entityName = $('#entityName').val();
 
-        $.get("find" + entityName + "?" + $('#search-form').serialize(),
+        $.post("find" + entityName, $('#search-form').serialize(),
             function (data) {
                 $("#" + entityName + "s-block").html(data);
             })
     });
 
-    $('#search').keydown(function () {
+    $('#search-form').keydown(function () {
         var entityName = $('#entityName').val();
 
         if (event.keyCode == 13) {
-            $.get("find" + entityName + "?" + $('#search-form').serialize(),
+            $.post("find" + entityName, $('#search-form').serialize(),
                 function (data) {
                     $("#" + entityName + "s-block").html(data);
                 })
@@ -200,7 +200,7 @@ $(document).ready(function () {
 //            });
 //    });
 
-    $('#orders-block').on('click', 'tr', function () {
+    $('#Orders-block').on('click', 'tr', function () {
         $('tr').removeClass('info');
         $(this).addClass('info');
 
@@ -209,11 +209,9 @@ $(document).ready(function () {
             function (data) {
                 $('#collapseOne').html(data);
             });
-//        $('#collapseOne').addClass('collapsing');
-//        $('#collapseOne').addClass('collapse in');
     });
 
-    $('#clients-block').on('click', 'tr', function () {
+    $('#Clients-block').on('click', 'tr', function () {
         $('tr').removeClass('info');
         $(this).addClass('info');
 
@@ -222,28 +220,13 @@ $(document).ready(function () {
             function (data) {
                 $('#collapseOne').html(data);
             });
-//        $('#collapseOne').addClass('collapsing');
-//        $('#collapseOne').addClass('collapse in');
-    });
-
-    $('.find').on('click', '#search', function () {
-        var entityName = $('#entityName').val();
-
-        $.get("find" + entityName + "?" + $('#findForm').serialize(),
-            function (data) {
-                $("#" + entityName + "s-block").html(data);
-            })
-    });
-
-    $('.searchDate').datepicker({
-        format: 'yyyy-mm-dd'
     });
 
     $('li.table').click(function () {
         var tab = $(this).attr('value');
         $.get('checkTable' + '?' + "entityName=" + tab,
             function (data) {
-                $('#findForm').html(data);
+                $('#search-form').html(data);
             })
 
     })

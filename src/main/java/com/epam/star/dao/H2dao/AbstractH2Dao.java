@@ -1,6 +1,7 @@
 package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.util.PaginatedList;
+import com.epam.star.dao.util.SearchResult;
 import com.epam.star.dao.util.Searcher;
 import com.epam.star.entity.AbstractEntity;
 
@@ -61,18 +62,17 @@ public abstract class AbstractH2Dao<T extends AbstractEntity, E extends Abstract
     }
 
     public PaginatedList<T> findRange(int firstRow, int rowsCount, int pageNumber,  E genericDao, String searchString) {
-        int count = getRecordsCount();
 
         PaginatedList<T> result = new PaginatedList<>();
-//        Searcher searcher = daoManager.getSearcher();
-        Map<Integer, Integer> foundEntitiesProbabilityMap = SEARCHER.find(searchString, genericDao, rowsCount, firstRow);
+        SearchResult searchResult = SEARCHER.find(searchString, genericDao, rowsCount, firstRow);
+        Map<Integer, Integer> foundEntitiesProbabilityMap = searchResult.getFoundEntitiesMap();
 
         for (Integer id : foundEntitiesProbabilityMap.keySet()) {
             AbstractEntity entity = genericDao.findById(id.intValue());
             result.add((T) entity);
         }
 
-        result.setTotalRowsCount(count);
+        result.setTotalRowsCount(searchResult.getTotalFoundEntitiesCount());
         result.setPageNumber(pageNumber);
         result.setRowsPerPage(rowsCount);
 

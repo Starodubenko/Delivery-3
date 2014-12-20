@@ -13,86 +13,12 @@ body {
     margin: 20px auto;
 }
 
-.contactInformation {
-    width: 200px;
-    height: 300px;
-    background-color: aliceblue;
-    position: inherit;
-    margin-left: 10px;
-    margin-top: 280px;
-    margin-bottom: 10px;
-    border-width: 1px;
-    border-color: #6FBBDB;
-}
-
-.banner {
-    margin: 10px auto;
-    width: 600px;
-    height: 400px;
-}
-
-.authentication {
-    width: 200px;
-    margin: 10px;
-    float: right;
-}
-
-.registration {
-    margin: 10px;
-}
-
-#name {
-    text-align: right;
-}
-
-#surname {
-    text-align: left;
-}
-
-.name_surname {
-    color: black;
-    font-size: 15px;
-    margin: 0px;
-    font-family: Times new Roman;
-}
-
-text {
-    margin: 5px;
-}
-
-.registrationbtn {
-    padding: 5px;
-    margin-right: 10px;
-    margin-left: 10px;
-    margin-top: 10px;
-    margin-bottom: 0px;
-    float: right;
-}
-
-.loginbtn {
-    padding: 5px;
-    margin-right: 10px;
-    margin-left: 10px;
-    margin-top: 10px;
-    margin-bottom: 0px;
-}
-
 .border {
     margin: 5px;
     padding: 0px;
     border: solid;
     border-width: 1px;
     border-color: #6FBBDB;
-}
-
-.logoutbtn {
-    width: 100%;
-    height: 20px;
-    padding: 0px;
-}
-
-#Welcome {
-    margin: 0px 50px;
 }
 
 .alignHorizontalCenter {
@@ -125,10 +51,8 @@ text {
     margin: auto;
 }
 
-.searchRow {
-    margin-top: 10px;
-    margin-left: 33%;
-    margin-bottom: 10px;
+#search-form {
+    margin-top: 200px;
 }
 
 .searcheWidth {
@@ -180,10 +104,6 @@ text {
 
 }
 
-.datepicker {
-    z-index: 1151 !important;
-}
-
 .rows-count {
     width: 280px;
 }
@@ -213,9 +133,5 @@ text {
     float: left;
     height: 30px;
     width: 50px;
-}
-
-.find-form{
-    /*width: 300px;*/
 }
 
