@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.sql.Time;
 
-@MappedAction("GET/saveOrderData")
+@MappedAction("POST/saveOrderData")
 public class AjaxSaveOrderData implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxSaveOrderData.class);
 
@@ -41,11 +41,9 @@ public class AjaxSaveOrderData implements Action {
             daoManager.closeConnection();
         }
 
-        JSONObject json = null;
-        if (order != null) {
-            json = new JSONObject();
-            json.put("errorMessage", "Order saved successful !");
-        } else json.put("errorMessage", "During savig the order an error has occurred !");
+        JSONObject json = new JSONObject();
+        if (order != null) json.put("errorMessage", "Order saved successful !");
+        else json.put("errorMessage", "During savig the order an error has occurred !");
 
         request.setAttribute("json", json);
 
@@ -55,22 +53,13 @@ public class AjaxSaveOrderData implements Action {
 
     private Order createOrder(HttpServletRequest request, DaoManager daoManager) throws ActionException {
 
-        Order order = null;
-        String idString = request.getParameter("id");
-        idString = String.valueOf(request.getAttribute("id"));
-        int index = -1;
-        if (idString != null)
-            index = Integer.parseInt(request.getParameter("id"));
+        Order order = (Order)request.getSession().getAttribute("order");
 
-        OrderDao orderDao = daoManager.getOrderDao();
         GoodsDao goodsDao = daoManager.getGoodsDao();
         PeriodDao periodDao = daoManager.getPeriodDao();
 
-        order = orderDao.findById(index);
-
         order.setGoods(goodsDao.findByGoodsName(request.getParameter("goods-name")));
-        int count = Integer.parseInt(request.getParameter("goods-count"));
-        order.setCount(count);
+        order.setCount(Integer.parseInt(request.getParameter("goods-count")));
         order.setDeliveryDate(Date.valueOf(request.getParameter("delivery-date")));
         order.setPeriod(periodDao.findByPeriod(Time.valueOf(request.getParameter("delivery-time"))));
         String addInfo = request.getParameter("additional-info");

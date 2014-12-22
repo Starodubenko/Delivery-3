@@ -44,7 +44,7 @@ public class Validator {
     public boolean checkUserName(String name){
         pattern = Pattern.compile(USER_NAME);
         matcher = pattern.matcher(name);
-        results.put("username", String.valueOf(matcher.matches()));
+        results.put("login", String.valueOf(matcher.matches()));
         return matcher.matches();
     }
 

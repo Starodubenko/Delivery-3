@@ -8,7 +8,7 @@
         <input type="hidden" id="ordersPageNumber" value="${ordersPaginatedList.getPageNumber()}"/>
         <tr>
             <th>
-                <p><fmt:message key="view.dispatcher.table.orders.message.select.all"/></p>
+                <p><fmt:message key="orders.message.select.all"/></p>
 
                 <div class="checkbox">
                     <label>
@@ -16,15 +16,15 @@
                     </label>
                 </div>
             </th>
-            <th><fmt:message key="view.dispatcher.table.orders.message.id"/></th>
-            <th><fmt:message key="view.dispatcher.table.orders.message.order.date"/></th>
-            <th><fmt:message key="view.dispatcher.table.orders.message.goods.name"/></th>
-            <th><fmt:message key="view.dispatcher.table.orders.message.goods.count"/></th>
-            <th><fmt:message key="view.dispatcher.table.orders.message.order.cost"/></th>
-            <th><fmt:message key="view.dispatcher.table.orders.message.delivery.date"/></th>
-            <th><fmt:message key="view.dispatcher.table.orders.message.delivery.time"/></th>
-            <th><fmt:message key="view.dispatcher.table.orders.message.additional.info"/></th>
-            <th><fmt:message key="view.dispatcher.table.orders.message.status"/></th>
+            <th><fmt:message key="orders.message.id"/></th>
+            <th><fmt:message key="orders.message.order.date"/></th>
+            <th><fmt:message key="orders.message.goods.name"/></th>
+            <th><fmt:message key="orders.message.goods.count"/></th>
+            <th><fmt:message key="orders.message.order.cost"/></th>
+            <th><fmt:message key="orders.message.delivery.date"/></th>
+            <th><fmt:message key="orders.message.delivery.time"/></th>
+            <th><fmt:message key="orders.message.additional.info"/></th>
+            <th><fmt:message key="orders.message.status"/></th>
         </tr>
         <c:forEach var="row" items="${ordersPaginatedList}">
             <tr data-toggle="collapse" data-parent="#accordion">

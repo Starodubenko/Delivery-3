@@ -35,5 +35,4 @@
     </div>
 
     <script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
-    <script src="<c:url value="/script/navigation.js"/>"></script>
 </fmt:bundle>

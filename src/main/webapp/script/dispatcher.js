@@ -3,7 +3,7 @@ $(document).ready(function () {
     $('#search-form').on('click', '#search-button', function (){
         var entityName = $('#entityName').val();
 
-        $.post("find" + entityName, $('#search-form').serialize(),
+        $.post("find" + entityName, $('#search-form').serialize() + "&" + $(".rowsCountForm").serialize(),
             function (data) {
                 $("#" + entityName + "s-block").html(data);
             })
@@ -13,7 +13,7 @@ $(document).ready(function () {
         var entityName = $('#entityName').val();
 
         if (event.keyCode == 13) {
-            $.post("find" + entityName, $('#search-form').serialize(),
+            $.post("find" + entityName, $('#search-form').serialize() + "&" + $(".rowsCountForm").serialize(),
                 function (data) {
                     $("#" + entityName + "s-block").html(data);
                 })
@@ -205,9 +205,10 @@ $(document).ready(function () {
         $(this).addClass('info');
 
         ID = $(this).children().eq(1).text();
+        console.info(ID);
         $.get("SetOrderToEditFields", {id: ID},
             function (data) {
-                $('#collapseOne').html(data);
+                $('#editForm').html(data);
             });
     });
 
@@ -218,7 +219,7 @@ $(document).ready(function () {
         ID = $(this).children().eq(0).text();
         $.get("SetClientToEditFields", {id: ID},
             function (data) {
-                $('#collapseOne').html(data);
+                $('#editForm').html(data);
             });
     });
 
@@ -226,10 +227,18 @@ $(document).ready(function () {
         var tab = $(this).attr('value');
         $.get('checkTable' + '?' + "entityName=" + tab,
             function (data) {
-                $('#search-form').html(data);
+                $('#table-name').html(data);
             })
+    });
 
-    })
+    $('#confirmModal').on('click','#confirmSave', function (){
+
+        var table = $('#entityName').val();
+        $.post("save"+table+"Data",$('#editForm').serialize(),
+            function (data) {
+                $('#saveMessage').html(data.errorMessage);
+            })
+    });
 
 });
 

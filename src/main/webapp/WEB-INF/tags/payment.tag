@@ -9,7 +9,7 @@
         <label> ${user.getVirtualBalance()} </label>
         <br>
         <button class="logoutbtn btn btn-primary" data-toggle="modal" data-target="#Payment">
-            <fmt:message key="payment.button.topup"/>
+            <fmt:message key="button.topup"/>
         </button>
     </div>
 
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary"><fmt:message key="payment.button.pay"/></button>
+                        <button type="submit" class="btn btn-primary"><fmt:message key="button.pay"/></button>
                     </div>
                 </div>
             </div>

@@ -32,7 +32,7 @@
         </div>
 
         <c:if test="${empty user}">
-            <div class="nonLogin"><h1><fmt:message key="order.create.message.unlogin"/></h1></div>
+            <div class="nonLogin"><h1><fmt:message key="message.unlogin"/></h1></div>
         </c:if>
 
         <c:if test="${not empty user}">
@@ -83,19 +83,19 @@
                     <div class="radio">
                         <label>
                             <input type="radio" name="paymentType" value="online" checked>
-                            <fmt:message key="order.create.message.online"/>
+                            <fmt:message key="message.online"/>
                         </label>
                     </div>
                     <div class="radio">
                         <label>
                             <input type="radio" name="paymentType" value="cache">
-                            <fmt:message key="order.create.message.cache"/>
+                            <fmt:message key="message.cache"/>
                         </label>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="create"><fmt:message
-                            key="order.create.button.create.order"/></button>
+                            key="button.create.order"/></button>
                 </div>
             </div>
         </c:if>

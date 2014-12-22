@@ -24,16 +24,16 @@
                     <table class="table table-hover">
                         <tr>
                             <th></th>
-                            <th><fmt:message key="view.client.orders.client.table.id"/></th>
-                            <th><fmt:message key="view.client.orders.client.table.order.date"/></th>
-                            <th><fmt:message key="view.client.orders.client.table.goods.name"/></th>
-                            <th><fmt:message key="view.client.orders.client.table.goods.count"/></th>
-                            <th><fmt:message key="view.client.orders.client.table.order.cost"/></th>
-                            <th><fmt:message key="view.client.orders.client.table.paid"/></th>
-                            <th><fmt:message key="view.client.orders.client.table.delivery.date"/></th>
-                            <th><fmt:message key="view.client.orders.client.table.delivery.time"/></th>
-                            <th><fmt:message key="view.client.orders.client.table.additional.info"/></th>
-                            <th><fmt:message key="view.client.orders.client.table.status"/></th>
+                            <th><fmt:message key="orders.message.id"/></th>
+                            <th><fmt:message key="orders.message.order.date"/></th>
+                            <th><fmt:message key="orders.message.goods.name"/></th>
+                            <th><fmt:message key="orders.message.goods.count"/></th>
+                            <th><fmt:message key="orders.message.order.cost"/></th>
+                            <th><fmt:message key="orders.message.paid"/></th>
+                            <th><fmt:message key="orders.message.delivery.date"/></th>
+                            <th><fmt:message key="orders.message.delivery.time"/></th>
+                            <th><fmt:message key="orders.message.additional.info"/></th>
+                            <th><fmt:message key="orders.message.status"/></th>
                         </tr>
                         <c:forEach var="row" items="${todayOrders}">
                             <tr>

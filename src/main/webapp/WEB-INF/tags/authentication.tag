@@ -17,7 +17,7 @@
                     <p align="center" class="name_surname">${user.getLastName()}</p>
                     <br>
                     <input type="submit" class="logoutbtn btn btn-primary"
-                           value="<fmt:message key="authentication.button.logout"/>">
+                           value="<fmt:message key="button.logout"/>">
                 </form>
             </div>
         </c:if>
@@ -29,14 +29,12 @@
 
                     <div class="center"><label for="inputPassword"><fmt:message key="authentication.password"/></label>
                     </div>
-                    <input type="text" name="authenticationPassword" class="form-control" id="inputPassword"
+                    <input type="password" name="authenticationPassword" class="form-control" id="inputPassword"
                            value="EleEle">
 
-                    <input type="button" class="loginbtn btn btn-primary" value="<fmt:message key="authentication.button.login"/>" id="goLogin">
-                    <button type="button" class="registrationbtn btn btn-primary" data-toggle="modal"
-                            data-target="#RegistrationForm">
-                        <fmt:message key="authentication.button.registration"/>
-                    </button>
+                    <input type="button" class="logoutbtn btn btn-primary" value="<fmt:message key="button.login"/>" id="goLogin">
+                    <br>
+                    <a href="<c:url value="/do/registration"/>"><fmt:message key="button.registration"/></a>
                 </form>
                 <p class="name_surname errorRegistationLabel" id="errorLogin"></p>
             </div>

@@ -27,10 +27,12 @@
 
     <form class="navbar-form text-center" id="search-form" onsubmit="return false;">
         <div class="form-group" id="searchRow">
-            <input type="text" class="form-control" name="searchString" id="search" placeholder="Search">
+            <input type="text" class="form-control" name="searchString" id="search" placeholder="<fmt:message key="message.search"/>">
         </div>
-        <input type="hidden" name="entityName" id="entityName" value="Client">
-        <input type="button" class="btn btn-default" id="search-button" value="Search">
+        <input type="button" class="btn btn-default" id="search-button" value="<fmt:message key="button.search"/>">
+        <div id="table-name">
+            <input type="hidden" name="entityName" id="entityName" value="Client">
+        </div>
     </form>
 
     <div class="orderList panel panel-default">
@@ -38,10 +40,10 @@
         <ul class="nav nav-tabs  nav-justified" role="tablist">
             <li id="t1" class="active table" value="Clients"><a href="#Clients" role="tab"
                                                                 data-toggle="tab"><fmt:message
-                    key="view.dispatcher.table.clients.header"/></a>
+                    key="clients.header"/></a>
             </li>
             <li id="t2" class="table" value="Orders"><a href="#Orders" role="tab" data-toggle="tab"><fmt:message
-                    key="view.dispatcher.table.orders.header"/></a></li>
+                    key="orders.header"/></a></li>
         </ul>
         <div class="tab-content">
             <div class="orderListHeight tab-pane active" id="Clients">
@@ -57,21 +59,21 @@
                         <li id="cNext"><a href="#page">&raquo;</a></li>
                     </ul>
 
-                    <t:rowsCount></t:rowsCount>
+                    <t:rowsCount target="client" targetRowsCount="${clientsPaginatedList.getRowsPerPage()}"/>
 
                     <div class="orderListHeight tab-pane" style="overflow-y: scroll">
                         <table class="table table-hover" ID="clientsTable">
                             <input type="hidden" id="clientsPageNumber"
                                    value="${clientsPaginatedList.getPageNumber()}"/>
                             <tr>
-                                <th><fmt:message key="view.dispatcher.table.clients.message.ID"/></th>
-                                <th><fmt:message key="view.dispatcher.table.clients.message.last.name"/></th>
-                                <th><fmt:message key="view.dispatcher.table.clients.message.first.name"/></th>
-                                <th><fmt:message key="view.dispatcher.table.clients.message.middle.name"/></th>
-                                <th><fmt:message key="view.dispatcher.table.clients.message.address"/></th>
-                                <th><fmt:message key="view.dispatcher.table.clients.message.telephone"/></th>
-                                <th><fmt:message key="view.dispatcher.table.clients.message.mobilephone"/></th>
-                                <th><fmt:message key="view.dispatcher.table.clients.button.order"/></th>
+                                <th><fmt:message key="clients.message.ID"/></th>
+                                <th><fmt:message key="clients.message.last.name"/></th>
+                                <th><fmt:message key="clients.message.first.name"/></th>
+                                <th><fmt:message key="clients.message.middle.name"/></th>
+                                <th><fmt:message key="clients.message.address"/></th>
+                                <th><fmt:message key="clients.message.telephone"/></th>
+                                <th><fmt:message key="clients.message.mobilephone"/></th>
+                                <th><fmt:message key="button.order"/></th>
                             </tr>
                             <c:forEach var="row" items="${clientsPaginatedList}">
                                 <tr>
@@ -86,7 +88,7 @@
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
                                                 value="${row.getId()}"
                                                 data-target="#myModel"><fmt:message
-                                                key="view.dispatcher.table.clients.message.create.order"/>
+                                                key="clients.message.create.order"/>
                                         </button>
                                     </td>
                                 </tr>
@@ -110,20 +112,21 @@
                     </ul>
 
                     <select class="form-control switcher floatRight" id="switchStatusOrser">
-                        <option>Waiting</option>
-                        <option>Active</option>
-                        <option>Canceled</option>
-                        <option>Executed</option>
+                        <option value="waiting"><fmt:message key="message.waiting"/></option>
+                        <option value="active"><fmt:message key="message.active"/></option>
+                        <option value="canceled"><fmt:message key="message.canceled"/></option>
+                        <option value="executed"><fmt:message key="message.executed"/></option>
+                        <option value="all"><fmt:message key="message.allorders"/></option>
                     </select>
 
-                    <t:rowsCount></t:rowsCount>
+                    <t:rowsCount target="order" targetRowsCount="${ordersPaginatedList.getRowsPerPage()}"/>
 
                     <div class="orderListHeight tab-pane" style="overflow-y: scroll">
                         <table class="table table-hover" ID="ordersTable">
                             <input type="hidden" id="ordersPageNumber" value="${ordersPaginatedList.getPageNumber()}"/>
                             <tr>
                                 <th>
-                                    <p><fmt:message key="view.dispatcher.table.orders.message.select.all"/></p>
+                                    <p><fmt:message key="orders.message.select.all"/></p>
 
                                     <div class="checkbox">
                                         <label>
@@ -131,15 +134,15 @@
                                         </label>
                                     </div>
                                 </th>
-                                <th><fmt:message key="view.dispatcher.table.orders.message.id"/></th>
-                                <th><fmt:message key="view.dispatcher.table.orders.message.order.date"/></th>
-                                <th><fmt:message key="view.dispatcher.table.orders.message.goods.name"/></th>
-                                <th><fmt:message key="view.dispatcher.table.orders.message.goods.count"/></th>
-                                <th><fmt:message key="view.dispatcher.table.orders.message.order.cost"/></th>
-                                <th><fmt:message key="view.dispatcher.table.orders.message.delivery.date"/></th>
-                                <th><fmt:message key="view.dispatcher.table.orders.message.delivery.time"/></th>
-                                <th><fmt:message key="view.dispatcher.table.orders.message.additional.info"/></th>
-                                <th><fmt:message key="view.dispatcher.table.orders.message.status"/></th>
+                                <th><fmt:message key="orders.message.id"/></th>
+                                <th><fmt:message key="orders.message.order.date"/></th>
+                                <th><fmt:message key="orders.message.goods.name"/></th>
+                                <th><fmt:message key="orders.message.goods.count"/></th>
+                                <th><fmt:message key="orders.message.order.cost"/></th>
+                                <th><fmt:message key="orders.message.delivery.date"/></th>
+                                <th><fmt:message key="orders.message.delivery.time"/></th>
+                                <th><fmt:message key="orders.message.additional.info"/></th>
+                                <th><fmt:message key="orders.message.status"/></th>
                             </tr>
                             <c:forEach var="row" items="${ordersPaginatedList}">
                                 <tr data-toggle="collapse" data-parent="#accordion">
@@ -165,24 +168,24 @@
                     </div>
                 </div>
 
-                <input type="button" class="ordersButtons btn btn-primary" value="<fmt:message key="view.dispatcher.button.cancel.the.order"/>" id="cancel">
-                <input type="button" class="ordersButtons btn btn-primary" value="<fmt:message key="view.dispatcher.button.accept.the.order"/>" id="accept">
-                <input type="button" class="ordersButtons btn btn-primary" value="<fmt:message key="view.dispatcher.button.restore.the.order"/>" id="restore">
+                <input type="button" class="ordersButtons btn btn-primary" value="<fmt:message key="button.cancel.order"/>" id="cancel">
+                <input type="button" class="ordersButtons btn btn-primary" value="<fmt:message key="button.accept.order"/>" id="accept">
+                <input type="button" class="ordersButtons btn btn-primary" value="<fmt:message key="button.restore.order"/>" id="restore">
 
             </div>
 
             <div class="panel-group edit-panel" id="accordion">
                 <div class="panel panel-default">
                     <div class="panel-heading edit-panel-heading">
-                        <h4 class="panel-title">
+                        <h4 class="panel-title text-center">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                <fmt:message key="view.dispatcher.message.edit"/>
+                                <fmt:message key="message.edit"/>
                             </a>
                         </h4>
                     </div>
                     <div id="collapseOne" class="panel-collapse collapse">
                         <div class="panel-body">
-                            <form id="changeForm" action="${pageContext.request.contextPath}/do/saveOrderData">
+                            <form id="editForm" method="post" onsubmit="return false;">
 
                             </form>
                         </div>
@@ -203,11 +206,11 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span
                         aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="confirmModalLabel">Do you confirm to change the data</h4>
+                <h4 class="modal-title text-center" id="confirmModalLabel"><fmt:message key="message.save.confinm"/></h4>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                <button type="submit" class="btn btn-primary" form="changeForm">Yes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" form="editForm" id="confirmSave"><fmt:message key="message.yes"/></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><fmt:message key="message.no"/></button>
             </div>
         </div>
     </div>
@@ -223,7 +226,7 @@
                         aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title" id="myModalLabel"><fmt:message key="order.create.message.header"/></h4>
             </div>
-                <%--<form action="${pageContext.request.contextPath}/do/fastCreateOrder">--%>
+
             <div>
                 <div class="orderText form-group">
                     <div class="center"><label for="Date"><fmt:message
@@ -272,10 +275,8 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="create"><fmt:message
-                        key="order.create.button.create.order"/></button>
+                        key="button.create.order"/></button>
             </div>
-
-                <%--</form>--%>
         </div>
     </div>
 </div>

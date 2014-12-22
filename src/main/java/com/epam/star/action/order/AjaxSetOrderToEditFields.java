@@ -26,15 +26,12 @@ public class AjaxSetOrderToEditFields implements Action {
 
         int id = Integer.parseInt(request.getParameter("id"));
 
-
         H2OrderDao orderDao = daoManager.getOrderDao();
-
         Order order = orderDao.findById(id);
 
         request.setAttribute("order", order);
 
         daoManager.closeConnection();
-
         return editOrdersRow;
     }
 }

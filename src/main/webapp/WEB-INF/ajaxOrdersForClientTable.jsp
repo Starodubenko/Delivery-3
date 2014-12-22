@@ -91,9 +91,9 @@
         </div>
         <button type="button" class="createOrderButton btn btn-primary" data-toggle="modal"
                 data-target="#myModal">
-            <fmt:message key="view.client.button.order.create"/>
+            <fmt:message key="button.create.order"/>
         </button>
         <input type="submit" class="cancelOrderButton btn btn-primary" data-toggle="modal"
-               data-target="#cancelOrder" value="<fmt:message key="view.client.button.order.cansel"/>">
+               data-target="#cancelOrder" value="<fmt:message key="button.cancel.order"/>">
     </form>
 </fmt:bundle>

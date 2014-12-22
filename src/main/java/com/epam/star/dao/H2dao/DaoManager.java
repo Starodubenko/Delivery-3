@@ -65,18 +65,6 @@ public class DaoManager {
         }
     }
 
-    public Object executeAndCloce(DaoCommand comand) throws DaoException {
-        try {
-            return comand.execute(this);
-        } finally {
-            try {
-                this.connection.close();
-            } catch (SQLException e) {
-                throw new DaoException(e);
-            }
-        }
-    }
-
     public AbstractH2Dao getDao(String name) {
         Constructor<?> constructor;
         constructor = daosMap.get(name).getConstructors()[1];

@@ -1,0 +1,12 @@
+.border{
+    width: 400px;
+    padding: 30px;
+    margin-left: 200px;
+}
+
+.regex-describe{
+    float: right;
+    width: 500px;
+    padding: 20px;
+    margin: 20px;
+}

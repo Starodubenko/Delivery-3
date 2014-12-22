@@ -5,13 +5,13 @@
     <table class="table table-hover" ID="clientsTable">
         <input type="hidden" id="clientsPageNumber" value="${clientsPaginatedList.getPageNumber()}"/>
         <tr>
-            <th><fmt:message key="view.dispatcher.table.clients.message.ID"/></th>
-            <th><fmt:message key="view.dispatcher.table.clients.message.last.name"/></th>
-            <th><fmt:message key="view.dispatcher.table.clients.message.first.name"/></th>
-            <th><fmt:message key="view.dispatcher.table.clients.message.middle.name"/></th>
-            <th><fmt:message key="view.dispatcher.table.clients.message.address"/></th>
-            <th><fmt:message key="view.dispatcher.table.clients.message.telephone"/></th>
-            <th><fmt:message key="view.dispatcher.table.clients.message.mobilephone"/></th>
+            <th><fmt:message key="clients.message.ID"/></th>
+            <th><fmt:message key="clients.message.last.name"/></th>
+            <th><fmt:message key="clients.message.first.name"/></th>
+            <th><fmt:message key="clients.message.middle.name"/></th>
+            <th><fmt:message key="clients.message.address"/></th>
+            <th><fmt:message key="clients.message.telephone"/></th>
+            <th><fmt:message key="clients.message.mobilephone"/></th>
         </tr>
         <c:forEach var="row" items="${clientsPaginatedList}">
             <tr>

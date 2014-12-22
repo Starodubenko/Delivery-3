@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
-@MappedAction("GET/saveClientData")
+@MappedAction("POST/saveClientData")
 public class AjaxSaveClientDataAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxSaveClientDataAction.class);
     ActionResult jsonn = new ActionResult("json");
@@ -36,11 +36,9 @@ public class AjaxSaveClientDataAction implements Action {
             daoManager.closeConnection();
         }
 
-        JSONObject json = null;
-        if (client != null) {
-            json = new JSONObject();
-            json.put("errorMessage", "Order saved successful !");
-        } else json.put("errorMessage", "During savig the client an error has occurred !");
+        JSONObject json = new JSONObject();
+        if (client != null) json.put("errorMessage", "Client saved successful !");
+        else json.put("errorMessage", "During saving the client an error has occurred !");
 
         request.setAttribute("json", json);
 
@@ -50,22 +48,18 @@ public class AjaxSaveClientDataAction implements Action {
 
     private Client createClient(HttpServletRequest request, DaoManager daoManager) throws ActionException {
 
-        Client client = null;
-        String idString = request.getParameter("id");
-        int index = -1;
-        if (idString != null)
-            index = Integer.parseInt(request.getParameter("id"));
+        Client client = (Client)request.getSession().getAttribute("client");
 
-        ClientDao clientDao = daoManager.getClientDao();
-
-        client = clientDao.findById(index);
-
-        client.setFirstName(request.getParameter("first-name"));
-        client.setMiddleName(request.getParameter("middle-name"));
-        client.setLastName(request.getParameter("last-name"));
-        client.setAddress(request.getParameter("address"));
-        client.setTelephone(request.getParameter("telephone"));
-        client.setMobilephone(request.getParameter("mobilephone"));
+        if (client != null) {
+            client.setFirstName(request.getParameter("first-name"));
+            client.setMiddleName(request.getParameter("middle-name"));
+            client.setLastName(request.getParameter("last-name"));
+            client.setAddress(request.getParameter("address"));
+            client.setTelephone(request.getParameter("telephone"));
+            client.setMobilephone(request.getParameter("mobilephone"));
+        } else {
+            LOGGER.error("Client does not exist: {}", client);
+        }
 
         return client;
     }

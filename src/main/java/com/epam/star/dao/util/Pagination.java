@@ -7,16 +7,12 @@ import com.epam.star.util.PropertiesManager;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Pagination<T extends AbstractEntity, E extends AbstractH2Dao> {
     private static PropertiesManager jdbcProperties;
 
     public static final int DEFAULT_PAGE_NUMBER;
     public static final int DEFAULT_ROWS_COUNT;
-
-    private static Map<String, String> fieldsMap = new HashMap<>();
 
     private static final UtilDao utilDao = new UtilDao();
 
@@ -40,26 +36,9 @@ public class Pagination<T extends AbstractEntity, E extends AbstractH2Dao> {
             rowsCount = utilDao.getIntValue(targetName + "rows", request);
         int firstRow = pageNumber * rowsCount - rowsCount;
 
-//        Map<String, String> queryMap = getQueryMap(request, genericDao);
-//        PaginatedList<T> paginatedList = genericDao.findRange(firstRow, rowsCount, pageNumber,  queryMap);
         String searchString = utilDao.getString("searchString", request);
         PaginatedList<T> paginatedList = genericDao.findRange(firstRow, rowsCount, pageNumber, genericDao, searchString);
 
         request.setAttribute(targetName + "PaginatedList", paginatedList);
-    }
-
-    private Map<String, String> getQueryMap(HttpServletRequest request, E genericDao) {
-
-        Map<String, String> result = new HashMap<>();
-        Map<String, String> sqlParametersMap = genericDao.getParametersMap();
-
-        Map<String, String[]> parameterMap = request.getParameterMap();
-
-        for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
-            if (sqlParametersMap.get(entry.getKey()) != null)
-                if (entry.getValue() != null && entry.getValue()[0] != "")
-                    result.put(entry.getKey(), entry.getValue()[0]);
-        }
-        return result;
     }
 }

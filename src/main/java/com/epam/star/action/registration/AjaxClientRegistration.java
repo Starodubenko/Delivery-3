@@ -52,8 +52,10 @@ public class AjaxClientRegistration implements Action {
             } finally {
                 daoManager.closeConnection();
             }
-            request.setAttribute("registrationSuccessful", "Registration was successful");
-            return success;
+            if (jsonObject.length() < 1 ){
+                request.setAttribute("registrationSuccessful", "Registration was successful");
+                return success;
+            }
         } else LOGGER.info("Creation of a client failed, {}", client);
         return result;
     }

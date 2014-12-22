@@ -16,7 +16,6 @@ public class AjaxCheckTableAction implements Action {
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
 
         String name = request.getParameter("entityName");
-        System.out.println(name);
         request.setAttribute("entityName", name);
 
         return tableRow;

@@ -83,7 +83,6 @@ public class Order extends AbstractEntity {
     }
 
     public void setOrderDate(java.util.Date orderDate) {
-
         this.orderDate = new Date(orderDate.getTime());
     }
 
@@ -108,6 +107,7 @@ public class Order extends AbstractEntity {
     }
 
     public void setCount(int count) {
+        orderCost = goods.getPrice().multiply(new BigDecimal(count));
         this.count = count;
     }
 
@@ -132,6 +132,7 @@ public class Order extends AbstractEntity {
     }
 
     public void setGoods(Goods goods) {
+        orderCost = goods.getPrice().multiply(new BigDecimal(count));
         this.goods = goods;
     }
 

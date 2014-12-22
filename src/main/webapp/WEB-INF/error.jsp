@@ -9,27 +9,20 @@
     <head>
         <title><fmt:message key="farm.name"/></title>
         <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>'>
-        <link rel='stylesheet' href='<c:url value="/style/welcome.css"/>'>
-        <link rel='stylesheet' href='<c:url value="/style/navigation.css"/>'>
         <link rel='stylesheet' href='<c:url value="/style/error.css"/>'>
         <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet'
               type='text/css'>
     </head>
-    <body>
-    <t:navigation></t:navigation>
+    <t:gbody>
+        <div class="panel panel-default error-block">
+            <div class="code-error">
+                <p>${statusCode}</p>
+            </div>
 
-    <div class="panel panel-default error-block">
-        <div class="code-error">
-            <p>${statusCode}</p>
+            <div class="text-error">
+                <p><fmt:message key="${statusCode}"/></p>
+            </div>
         </div>
-
-        <div class="text-error">
-            <p><fmt:message key="${statusCode}"/></p>
-        </div>
-            <%--${message}--%>
-    </div>
-
-    <t:footer></t:footer>
-    </body>
+    </t:gbody>
     </html>
 </fmt:bundle>

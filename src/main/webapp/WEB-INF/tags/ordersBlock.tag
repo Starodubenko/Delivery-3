@@ -1,4 +1,3 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
@@ -43,15 +42,15 @@
                                     </label>
                                 </div>
                             </th>
-                            <th><fmt:message key="orders.message.id"/></th>
-                            <th><fmt:message key="orders.message.order.date"/></th>
-                            <th><fmt:message key="orders.message.goods.name"/></th>
-                            <th><fmt:message key="orders.message.goods.count"/></th>
-                            <th><fmt:message key="orders.message.order.cost"/></th>
-                            <th><fmt:message key="orders.message.delivery.date"/></th>
-                            <th><fmt:message key="orders.message.delivery.time"/></th>
-                            <th><fmt:message key="orders.message.additional.info"/></th>
-                            <th><fmt:message key="orders.message.status"/></th>
+                            <th>ID</th>
+                            <th>Order date</th>
+                            <th>Goods name</th>
+                            <th>Goods count</th>
+                            <th>Order cost</th>
+                            <th>Delivery date</th>
+                            <th>Delivery time</th>
+                            <th>Additional info</th>
+                            <th>Status</th>
                         </tr>
                         <c:forEach var="row" items="${ordersPaginatedList}">
                             <tr data-toggle="collapse" data-parent="#accordion">

@@ -29,7 +29,7 @@ public class AjaxSetClientToEditFieldsAction implements Action {
         H2ClientDao clientDao = daoManager.getClientDao();
         Client client = clientDao.findById(id);
 
-        request.setAttribute("client", client);
+        request.getSession().setAttribute("client", client);
 
         daoManager.closeConnection();
         return editClientsRow;
