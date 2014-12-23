@@ -6,17 +6,11 @@
 
 <fmt:bundle basename="i18n.messages">
     <html>
-
-    <head>
-        <title>Welcome</title>
-        <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>'>
+    <t:gHead>
         <link rel='stylesheet' href='<c:url value="/webjars/bootstrap-datepicker/1.3.0/css/datepicker3.css"/>'>
         <link rel='stylesheet' href='<c:url value="/style/admin.css"/>'>
-    </head>
-    <body background="<c:url value="/style/img/background.jpg"/>" onload="">
-
-    <t:navigation></t:navigation>
-
+    </t:gHead>
+    <t:gbody>
     <div class="main panel panel-default">
             <t:authentication></t:authentication>
 
@@ -172,13 +166,8 @@
 
             <div class="clear"></div>
         </div>
-
-        <script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
-        <script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>
+        </t:gbody>
         <script src="<c:url value="/webjars/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"/>"></script>
         <script src="<c:url value="/script/admin.js"/>"></script>
-    </body>
-
-    <t:footer></t:footer>
     </html>
 </fmt:bundle>

@@ -10,6 +10,7 @@ import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.entity.Client;
 import com.epam.star.entity.Employee;
 import com.epam.star.entity.Order;
+import com.epam.star.entity.Position;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,7 @@ import java.util.Date;
 public class CreateOrderAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateOrderAction.class);
 
-    ActionResult client = new ActionResult("ordersTable", true);
+    ActionResult client = new ActionResult("message");
     ActionResult jsonn = new ActionResult("json");
 
     @Override
@@ -45,11 +46,10 @@ public class CreateOrderAction implements Action {
             daoManager.closeConnection();
         }
 
-        JSONObject json = null;
+        JSONObject json = new JSONObject();
         if (order != null) {
-            json = new JSONObject();
-            json.put("errorMessage", "Order created successful !");
-        } else json.put("errorMessage", "During creating the order an error has occurred !");
+            request.setAttribute("message", "order.created.successful");
+        } else request.setAttribute("message", "during.creating.error.occurred");
 
         request.setAttribute("json", json);
 
@@ -82,22 +82,23 @@ public class CreateOrderAction implements Action {
 
             order = new Order();
             order.setUser(user);
-            order.setCount(Integer.parseInt(request.getParameter("goodscount")));
+            int count = Integer.parseInt(request.getParameter("goodscount"));
+            order.setGoods(goodsDao.findByGoodsName(request.getParameter("goodsname")));
+            order.setCount(count);
             order.setPeriod(periodDao.findByPeriod(Time.valueOf(request.getParameter("deliverytime"))));
-            order.setGoods(goodsDao != null ? goodsDao.findByGoodsName(request.getParameter("goodsname")) : null);
-            order.setOrderCost(orderCost);
-            boolean res;
-            res = debitFunds(request, daoManager, user);
+//            order.setOrderCost(orderCost);
+            boolean res = debitFunds(request, daoManager, user);
             if (res)
                 order.setPaid(orderCost);
             else order.setPaid(new BigDecimal(0));
+
             try {
                 order.setDeliveryDate(new SimpleDateFormat("dd.MM.yyyy").parse(request.getParameter("deliverydate")));
             } catch (ParseException e) {
                 throw new ActionException(e);
             }
             order.setAdditionalInfo(request.getParameter("additionalinformation"));
-            order.setStatus(statusDao != null ? statusDao.findByStatusName("waiting") : null);
+            order.setStatus(statusDao.findByStatusName("waiting"));
             order.setOrderDate(new Date());
 
         } catch (Exception e) {
@@ -122,10 +123,9 @@ public class CreateOrderAction implements Action {
         boolean online = paymentType.equals("online");
 
         BigDecimal clientBalance = user.getVirtualBalance();
-        BigDecimal goodsPricee = goodsDao.findByGoodsName(request.getParameter("goodsname")).getPrice();
         if (!user.getRole().equals(positionDao.findByPositionName("Client")))
-            goodsPricee = goodsPricee.divide(new BigDecimal(2));
-        BigDecimal res = user.getVirtualBalance().subtract(goodsPricee.multiply(new BigDecimal(request.getParameter("goodscount"))));
+            goodsPrice = goodsPrice.divide(new BigDecimal(2));
+        BigDecimal res = user.getVirtualBalance().subtract(goodsPrice.multiply(new BigDecimal(request.getParameter("goodscount"))));
 
         if (online && (clientBalance.compareTo(goodsPrice) == 0 || clientBalance.compareTo(goodsPrice) == 1))
             onlinePayment = true;
@@ -133,8 +133,11 @@ public class CreateOrderAction implements Action {
 
         if (onlinePayment) {
             user.setVirtualBalance(res);
+            Position role = user.getRole();
+            Position role1 = positionDao.findByPositionName("Client");
+            boolean equals = role.equals(role1);
             if (user.getRole().equals(positionDao.findByPositionName("Client")))
-                clientDao.updateEntity((Client) user);
+                clientDao.updateEntity(user);
             else employeeDao.updateEntity((Employee) user);
             return true;
         }

@@ -1,9 +1,9 @@
-//$('.datepicker').datepicker({
-//    format: "dd.mm.yyyy",
-////    daysOfWeekDisabled: "0,6",
-////    todayHighlight: true,
-//    startDate: '+0d'
-//});
+$('.datepicker').datepicker({
+    format: "dd.mm.yyyy",
+//    daysOfWeekDisabled: "0,6",
+//    todayHighlight: true,
+    startDate: '+0d'
+});
 
 $('.datetimepicker').datetimepicker({
     pickDate: false
@@ -20,18 +20,8 @@ $('.timepicker').timepicker({
 
 $('#create').click(function () {
 
-    var deliverydate = $('#Date').val();
-    var deliverytime = $('#PeriodTime').val();
-    var goodsname = $('#GoodsName').val();
-    var goodscount = $('#Count').val();
-    var additionalinformation = $('#AdditionalInformation').val();
-    var paymenttype = $(':radio[name="paymentType"]').val();
-
-    alert(paymenttype);
-
-    $.get("fastCreateOrder", {deliverydate: deliverydate, deliverytime: deliverytime,
-            goodsname: goodsname, goodscount: goodscount, additionalinformation: additionalinformation, paymentType: paymenttype},
+    $.get("fastCreateOrder", $("#createForm").serialize(),
         function (data) {
-            $('#errorCreatingOrder').html(data.errorMessage);
+            $('.final-message').html(data);
         });
 });

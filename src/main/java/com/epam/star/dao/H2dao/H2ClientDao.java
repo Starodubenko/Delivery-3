@@ -14,7 +14,7 @@ import java.sql.SQLException;
 
 public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
-    private static final String ADD_CLIENT = "INSERT INTO USERS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String ADD_CLIENT = "INSERT INTO USERS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String RANGE_CLIENT = "SELECT * FROM users LIMIT ? OFFSET ?";
     private static final String UPDATE_CLIENT = "UPDATE USERS SET ID = ?, LOGIN = ?, PASSWORD = ?, FIRSTNAME = ?, " +
             "LASTNAME = ?, MIDDLENAME = ?, ADDRESS = ?, TELEPHONE = ?, MOBILEPHONE = ?," +
@@ -220,6 +220,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm.setString(13, null);
             prstm.setInt(14, client.getRole().getId());
             prstm.setBigDecimal(15, client.getVirtualBalance());
+            prstm.setString(16, null);
             prstm.execute();
             status = "Client added successfully";
         } catch (SQLException e) {

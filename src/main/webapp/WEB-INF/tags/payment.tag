@@ -42,4 +42,31 @@
             </div>
         </form>
     </div>
+
+    <div class="modal fade" id="Payment" tabindex="-1" role="dialog" aria-labelledby="PaymentLabel"
+         aria-hidden="true">
+        <form action="${pageContext.request.contextPath}/do/payment" method="post">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span
+                                aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="PaymentLabel">Payment</h4>
+                    </div>
+                    <div class="paymentform">
+                        <div class="form-group">
+                            <p for="SecretCode" align="center">input the secret code of your payment card</p>
+                            <input type="text" name="SecretCode" placeholder="Enter the secret code"
+                                   class="form-control"
+                                   id="SecretCode">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Pay</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close payment form</button>
+    </div>
 </fmt:bundle>

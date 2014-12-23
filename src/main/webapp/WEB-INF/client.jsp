@@ -6,22 +6,12 @@
 
 <fmt:bundle basename="i18n.messages">
     <html>
-
-    <head>
-        <title>Welcome</title>
-        <link rel='stylesheet' href='<c:url value="/webjars/bootstrap-datepicker/1.3.0/css/datepicker3.css"/>'>
+    <t:gHead>
         <link rel='stylesheet'
               href='<c:url value="/webjars/bootstrap-datetimepicker/2.3.1/css/bootstrap-datetimepicker.css"/>'>
-        <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>'>
-
         <link rel='stylesheet' href='<c:url value="/style/client.css"/>'>
-    </head>
-    <body>
-
-    <t:navigation></t:navigation>
-
-    <div class="main panel panel-default">
-
+    </t:gHead>
+    <t:gbody>
         <div class="client-info">
             <t:authentication></t:authentication>
 
@@ -33,10 +23,11 @@
                 <img class="avatar panel panel-default" src="/image/${clientAvatar.getFilename()}">
             </div>
 
-            <form  id="image-form" action="<c:url value="/do/setImageForUser"/>" method="post" enctype="multipart/form-data">
-                <input class="center-block" type="file" name="image" id="image">
+            <form id="image-form" action="<c:url value="/do/setImageForUser"/>" method="post"
+                  enctype="multipart/form-data">
+                <input class="image-block-buttons" type="file" name="image" id="image">
 
-                <div class="save-button">
+                <div class="image-block-buttons">
                     <button class="btn btn-default logoutbtn" type="submit">Save</button>
                 </div>
             </form>
@@ -68,114 +59,79 @@
                 </div>
             </div>
         </div>
-
         <div class="clear"></div>
 
-    </div>
 
-    <t:footer></t:footer>
-
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="createOrderLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span
-                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="createOrderLabel">Create order</h4>
-                </div>
-                <form action="${pageContext.request.contextPath}/do/fastCreateOrder">
-                    <div class="registration">
-
-                        <div class="orderText form-group">
-                            <label for="Date">Delivery date</label>
-                            <input type="text" name="deliverydate" placeholder="Date"
-                                   class="form-control datetimepicker"
-                                   id="Date">
-                        </div>
-                        <div class="orderText form-group">
-                            <label for="PeriodTime">Delivery time</label>
-                            <select class="form-control" name="deliverytime" value="Time" class="form-control"
-                                    id="PeriodTime">
-                                <c:forEach var="period" items="${periods}">
-                                    <option>${period.period}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div class="orderText form-group">
-                            <label for="GoodsName">Goods type</label>
-                            <select class="form-control" name="goodsname" value="Goods name" class="form-control"
-                                    id="GoodsName">
-                                <c:forEach var="goodss" items="${goods}">
-                                    <option>${goodss.getGoodsName()}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div class="orderText form-group">
-                            <label for="Count">Goods count</label>
-                            <input type="text" name="goodscount" placeholder="Count" class="form-control" id="Count">
-                        </div>
-                        <div class="form-group">
-                            <label for="Additional Information">Additional Information</label>
-                            <textarea name="additionalinformation" value="Count" class="form-control"
-                                      id="Additional Information">
-                            </textarea>
-                        </div>
-                    </div>
-                    <div class="paymentType form-group">
-                        <label class="paymentTypeContent">Online</label><input type="radio" name="paymentType"
-                                                                               value="online">
-                        <label class="paymentTypeContent">Cache</label><input type="radio" name="paymentType"
-                                                                              value="cache">
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close order form
-                        </button>
-                        <button type="submit" class="btn btn-primary">Create order</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="Payment" tabindex="-1" role="dialog" aria-labelledby="PaymentLabel"
-         aria-hidden="true">
-        <form action="${pageContext.request.contextPath}/do/payment" method="post">
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="createOrderLabel"
+             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span
                                 aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="PaymentLabel">Payment</h4>
+                        <h4 class="modal-title" id="createOrderLabel">Create order</h4>
                     </div>
-                    <div class="paymentform">
-                        <div class="form-group">
-                            <p for="SecretCode" align="center">input the secret code of your payment card</p>
-                            <input type="text" name="SecretCode" placeholder="Enter the secret code"
-                                   class="form-control"
-                                   id="SecretCode">
+                    <form action="${pageContext.request.contextPath}/do/fastCreateOrder">
+                        <div class="registration">
+
+                            <div class="orderText form-group">
+                                <label for="Date">Delivery date</label>
+                                <input type="text" name="deliverydate" placeholder="Date"
+                                       class="form-control datetimepicker"
+                                       id="Date">
+                            </div>
+                            <div class="orderText form-group">
+                                <label for="PeriodTime">Delivery time</label>
+                                <select class="form-control" name="deliverytime" value="Time" class="form-control"
+                                        id="PeriodTime">
+                                    <c:forEach var="period" items="${periods}">
+                                        <option>${period.period}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="orderText form-group">
+                                <label for="GoodsName">Goods type</label>
+                                <select class="form-control" name="goodsname" value="Goods name" class="form-control"
+                                        id="GoodsName">
+                                    <c:forEach var="goodss" items="${goods}">
+                                        <option>${goodss.getGoodsName()}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="orderText form-group">
+                                <label for="Count">Goods count</label>
+                                <input type="text" name="goodscount" placeholder="Count" class="form-control"
+                                       id="Count">
+                            </div>
+                            <div class="form-group">
+                                <label for="Additional Information">Additional Information</label>
+                            <textarea name="additionalinformation" value="Count" class="form-control"
+                                      id="Additional Information">
+                            </textarea>
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Pay</button>
-                    </div>
+                        <div class="paymentType form-group">
+                            <label class="paymentTypeContent">Online</label><input type="radio" name="paymentType"
+                                                                                   value="online">
+                            <label class="paymentTypeContent">Cache</label><input type="radio" name="paymentType"
+                                                                                  value="cache">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close order form
+                            </button>
+                            <button type="submit" class="btn btn-primary">Create order</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </form>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close payment form</button>
-    </div>
+        </div>
 
-
-    <div class="clear"></div>
-
-
-    <script src="<c:url value="/webjars/jquery/1.11.1/jquery.js"/>"></script>
-    <script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>
+        <div class="clear"></div>
+    </t:gbody>
     <script src="<c:url value="/webjars/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"/>"></script>
     <script src="<c:url value="/webjars/bootstrap-datetimepicker/2.3.1/js/bootstrap-datetimepicker.js"/>"></script>
     <script src="<c:url value="/script/client.js"/>"></script>
-    </body>
     </html>
 </fmt:bundle>
 

@@ -7,13 +7,28 @@
 <fmt:bundle basename="i18n.messages">
     <link rel='stylesheet' href='<c:url value="/style/welcome.css"/>'>
     <link rel="stylesheet" href="<c:url value="/style/registration.css"/> ">
+    <head>
+        <title><fmt:message key="farm.name"/></title>
+    </head>
     <t:gbody>
         <div class="regex-describe panel panel-default">
             <dl class="dl-horizontal">
-                <dt>Login: </dt>
-                <dd>Not more 20 symbolsNot more 20 symbolsNot more 20 symbolsNot more 20 symbolsNot more 20 symbolsNot more 20 symbols</dd>
-                <dt>Login: </dt>
-                <dd>Not more 20 symbolsNot more 20 symbolsNot more 20 symbolsNot more 20 symbolsNot more 20 symbolsNot more 20 symbols</dd>
+                <dt><fmt:message key="clients.message.login"/>: </dt>
+                <dd><fmt:message key="message.login.describe"/></dd>
+                <dt><fmt:message key="clients.message.password"/>: </dt>
+                <dd><fmt:message key="message.password.describe"/></dd>
+                <dt><fmt:message key="clients.message.last.name"/>: </dt>
+                <dd><fmt:message key="message.lastname.describe"/></dd>
+                <dt><fmt:message key="clients.message.first.name"/>: </dt>
+                <dd><fmt:message key="message.firstname.describe"/></dd>
+                <dt><fmt:message key="clients.message.middle.name"/>: </dt>
+                <dd><fmt:message key="message.middlename.describe"/></dd>
+                <dt><fmt:message key="clients.message.address"/>: </dt>
+                <dd><fmt:message key="message.address.describe"/></dd>
+                <dt><fmt:message key="clients.message.telephone"/>: </dt>
+                <dd><fmt:message key="message.telephone.describe"/></dd>
+                <dt><fmt:message key="clients.message.mobilephone"/>: </dt>
+                <dd><fmt:message key="message.mobilephone.describe"/></dd>
             </dl>
         </div>
         <div class="border">
@@ -30,17 +45,17 @@
 
                     <p for="Login" class="text-center errorRegistationLabel" id="passwordInput"></p>
                 </div>
-                <div class="form-group text-center" id="firstnameDiv">
-                    <label for="Firstname"><fmt:message key="clients.message.first.name"/></label>
-                    <input type="text" name="firstname" value="Ivan" class="form-control" id="Firstname">
-
-                    <p for="Login" class="text-center errorRegistationLabel" id="firstnameInput"></p>
-                </div>
                 <div class="form-group text-center" id="lastnameDiv">
                     <label for="Lastname"><fmt:message key="clients.message.last.name"/></label>
                     <input type="text" name="lastname" value="Ivanov" class="form-control" id="Lastname">
 
                     <p for="Login" class="text-center errorRegistationLabel" id="lastnameInput"></p>
+                </div>
+                <div class="form-group text-center" id="firstnameDiv">
+                    <label for="Firstname"><fmt:message key="clients.message.first.name"/></label>
+                    <input type="text" name="firstname" value="Ivan" class="form-control" id="Firstname">
+
+                    <p for="Login" class="text-center errorRegistationLabel" id="firstnameInput"></p>
                 </div>
                 <div class="form-group text-center" id="middlenameDiv">
                     <label for="Middlename"><fmt:message key="clients.message.middle.name"/></label>

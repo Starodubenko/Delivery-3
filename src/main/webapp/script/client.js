@@ -47,3 +47,8 @@ $('form input[type=file]').change(function () {
         });
 });
 
+$('').on('click','',function(){
+
+
+});
+

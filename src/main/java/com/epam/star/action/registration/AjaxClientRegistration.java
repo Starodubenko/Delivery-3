@@ -23,7 +23,7 @@ import java.util.List;
 public class AjaxClientRegistration implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxClientRegistration.class);
     private ActionResult result = new ActionResult("json");
-    private ActionResult success = new ActionResult("footerSuccessfulClientReg");
+    private ActionResult success = new ActionResult("message");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
@@ -34,7 +34,7 @@ public class AjaxClientRegistration implements Action {
         Client client = createClient(request, validator, jsonObject);
 
         if (client != null) {
-            jsonObject.put("registrationSuccessful", "Registration was successful");
+            request.setAttribute("message", "registration.successful");
 
             daoManager.beginTransaction();
             try {
@@ -48,14 +48,11 @@ public class AjaxClientRegistration implements Action {
                 daoManager.commit();
             } catch (Exception e) {
                 daoManager.rollback();
-                jsonObject.put("registrationSuccessful", "Login is already occupied");
+                request.setAttribute("message", "login.already.occupied");
             } finally {
                 daoManager.closeConnection();
             }
-            if (jsonObject.length() < 1 ){
-                request.setAttribute("registrationSuccessful", "Registration was successful");
-                return success;
-            }
+            return success;
         } else LOGGER.info("Creation of a client failed, {}", client);
         return result;
     }
@@ -85,7 +82,8 @@ public class AjaxClientRegistration implements Action {
             } else {
                 List<String> invalidFields = validator.getInvalidFields();
                 for (String invalidField : invalidFields) {
-                    jsonObject.put(invalidField + "NotValid", invalidField + " is not valid");
+                    jsonObject.put(invalidField + "NotValid", invalidField + ".is.not.valid");
+//                    jsonObject.put(invalidField + "NotValid","<fmt:message key=\"message."+invalidField+".is.not.valid\"/>");
                 }
             }
         } finally {

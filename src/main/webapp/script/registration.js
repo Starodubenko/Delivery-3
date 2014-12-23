@@ -5,33 +5,33 @@ $('#goRegistration').click(function () {
 
     $.post("ajaxClientRegistration", $('#regForm').serialize(), function (data) {
 
-        console.log("data.json: " + data);
-        if (data.registrationSuccessful != null) $('#message').html(data.registrationSuccessful);
-        else {
-            console.log("data: " + data.loginNotValid);
+        console.log(typeof data );
+        if (typeof data != "object") {
+            $('#message').html(data);
+        } else {
 
-            $('#loginInput').html(data.loginNotValid);
+            //$('#loginInput').html(data.loginNotValid);
             if (data.loginNotValid != null) $('#loginDiv').addClass("has-error");
 
-            $('#passwordInput').html(data.passwordNotValid);
+            //$('#passwordInput').html(data.passwordNotValid);
             if (data.passwordNotValid != null) $('#passwordDiv').addClass("has-error");
 
-            $('#firstnameInput').html(data.firstnameNotValid);
+            //$('#firstnameInput').html(data.firstnameNotValid);
             if (data.firstnameNotValid != null) $('#firstnameDiv').addClass("has-error");
 
-            $('#lastnameInput').html(data.lastnameNotValid);
+            //$('#lastnameInput').html(data.lastnameNotValid);
             if (data.lastnameNotValid != null) $('#lastnameDiv').addClass("has-error");
 
-            $('#middlenameInput').html(data.middlenameNotValid);
+            //$('#middlenameInput').html(data.middlenameNotValid);
             if (data.middlenameNotValid != null) $('#middlenameDiv').addClass("has-error");
 
-            $('#addressInput').html(data.addressNotValid);
+            //$('#addressInput').html(data.addressNotValid);
             if (data.addressNotValid != null) $('#addressDiv').addClass("has-error");
 
-            $('#telephoneInput').html(data.telephoneNotValid);
+            //$('#telephoneInput').html(data.telephoneNotValid);
             if (data.telephoneNotValid != null) $('#telephoneDiv').addClass("has-error");
 
-            $('#mobilephoneInput').html(data.mobilephoneNotValid);
+            //$('#mobilephoneInput').html(data.mobilephoneNotValid);
             if (data.mobilephoneNotValid != null) $('#mobilephoneDiv').addClass("has-error");
         }
     })

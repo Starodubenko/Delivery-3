@@ -5,12 +5,9 @@
 
 <fmt:bundle basename="i18n.messages">
     <html>
-
-    <head>
-        <title><fmt:message key="farm.name"/></title>
-        <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>'>
+    <t:gHead>
         <link rel='stylesheet' href='<c:url value="/style/welcome.css"/>'>
-    </head>
+    </t:gHead>
     <t:gbody>
         <t:authentication/>
 

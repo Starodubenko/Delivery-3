@@ -7,7 +7,7 @@
     <html>
 
     <head>
-        <title>Welcome</title>
+        <title><fmt:message key="farm.name"/></title>
         <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>'>
         <link rel='stylesheet' href='<c:url value="/style/welcome.css"/>'>
     </head>

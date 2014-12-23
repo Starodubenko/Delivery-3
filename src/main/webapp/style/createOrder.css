@@ -1,21 +1,4 @@
-body {
-    background: url("img/background.jpg");
-    background-size: 100%;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
 
-label p {
-    font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
-}
-
-.main {
-    width: 1282px;
-    min-height: 800px;
-    margin: 20px auto;
-}
 
 .clear {
     clear: both;
@@ -47,19 +30,16 @@ label p {
     margin-right: 5%;
 }
 
-.client-info {
-    float: right;
-    margin-top: 10px;
-    margin-right: 10px;
-    width: 200px;
-}
-
 .nonLogin {
     margin-left: auto;
     margin-right: auto;
     margin-top: auto;
     margin-bottom: auto;
     text-align: center;
+}
+
+.final-message{
+    
 }
 
 .datepicker {

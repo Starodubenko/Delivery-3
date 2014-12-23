@@ -40,12 +40,15 @@ public class CancelOrderAction implements Action {
                 for (String id : idCheckedOrders) {
                     int index = Integer.parseInt(id);
                     Order order = orderDao.findById(index);
-                    Status status = statusDao.findByStatusName("canceled");
-                    order.setStatus(status);
 
-                    orderDao.updateEntity(order);
+                    if (order.getStatus().getStatusName().equals("active") || order.getStatus().getStatusName().equals("waiting")) {
+                        Status status = statusDao.findByStatusName("canceled");
+                        order.setStatus(status);
 
-                    returnFunds(order, daoManager);
+                        orderDao.updateEntity(order);
+
+                        returnFunds(order, daoManager);
+                    }
                 }
             } else {
                 LOGGER.error("The order was not selected {}");

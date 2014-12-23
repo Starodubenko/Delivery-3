@@ -8,11 +8,10 @@
 <html>
 
 <head>
-    <title>Welcome</title>
+    <title><fmt:message key="farm.name"/></title>
     <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>'>
     <link rel='stylesheet' href='<c:url value="/webjars/bootstrap-datepicker/1.3.0/css/datepicker3.css"/>'>
     <link rel='stylesheet' href='<c:url value="/style/dispatcher.css"/>'>
-    <link rel='stylesheet' href='<c:url value="/style/retractableWindow.css"/>'>
 </head>
 <body background="<c:url value="/style/img/background.jpg"/>" onload="">
 
@@ -230,12 +229,12 @@
             <div>
                 <div class="orderText form-group">
                     <div class="center"><label for="Date"><fmt:message
-                            key="order.create.message.delivery.date"/></label></div>
+                            key="orders.message.order.date"/></label></div>
                     <input type="text" name="deliverydate" value="Date" class="form-control datepicker" id="Date">
                 </div>
                 <div class="orderText form-group">
                     <div class="center"><label for="PeriodTime"><fmt:message
-                            key="order.create.message.delivery.time"/></label></div>
+                            key="orders.message.delivery.time"/></label></div>
                     <select class="form-control" name="deliverytime" value="Time" class="form-control"
                             id="PeriodTime">
                         <c:forEach var="period" items="${periods}">
@@ -245,7 +244,7 @@
                 </div>
                 <div class="orderText form-group">
                     <div class="center"><label for="GoodsName"><fmt:message
-                            key="order.create.message.goods.name"/></label></div>
+                            key="orders.message.goods.name"/></label></div>
                     <select class="form-control" name="goodsname" value="Goods name" class="form-control"
                             id="GoodsName">
                         <c:forEach var="goodss" items="${goods}">
@@ -254,13 +253,13 @@
                     </select>
                 </div>
                 <div class="orderText form-group">
-                    <div class="center"><label for="Count"><fmt:message key="order.create.message.goods.count"/></label>
+                    <div class="center"><label for="Count"><fmt:message key="orders.message.goods.count"/></label>
                     </div>
                     <input type="text" name="goodscount" value="1" class="form-control" id="Count">
                 </div>
                 <div class="orderInfo form-group">
                     <div class="center"><label for="AdditionalInformation"><fmt:message
-                            key="order.create.message.additional.info"/></label></div>
+                            key="orders.message.additional.info"/></label></div>
                     <textarea name="additionalinformation" value="Count" class="form-control"
                               id="AdditionalInformation">
                     </textarea>

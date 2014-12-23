@@ -14,12 +14,12 @@ import java.sql.SQLException;
 
 public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
-    private static final String ADD_EMPLOYEE = "INSERT INTO  USERS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String ADD_EMPLOYEE = "INSERT INTO  USERS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String DELETE_EMPLOYEE = "DELETE FROM users WHERE id = ?";
     private static final String UPDATE_EMPLOYEE =
-            " UPDATE users SET id = ?, login = ?, password = ?, firstname = ?,  lastname = ?, middlename = ?," +
-                    " address = ?, telephone = ?, mobilephone = ?, identitycard = ?, workbook = ?, rnn = ?, sik = ?," +
-                    " position_id = ?, virtual_balance = ? WHERE id = ?";
+            " UPDATE USERS SET ID = ?, LOGIN = ?, PASSWORD = ?, FIRSTNAME = ?,  LASTNAME = ?, MIDDLENAME = ?," +
+                    " ADDRESS = ?, TELEPHONE = ?, MOBILEPHONE = ?, IDENTITYCARD = ?, WORKBOOK = ?, RNN = ?, SIK = ?," +
+                    " POSITION_ID = ?, VIRTUAL_BALANCE = ?, AVATAR = ? WHERE ID = ?";
 
     private static final String NECESSARY_COLUMNS =
             " USERS.ID, USERS.LOGIN, USERS.PASSWORD, USERS.FIRSTNAME, USERS.LASTNAME, " +
@@ -68,7 +68,21 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
 
     @Override
     public Employee findById(int ID) throws DaoException {
-        return null;
+        String sql = "select * from users where id = " + ID;
+        PreparedStatement prstm = null;
+        ResultSet resultSet = null;
+        Employee employee = null;
+        try {
+            prstm = conn.prepareStatement(sql);
+            resultSet = prstm.executeQuery();
+            if (resultSet.next())
+                employee = getEntityFromResultSet(resultSet);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm, resultSet);
+        }
+        return employee;
     }
 
     @Override
@@ -94,6 +108,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
             prstm.setString(13, employee.getSIK());
             prstm.setInt(14, employee.getRole().getId());
             prstm.setBigDecimal(15, employee.getVirtualBalance());
+            prstm.setBigDecimal(16, null);
             prstm.execute();
             status = "Employee added successfully";
         } catch (SQLException e) {
@@ -132,7 +147,8 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
             prstm.setString(13, employee.getSIK());
             prstm.setInt(14, employee.getRole().getId());
             prstm.setBigDecimal(15, employee.getVirtualBalance());
-            prstm.setInt(16, employee.getId());
+            prstm.setInt(16, employee.getAvatar().intValue());
+            prstm.setInt(17, employee.getId());
             prstm.executeUpdate();
             status = "Employee updated successfully";
         } catch (SQLException e) {
@@ -150,6 +166,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
         Employee employee = new Employee();
         try {
             employee.setId(resultSet.getInt("id"));
+            employee.setAvatar(resultSet.getInt("avatar"));
             employee.setLogin(resultSet.getString("login"));
             employee.setPassword(resultSet.getString("password"));
             employee.setFirstName(resultSet.getString("firstname"));

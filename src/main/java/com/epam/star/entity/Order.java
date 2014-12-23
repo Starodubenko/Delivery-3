@@ -107,7 +107,7 @@ public class Order extends AbstractEntity {
     }
 
     public void setCount(int count) {
-        orderCost = goods.getPrice().multiply(new BigDecimal(count));
+        if (goods != null) orderCost = goods.getPrice().multiply(new BigDecimal(count));
         this.count = count;
     }
 

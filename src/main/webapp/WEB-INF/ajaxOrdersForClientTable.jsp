@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <fmt:setLocale value="${locale}"/>
 
 <fmt:bundle basename="i18n.messages">
@@ -16,76 +17,36 @@
                 <table class="table table-hover">
                     <tr>
                         <th></th>
-                        <th><fmt:message key="view.client.orders.client.table.id"/></th>
-                        <th><fmt:message key="view.client.orders.client.table.order.date"/></th>
-                        <th><fmt:message key="view.client.orders.client.table.goods.name"/></th>
-                        <th><fmt:message key="view.client.orders.client.table.goods.count"/></th>
-                        <th><fmt:message key="view.client.orders.client.table.order.cost"/></th>
-                        <th><fmt:message key="view.client.orders.client.table.paid"/></th>
-                        <th><fmt:message key="view.client.orders.client.table.delivery.date"/></th>
-                        <th><fmt:message key="view.client.orders.client.table.delivery.time"/></th>
-                        <th><fmt:message key="view.client.orders.client.table.additional.info"/></th>
-                        <th><fmt:message key="view.client.orders.client.table.status"/></th>
+                        <th><fmt:message key="orders.message.id"/></th>
+                        <th><fmt:message key="orders.message.order.date"/></th>
+                        <th><fmt:message key="orders.message.goods.name"/></th>
+                        <th><fmt:message key="orders.message.goods.count"/></th>
+                        <th><fmt:message key="orders.message.order.cost"/></th>
+                        <th><fmt:message key="orders.message.paid"/></th>
+                        <th><fmt:message key="orders.message.delivery.date"/></th>
+                        <th><fmt:message key="orders.message.delivery.time"/></th>
+                        <th><fmt:message key="orders.message.additional.info"/></th>
+                        <th><fmt:message key="orders.message.status"/></th>
                     </tr>
-                    <c:forEach var="row" items="${todayOrders}">
-                        <tr>
-                            <td>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="IdOrder" value="${row.getId()}">
-                                    </label>
-                                </div>
-                            </td>
-                            <td>${row.getId()}</td>
-                            <td>${row.getOrderDate()}</td>
-                            <td>${row.getGoods().getGoodsName()}</td>
-                            <td>${row.getCount()}</td>
-                            <td>${row.getOrderCost()}</td>
-                            <td>${row.getPaid()}</td>
-                            <td>${row.getDeliveryDate()}</td>
-                            <td>${row.getPeriod().getPeriod()}</td>
-                            <td>${row.getAdditionalInfo()}</td>
-                            <td>${row.getStatus().getStatusName()}</td>
-                        </tr>
-                    </c:forEach>
+                    <t:orderRow orders="${todayOrders}"/>
                 </table>
             </div>
             <div class="orderListHeight tab-pane" id="HistoryOrders" style="overflow: scroll">
                 <table class="table table-hover">
                     <tr>
                         <th></th>
-                        <th><fmt:message key="view.client.orders.client.table.id"/></th>
-                        <th><fmt:message key="view.client.orders.client.table.order.date"/></th>
-                        <th><fmt:message key="view.client.orders.client.table.goods.name"/></th>
-                        <th><fmt:message key="view.client.orders.client.table.goods.count"/></th>
-                        <th><fmt:message key="view.client.orders.client.table.order.cost"/></th>
-                        <th><fmt:message key="view.client.orders.client.table.paid"/></th>
-                        <th><fmt:message key="view.client.orders.client.table.delivery.date"/></th>
-                        <th><fmt:message key="view.client.orders.client.table.delivery.time"/></th>
-                        <th><fmt:message key="view.client.orders.client.table.additional.info"/></th>
-                        <th><fmt:message key="view.client.orders.client.table.status"/></th>
+                        <th><fmt:message key="orders.message.id"/></th>
+                        <th><fmt:message key="orders.message.order.date"/></th>
+                        <th><fmt:message key="orders.message.goods.name"/></th>
+                        <th><fmt:message key="orders.message.goods.count"/></th>
+                        <th><fmt:message key="orders.message.order.cost"/></th>
+                        <th><fmt:message key="orders.message.paid"/></th>
+                        <th><fmt:message key="orders.message.delivery.date"/></th>
+                        <th><fmt:message key="orders.message.delivery.time"/></th>
+                        <th><fmt:message key="orders.message.additional.info"/></th>
+                        <th><fmt:message key="orders.message.status"/></th>
                     </tr>
-                    <c:forEach var="row" items="${pastOrders}">
-                        <tr>
-                            <td>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="IdOrder" value="${row.getId()}">
-                                    </label>
-                                </div>
-                            </td>
-                            <td>${row.getId()}</td>
-                            <td>${row.getOrderDate()}</td>
-                            <td>${row.getGoods().getGoodsName()}</td>
-                            <td>${row.getCount()}</td>
-                            <td>${row.getOrderCost()}</td>
-                            <td>${row.getPaid()}</td>
-                            <td>${row.getDeliveryDate()}</td>
-                            <td>${row.getPeriod().getPeriod()}</td>
-                            <td>${row.getAdditionalInfo()}</td>
-                            <td>${row.getStatus().getStatusName()}</td>
-                        </tr>
-                    </c:forEach>
+                    <t:orderRow orders="${pastOrders}"/>
                 </table>
             </div>
         </div>
