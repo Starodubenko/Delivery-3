@@ -13,6 +13,7 @@ public class Pagination<T extends AbstractEntity, E extends AbstractH2Dao> {
 
     public static final int DEFAULT_PAGE_NUMBER;
     public static final int DEFAULT_ROWS_COUNT;
+    public static final String DEFAULT_ORDER_STATUS = "waiting";
 
     private static final UtilDao utilDao = new UtilDao();
 
@@ -30,13 +31,16 @@ public class Pagination<T extends AbstractEntity, E extends AbstractH2Dao> {
 
         int rowsCount = DEFAULT_ROWS_COUNT;
         int pageNumber = DEFAULT_PAGE_NUMBER;
+        String status = DEFAULT_ORDER_STATUS;
+        if (utilDao.getString("order-status", request) != null)
+            status = utilDao.getString("order-status", request);
         if (utilDao.getIntValue(targetName + "page", request) != null)
             pageNumber = utilDao.getIntValue(targetName + "page", request);
         if (utilDao.getIntValue(targetName + "rows", request) != null)
             rowsCount = utilDao.getIntValue(targetName + "rows", request);
         int firstRow = pageNumber * rowsCount - rowsCount;
 
-        String searchString = utilDao.getString("searchString", request);
+        String searchString = utilDao.getString("searchString", request) + " " + status;
         PaginatedList<T> paginatedList = genericDao.findRange(firstRow, rowsCount, pageNumber, genericDao, searchString);
 
         request.setAttribute(targetName + "PaginatedList", paginatedList);

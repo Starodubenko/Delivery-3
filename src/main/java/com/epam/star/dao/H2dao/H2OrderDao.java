@@ -264,7 +264,8 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             order.setCount(resultSet.getInt("count"));
             order.setDeliveryDate(resultSet.getDate("delivery_date"));
             order.setPeriod(periodDao.findById(resultSet.getInt("period_id")));
-            order.setAdditionalInfo(resultSet.getString("ADDITIONAL_INFO"));
+            order.setAdditionalInfo(UTIL_DAO.getString(resultSet.getString("ADDITIONAL_INFO")));
+//            order.setAdditionalInfo(resultSet.getString("ADDITIONAL_INFO"));
             order.setStatus(statusDao.findById(resultSet.getInt("status_id")));
         } catch (SQLException e) {
             throw new DaoException(e);

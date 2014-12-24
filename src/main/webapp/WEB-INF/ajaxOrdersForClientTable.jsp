@@ -11,7 +11,7 @@
         <li><a href="#HistoryOrders" role="tab" data-toggle="tab"><fmt:message key="client.information.history"/></a>
         </li>
     </ul>
-    <form action="${pageContext.request.contextPath}/do/cancelOrder" id="cancelOrderForm">
+    <form action="${pageContext.request.contextPath}/do/orderOperation" id="cancelOrderForm">
         <div class="tab-content">
             <div class="orderListHeight tab-pane active" id="Today" style="overflow: scroll">
                 <table class="table table-hover">
@@ -50,10 +50,10 @@
                 </table>
             </div>
         </div>
-        <button type="button" class="createOrderButton btn btn-primary" data-toggle="modal"
-                data-target="#myModal">
-            <fmt:message key="button.create.order"/>
-        </button>
+        <%--<button type="button" class="createOrderButton btn btn-primary" data-toggle="modal"--%>
+                <%--data-target="#myModal">--%>
+            <%--<fmt:message key="button.create.order"/>--%>
+        <%--</button>--%>
         <input type="submit" class="cancelOrderButton btn btn-primary" data-toggle="modal"
                data-target="#cancelOrder" value="<fmt:message key="button.cancel.order"/>">
     </form>

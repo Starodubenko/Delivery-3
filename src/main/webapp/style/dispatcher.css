@@ -1,33 +1,3 @@
-body {
-    background: url("img/background.jpg");
-    background-size: 100%;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
-
-.main {
-    width: 1282px;
-    /*min-height: 800px;*/
-    margin: 20px auto;
-}
-
-.border {
-    margin: 5px;
-    padding: 0px;
-    border: solid;
-    border-width: 1px;
-    border-color: #6FBBDB;
-}
-
-.alignHorizontalCenter {
-    margin-top: 5px;
-    margin-bottom: 0px;
-    margin-left: 30%;
-    margin-right: 30%;
-}
-
 .orderText {
     width: 40%;
     float: left;
@@ -36,54 +6,34 @@ body {
 }
 
 .orderListHeight {
-    /*height: 85%;*/
     margin-left: 10px;
     margin-right: 10px;
 }
 
 .orderList {
     border-color: #6FBBDB;
-    /*height: 600px;*/
     margin: 10px 10px 10px 10px;
 }
 
-.pagination {
-    margin: auto;
+.above-table-row {
+    width: 100%;
+    height: 34px;
+    margin-bottom: 40px;
+}
+
+.above-table-row-content{
+    height: 30px;
+    float: left;
+}
+
+.rows-count{
+    float: right;
+    margin-right: 30px;
+    width: 280px;
 }
 
 #search-form {
     margin-top: 200px;
-}
-
-.searcheWidth {
-    width: 150px;
-}
-
-.cancelOrderButton {
-    float: left;
-    width: 150px;
-    margin-top: 10px;
-    margin-left: 5px;
-}
-
-.createOrderPanel {
-    padding: 20px;
-    width: 250px;
-    background: #eeeeee;
-    border: #282828 2px solid;
-    font-family: Georgia;
-}
-
-.edit {
-    float: left;
-    width: 100px;
-    margin: 10px;
-}
-
-.save-panel {
-    margin-top: 160px;
-    margin-left: 10px;
-    margin-right: 10px;
 }
 
 .edit-panel {
@@ -104,34 +54,22 @@ body {
 
 }
 
-.rows-count {
-    width: 280px;
+.under-orders-table-row-content {
+    float: left;
+    margin: 0 10px;
 }
-
-.rows-count-height {
-    height: 30px;
-}
-
-.floatRight {
-    float: right;
-    margin-right: 10px;
-    height: 18px;
+.under-orders-table-row{
+    height: 35px;
 }
 
 .switcher {
+    margin: 20px 10px;
     width: 150px;
     height: 30px;
+    float: right;
 }
 
-.labelCount {
-    float: left;
-    margin-top: 5px;
-    margin-right: 5px;
-}
-
-.textCount {
-    float: left;
-    height: 30px;
-    width: 50px;
+.datepicker{
+    z-index:1151 !important;
 }
 

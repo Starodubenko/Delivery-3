@@ -5,16 +5,15 @@
 <%@ attribute name="targetRowsCount"%>
 
 <fmt:bundle basename="i18n.messages">
-    <div class="form-group rows-count floatRight">
-        <label class="labelCount" for="${target}srows"><fmt:message key="message.rows.count"/></label>
+    <link rel="stylesheet" href="<c:url value="/style/rowsCount.css"/>">
 
-        <form class="rowsCountForm" action="${pageContext.request.contextPath}/do/dispatcher">
-            <div class="input-group rows-count-height">
-                <input type="text" name="${target}srows" id="${target}srows" value="${targetRowsCount}"
-                       class="form-control textCount">
+    <div class="form-group rows-count-block">
+        <label class="labelCount" for="${target}srows"><fmt:message key="message.rows.count"/></label>
+        <form class="" action="${pageContext.request.contextPath}/do/dispatcher">
+            <div class="input-group">
+                <input type="text" name="${target}srows" id="${target}srows" value="${targetRowsCount}" class="form-control count-field">
                         <span class="input-group-btn">
-                            <button class="btn btn-default rows-count-height" type="submit"><fmt:message
-                                    key="button.apply"/></button>
+                            <button class="btn btn-default" type="submit"><fmt:message key="button.apply"/></button>
                         </span>
             </div>
         </form>

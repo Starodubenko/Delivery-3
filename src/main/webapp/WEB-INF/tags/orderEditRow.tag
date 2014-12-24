@@ -4,7 +4,7 @@
 
 <fmt:bundle basename="i18n.messages">
     <div class="tab-pane">
-        <table class="table table-hover" ID="clientsTable">
+        <table class="table table-hover" id="editOrder">
             <tr>
                 <th class="text-center"><fmt:message
                         key="orders.message.goods.name"/></th>
@@ -20,7 +20,7 @@
             </tr>
             <tr>
                 <td>
-                    <select class="form-control" name="goods-name" class="form-control" id="goods-name">
+                    <select class="form-control" name="goods-name" class="form-control">
                         <c:forEach var="goodss" items="${goods}">
                             <option
                                     <c:if test="${order.getGoods().getGoodsName() eq goodss.getGoodsName()}">selected</c:if>>${goodss.getGoodsName()}
@@ -30,18 +30,16 @@
                 </td>
                 <td>
                     <div class="form-group">
-                        <input type="text" name="deliverydate" class="form-control"
-                               value="${order.getCount()}">
+                        <input type="text" name="goods-count" class="form-control" value="${order.getCount()}">
                     </div>
                 </td>
                 <td>
                     <div class="form-group">
-                        <input type="text" name="deliverydate" class="form-control"
-                               value="${order.getDeliveryDate()}">
+                        <input type="text" name="delivery-date" class="form-control datepicker" value="${order.getDeliveryDate()}">
                     </div>
                 </td>
                 <td>
-                    <select class="form-control text-center" name="deliverytime" class="form-control" id="PeriodTime">
+                    <select class="form-control text-center" name="delivery-time" class="form-control">
                         <c:forEach var="period" items="${periods}">
                             <option
                                     <c:if test="${order.getPeriod().getPeriod() eq period.period}">selected</c:if>>${period.period}
@@ -51,8 +49,7 @@
                 </td>
                 <td>
                     <div class="form-group">
-                        <input type="text" name="deliverydate" class="form-control"
-                               value="${order.getAdditionalInfo()}">
+                        <input type="text" name="additional-info" class="form-control" value="${order.getAdditionalInfo()}">
                     </div>
                 </td>
                 <td>

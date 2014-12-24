@@ -8,27 +8,33 @@
     <c:choose>
         <c:when test="${ordersPaginatedList.getTotalRowsCount() > 0}">
             <div id="orders-block">
-                <ul id="change" class="pagination">
-                    <li id="oBack"><a href="#page">&laquo;</a></li>
+                <div class="above-table-row">
+                    <ul id="change" class="pagination above-table-row-content">
+                        <li id="oBack"><a href="#page">&laquo;</a></li>
 
-                    <c:forEach var="i" begin="1" end="${ordersPaginatedList.getPageCount()}">
-                        <li value="${i}" name="page${i}"
-                            class="oNumbered page"><a href="#page${i}">${i}</a>
-                        </li>
-                    </c:forEach>
+                        <c:forEach var="i" begin="1" end="${ordersPaginatedList.getPageCount()}">
+                            <li value="${i}" name="page${i}" class="oNumbered page"><a href="#page${i}">${i}</a>
+                            </li>
+                        </c:forEach>
 
-                    <li id="oNext"><a href="#page">&raquo;</a></li>
-                </ul>
+                        <li id="oNext"><a href="#page">&raquo;</a></li>
+                    </ul>
 
-                <select class="form-control switcher floatRight" id="switchStatusOrser">
-                    <option value="waiting"><fmt:message key="message.waiting"/></option>
-                    <option value="active"><fmt:message key="message.active"/></option>
-                    <option value="canceled"><fmt:message key="message.canceled"/></option>
-                    <option value="executed"><fmt:message key="message.executed"/></option>
-                    <option value="all"><fmt:message key="message.allorders"/></option>
-                </select>
+                    <form class="switcher above-table-row-content">
+                        <select class="form-control order-status" name="order-status">
+                            <option value="waiting"><fmt:message key="message.waiting"/></option>
+                            <option value="active"><fmt:message key="message.active"/></option>
+                            <option value="canceled"><fmt:message key="message.canceled"/></option>
+                            <option value="executed"><fmt:message key="message.executed"/></option>
+                            <option value="all"><fmt:message key="message.allorders"/></option>
+                        </select>
+                    </form>
 
-                <t:rowsCount target="order" targetRowsCount="${ordersPaginatedList.getRowsPerPage()}"/>
+                    <div class="above-table-row-content rows-count">
+                        <t:rowsCount target="order" targetRowsCount="${ordersPaginatedList.getRowsPerPage()}"/>
+                    </div>
+                    <div class="clear"></div>
+                </div>
 
                 <div class="orderListHeight tab-pane" style="overflow-y: scroll">
                     <table class="table table-hover" ID="ordersTable">

@@ -8,18 +8,24 @@
     <c:choose>
         <c:when test="${clientsPaginatedList.getTotalRowsCount() > 0}">
             <div id="clients-block">
-                <ul id="changee" class="pagination">
-                    <li id="cBack"><a href="#page">&laquo;</a></li>
+                <div class="above-table-row">
+                    <ul id="changee" class="pagination above-table-row-content">
+                        <li id="cBack"><a href="#page">&laquo;</a></li>
 
-                    <c:forEach var="i" begin="1" end="${clientsPaginatedList.getPageCount()}">
-                        <li value="${i}" name="page${i}" class="cNumbered "><a href="#page${i}" class="page">${i}</a>
-                        </li>
-                    </c:forEach>
+                        <c:forEach var="i" begin="1" end="${clientsPaginatedList.getPageCount()}">
+                            <li value="${i}" name="page${i}" class="cNumbered page"><a href="#page${i}">${i}</a>
+                            </li>
+                        </c:forEach>
 
-                    <li id="cNext"><a href="#page">&raquo;</a></li>
-                </ul>
+                        <li id="cNext"><a href="#page">&raquo;</a></li>
+                    </ul>
 
-                <t:rowsCount target="client" targetRowsCount="${clientsPaginatedList.getRowsPerPage()}"/>
+                    <div class="above-table-row-content rows-count">
+                        <t:rowsCount target="client"
+                                     targetRowsCount="${clientsPaginatedList.getRowsPerPage()}"/>
+                    </div>
+                    <div class="clear"></div>
+                </div>
 
                 <div class="orderListHeight tab-pane" style="overflow-y: scroll">
                     <table class="table table-hover" ID="clientsTable">

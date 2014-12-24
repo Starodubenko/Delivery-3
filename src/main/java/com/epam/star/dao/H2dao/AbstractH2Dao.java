@@ -3,6 +3,7 @@ package com.epam.star.dao.H2dao;
 import com.epam.star.dao.util.PaginatedList;
 import com.epam.star.dao.util.SearchResult;
 import com.epam.star.dao.util.Searcher;
+import com.epam.star.dao.util.UtilDao;
 import com.epam.star.entity.AbstractEntity;
 
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 public abstract class AbstractH2Dao<T extends AbstractEntity, E extends AbstractH2Dao> {
     private static final Searcher SEARCHER = new Searcher();
+    protected static final UtilDao UTIL_DAO = new UtilDao();
     protected static final String LIMIT_OFFSET = " LIMIT ? OFFSET ? ";
 
     protected Connection conn;

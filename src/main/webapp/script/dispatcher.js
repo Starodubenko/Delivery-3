@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $('#search-form').on('click', '#search-button', function (){
+    $('#search-form').on('click', '#search-button', function () {
         var entityName = $('#entityName').val();
 
         $.post("find" + entityName, $('#search-form').serialize() + "&" + $(".rowsCountForm").serialize(),
@@ -139,53 +139,33 @@ $(document).ready(function () {
 
     $('#create').click(function () {
 
-        var deliverydate = $('#Date').val();
-        var deliverytime = $('#PeriodTime').val();
-        var goodsname = $('#GoodsName').val();
-        var goodscount = $('#Count').val();
-        var additionalinformation = $('#AdditionalInformation').val();
-        var paymenttype = $('#PaymentType').val();
-
-        $.get("fastCreateOrder", {id: ID, deliverydate: deliverydate, deliverytime: deliverytime,
-                goodsname: goodsname, goodscount: goodscount, additionalinformation: additionalinformation, paymenttype: paymenttype},
+        $.get("fastCreateOrder?id="+ID+"&"+$('#orderForm').serialize(),
             function (data) {
-                $('#errorCreatingOrder').html(data.errorMessage);
+                $('.message').html(data);
             });
     });
 
     $('#cancel').click(function () {
-        var stringValues = $('input:checked[name="IdOrder"]').map(function () {
-            return $(this).val();
-        }).get();
-        stringValues = stringValues.toString();
 
-        $.get("cancel", {stringIdOrders: stringValues},
+        $.get("orderOperation?operation=cancel&ajax=ajax&"+$("#ordersForm").serialize(),
             function (data) {
-                $('#errorCreatingOrder').html(data.errorMessage);
+                $('#message').html(data);
             });
     });
 
     $('#accept').click(function () {
-        var stringValues = $('input:checked[name="IdOrder"]').map(function () {
-            return $(this).val();
-        }).get();
-        stringValues = stringValues.toString();
 
-        $.get("accept", {stringIdOrders: stringValues},
+        $.get("orderOperation?operation=accept&ajax=ajax&"+$("#ordersForm").serialize(),
             function (data) {
-                $('#errorCreatingOrder').html(data.errorMessage);
+                $('#message').html(data);
             });
     });
 
     $('#restore').click(function () {
-        var stringValues = $('input:checked[name="IdOrder"]').map(function () {
-            return $(this).val();
-        }).get();
-        stringValues = stringValues.toString();
 
-        $.get("restore", {stringIdOrders: stringValues},
+        $.get("orderOperation?operation=restore&ajax=ajax&"+$("#ordersForm").serialize(),
             function (data) {
-                $('#errorCreatingOrder').html(data.errorMessage);
+                $('#message').html(data);
             });
     });
 
@@ -231,14 +211,24 @@ $(document).ready(function () {
             })
     });
 
-    $('#confirmModal').on('click','#confirmSave', function (){
+    $('#confirmModal').on('click', '#confirmSave', function () {
 
         var table = $('#entityName').val();
-        $.post("save"+table+"Data",$('#editForm').serialize(),
+        var selia = $('#editForm').serialize();
+        $.post("save" + table + "Data", $('#editForm').serialize(),
             function (data) {
                 $('#saveMessage').html(data.errorMessage);
             })
     });
 
+    $(function () {
+        $('body').on('click', '.datepicker', function () {
+            $(this).datepicker(
+                {
+                    format: "dd.mm.yyyy",
+                    startDate: '+0d'
+                }).focus();
+        });
+    });
 });
 
