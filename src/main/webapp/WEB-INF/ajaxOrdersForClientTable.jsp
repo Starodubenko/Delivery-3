@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="tOrder" tagdir="/WEB-INF/tags/order" %>
 <fmt:setLocale value="${locale}"/>
 
 <fmt:bundle basename="i18n.messages">
@@ -28,7 +28,7 @@
                         <th><fmt:message key="orders.message.additional.info"/></th>
                         <th><fmt:message key="orders.message.status"/></th>
                     </tr>
-                    <t:orderRow orders="${todayOrders}"/>
+                    <tOrder:orderRow orders="${todayOrders}"/>
                 </table>
             </div>
             <div class="orderListHeight tab-pane" id="HistoryOrders" style="overflow: scroll">
@@ -46,7 +46,7 @@
                         <th><fmt:message key="orders.message.additional.info"/></th>
                         <th><fmt:message key="orders.message.status"/></th>
                     </tr>
-                    <t:orderRow orders="${pastOrders}"/>
+                    <tOrder:orderRow orders="${pastOrders}"/>
                 </table>
             </div>
         </div>

@@ -13,9 +13,9 @@
     </t:gHead>
     <t:gbody>
         <div class="client-info">
-            <t:authentication></t:authentication>
+            <t:authentication/>
 
-            <t:payment></t:payment>
+            <t:payment/>
         </div>
 
         <div class="panel panel-default border client-avatar">

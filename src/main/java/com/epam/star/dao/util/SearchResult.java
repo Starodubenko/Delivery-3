@@ -20,6 +20,7 @@ public class SearchResult {
     }
 
     public void setTotalFoundEntitiesCount(int totalFoundEntitiesCount) {
+        if (totalFoundEntitiesCount > this.totalFoundEntitiesCount)
         this.totalFoundEntitiesCount = totalFoundEntitiesCount;
     }
 }

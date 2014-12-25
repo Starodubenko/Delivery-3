@@ -6,14 +6,14 @@
 <fmt:bundle basename="i18n.messages">
     <c:forEach var="row" items="${orders}">
         <tr>
-            <td><c:if
-                    test="${row.getStatus().getStatusName() eq 'active' || row.getStatus().getStatusName() eq 'waiting'}">
+            <td>
+                <%--<c:if test="${user.getRole().getPositionName() eq 'Client' && row.getStatus().getStatusName() eq 'active' || row.getStatus().getStatusName() eq 'waiting'}">--%>
                 <div class="checkbox">
                     <label>
                         <input type="checkbox" name="IdOrder" value="${row.getId()}">
                     </label>
                 </div>
-            </c:if>
+            <%--</c:if>--%>
             </td>
             <td>${row.getId()}</td>
             <td>${row.getOrderDate()}</td>

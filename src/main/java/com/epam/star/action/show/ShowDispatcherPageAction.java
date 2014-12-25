@@ -35,6 +35,8 @@ public class ShowDispatcherPageAction implements Action {
         List<Period> periods = daoManager.getPeriodDao().getAllPeriods();
         List<Goods> goods = daoManager.getGoodsDao().getAllGoods();
 
+        request.getSession().setAttribute("entityName", "Client");
+
         Pagination pagination = new Pagination();
         pagination.paginationEntity(request, clientDao, "clients");
         pagination.paginationEntity(request, orderDao, "orders");
@@ -42,6 +44,7 @@ public class ShowDispatcherPageAction implements Action {
         HttpSession session = request.getSession();
         session.setAttribute("periods", periods);
         session.setAttribute("goods", goods);
+
 
         daoManager.closeConnection();
 

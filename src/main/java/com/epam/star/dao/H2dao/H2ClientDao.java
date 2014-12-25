@@ -160,7 +160,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
                 " FROM USERS" +
                 " inner join POSITIONS" +
                 " on users.POSITION_ID = positions.id" +
-                " where POSITION_ID = 11 and LOGIN = " + "'" + login + "'" + " and PASSWORD = " + "'" + password + "'";
+                " where POSITION_ID = 11 and Lower(LOGIN) = " + "Lower('" + login + "')" + " and PASSWORD = " + "'" + password + "'";
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
         Client client = null;

@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="tClient" tagdir="/WEB-INF/tags/client" %>
+<%@ attribute name="clientsPaginatedList" type="com.epam.star.dao.util.PaginatedList" %>
 
 <fmt:bundle basename="i18n.messages">
     <table class="table table-hover" ID="clientsTable">
@@ -13,16 +15,6 @@
             <th><fmt:message key="clients.message.telephone"/></th>
             <th><fmt:message key="clients.message.mobilephone"/></th>
         </tr>
-        <c:forEach var="row" items="${clientsPaginatedList}">
-            <tr>
-                <td class="id">${row.getId()}</td>
-                <td>${row.getLastName()}</td>
-                <td>${row.getFirstName()}</td>
-                <td>${row.getMiddleName()}</td>
-                <td>${row.getAddress()}</td>
-                <td>${row.getTelephone()}</td>
-                <td>${row.getMobilephone()}</td>
-            </tr>
-        </c:forEach>
+        <tClient:clientRow clients="${clientsPaginatedList}"/>
     </table>
 </fmt:bundle>

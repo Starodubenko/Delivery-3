@@ -16,8 +16,7 @@ public class AjaxChangeTableAction implements Action {
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
 
         String name = request.getParameter("tableName");
-        System.out.println(name);
-        request.setAttribute("entityName", name);
+        request.getSession().setAttribute("entityName", name);
 
         return genericTable;
     }

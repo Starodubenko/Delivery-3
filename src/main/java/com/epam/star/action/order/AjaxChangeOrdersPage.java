@@ -14,7 +14,7 @@ import java.sql.SQLException;
 @MappedAction("GET/ajaxChangeOrdersPage")
 public class AjaxChangeOrdersPage implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxChangeOrdersPage.class);
-    private ActionResult dispatcher = new ActionResult("ajaxOrdersTable");
+    private ActionResult table = new ActionResult("ajaxOrdersTable");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
@@ -27,6 +27,6 @@ public class AjaxChangeOrdersPage implements Action {
 
         daoManager.closeConnection();
 
-        return dispatcher;
+        return table;
     }
 }

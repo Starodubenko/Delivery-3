@@ -19,7 +19,6 @@ public class AjaxFindOrderAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxFindOrderAction.class);
 
     private ActionResult order = new ActionResult("ordersBlock");
-    private ActionResult jsonn = new ActionResult("json");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {

@@ -15,7 +15,6 @@ import java.sql.SQLException;
 public class AjaxFindClientAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxFindClientAction.class);
     private ActionResult order = new ActionResult("clientsBlock");
-    private ActionResult jsonn = new ActionResult("json");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {

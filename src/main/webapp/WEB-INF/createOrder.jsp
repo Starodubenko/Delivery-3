@@ -8,12 +8,14 @@
     <html>
     <t:gHead>
         <link rel='stylesheet' href='<c:url value="/webjars/bootstrap-datepicker/1.3.0/css/datepicker3.css"/>'>
-        <%--<link rel='stylesheet' href='<c:url value="/webjars/bootstrap-datetimepicker/2.3.1/css/bootstrap-datetimepicker.css"/>'>--%>
-        <%--<link rel='stylesheet' href='<c:url value="/webjars/bootstrap-timepicker/0.2.3/css/bootstrap-timepicker.min.css"/>'>--%>
         <link rel='stylesheet' href='<c:url value="/style/createOrder.css"/>'>
     </t:gHead>
     <t:gbody>
-        <t:authentication/>
+        <div class="client-info">
+            <t:authentication/>
+
+            <t:payment/>
+        </div>
 
         <c:if test="${not empty user}">
             <form class="panel panel-default create-order-panel" id="createForm" onsubmit="return false;">
@@ -86,8 +88,6 @@
     </t:gbody>
 
     <script src="<c:url value="/webjars/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"/>"></script>
-    <%--<script src="<c:url value="/webjars/bootstrap-datetimepicker/2.3.1/js/bootstrap-datetimepicker.js"/>"></script>--%>
-    <%--<script src="<c:url value="/webjars/bootstrap-timepicker/0.2.3/js/bootstrap-timepicker.min.js"/>"></script>--%>
     <script src="<c:url value="/script/createOrder.js"/>"></script>
     </html>
 </fmt:bundle>

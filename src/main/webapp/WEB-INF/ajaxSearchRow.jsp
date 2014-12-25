@@ -1,14 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="tClient" tagdir="/WEB-INF/tags/client" %>
+<%@ taglib prefix="tOrder" tagdir="/WEB-INF/tags/order" %>
 
 <c:if test="${entityName == 'Clients'}">
-    <t:clientSearchRow>
-
-    </t:clientSearchRow>
+    <tClient:clientSearchRow/>
 </c:if>
 <c:if test="${entityName == 'Orders'}">
-    <t:orderSearchRow>
-
-    </t:orderSearchRow>
+    <tOrder:orderSearchRow/>
 </c:if>
