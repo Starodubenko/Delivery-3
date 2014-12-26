@@ -2,6 +2,7 @@ package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.GoodsDao;
 import com.epam.star.entity.Goods;
+import com.epam.star.entity.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,15 +15,15 @@ import java.util.List;
 
 public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
-    private static final String ADD_GOODS = "INSERT INTO goods VALUES (?, ?, ?)";
+    private static final String ADD_GOODS = "INSERT INTO GOODS VALUES (?, ?, ?, ?)";
     private static final String DELETE_GOODS = "DELETE FROM GOODS WHERE ID = ?";
-    private static final String UPDATE_GOODS = "UPDATE goods SET id = ?, goods_name = ?, price = ? WHERE id = ?";
+    private static final String UPDATE_GOODS = "UPDATE GOODS SET ID = ?, GOODS_NAME = ?, PRICE = ?, IMAGE = ? WHERE ID = ?";
 
     private static final String NECESSARY_COLUMNS =
             " GOODS.ID, GOODS.GOODS_NAME, GOODS.PRICE";
 
     private static final String ADDITIONAL_COLUMNS =
-            "";
+            " GOODS.IMAGE";
 
     private static final String FIND_BY_PARAMETERS_WITHOUT_COLUMNS =
             " SELECT %s FROM GOODS";
@@ -103,6 +104,7 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
             prstm.setString(1, null);
             prstm.setString(2, goods.getGoodsName());
             prstm.setBigDecimal(3, goods.getPrice());
+            prstm.setInt(4, goods.getImage().getId());
             prstm.execute();
             status = "Goods added successfully";
         } catch (SQLException e) {
@@ -120,7 +122,7 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
 
     @Override
     public String updateEntity(Goods goods) throws DaoException {
-        String status = "Contact do not updated";
+        String status = "Goods do not updated";
 
         PreparedStatement prstm = null;
 
@@ -131,7 +133,7 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
             prstm.setBigDecimal(3, goods.getPrice());
             prstm.setInt(4, goods.getId());
             prstm.executeUpdate();
-            status = "Contact updated successfully";
+            status = "Goods updated successfully";
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -142,11 +144,17 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
 
     @Override
     public Goods getEntityFromResultSet(ResultSet resultSet) throws DaoException {
+
+        H2ImageDao imageDao = daoManager.getImageDao();
+
         Goods goods = new Goods();
         try {
             goods.setId(resultSet.getInt("id"));
             goods.setGoodsName(resultSet.getString("goods_name"));
             goods.setPrice(resultSet.getBigDecimal("price"));
+
+            Image image = imageDao.findById(resultSet.getInt("image"));
+            goods.setImage(image);
         } catch (SQLException e) {
             throw new DaoException(e);
         }

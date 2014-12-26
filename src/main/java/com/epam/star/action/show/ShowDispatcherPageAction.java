@@ -8,6 +8,7 @@ import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.H2dao.H2ClientDao;
 import com.epam.star.dao.H2dao.H2OrderDao;
+import com.epam.star.dao.util.PaginatedList;
 import com.epam.star.dao.util.Pagination;
 import com.epam.star.entity.Goods;
 import com.epam.star.entity.Period;
@@ -38,13 +39,15 @@ public class ShowDispatcherPageAction implements Action {
         request.getSession().setAttribute("entityName", "Client");
 
         Pagination pagination = new Pagination();
-        pagination.paginationEntity(request, clientDao, "clients");
-        pagination.paginationEntity(request, orderDao, "orders");
+        PaginatedList clients = pagination.paginationEntity(request, clientDao, "clients");
+        PaginatedList orders = pagination.paginationEntity(request, orderDao, "orders");
+
+        request.setAttribute("clientsPaginatedList",clients);
+        request.setAttribute("ordersPaginatedList",orders);
 
         HttpSession session = request.getSession();
         session.setAttribute("periods", periods);
         session.setAttribute("goods", goods);
-
 
         daoManager.closeConnection();
 

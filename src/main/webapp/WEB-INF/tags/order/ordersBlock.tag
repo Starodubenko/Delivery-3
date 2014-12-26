@@ -30,7 +30,8 @@
             </div>
 
             <div class="above-table-row-content rows-count">
-                <t:rowsCount target="order" targetRowsCount="${ordersPaginatedList.getRowsPerPage()}"/>
+                <t:rowsCount target="orders" pageName="dispatcher"
+                             targetRowsCount="${ordersPaginatedList.getRowsPerPage()}"/>
             </div>
             <div class="clear"></div>
         </div>

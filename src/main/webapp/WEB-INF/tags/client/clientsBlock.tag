@@ -20,7 +20,7 @@
             </ul>
 
             <div class="above-table-row-content rows-count">
-                <t:rowsCount target="client"
+                <t:rowsCount pageName="dispatcher" target="clients"
                              targetRowsCount="${clientsPaginatedList.getRowsPerPage()}"/>
             </div>
             <div class="clear"></div>

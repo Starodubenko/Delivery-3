@@ -41,62 +41,7 @@
             </ul>
             <div class="tab-content">
                 <div class="orderListHeight tab-pane active" id="Clients">
-                    <div id="Clients-block">
-
-                        <div class="above-table-row">
-                            <ul id="changee" class="pagination above-table-row-content">
-                                <li id="cBack"><a href="#page">&laquo;</a></li>
-
-                                <c:forEach var="i" begin="1" end="${clientsPaginatedList.getPageCount()}">
-                                    <li value="${i}" name="page${i}" class="cNumbered page"><a href="#page${i}">${i}</a>
-                                    </li>
-                                </c:forEach>
-
-                                <li id="cNext"><a href="#page">&raquo;</a></li>
-                            </ul>
-
-                            <div class="above-table-row-content rows-count">
-                                <t:rowsCount target="client"
-                                             targetRowsCount="${clientsPaginatedList.getRowsPerPage()}"/>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-
-                        <div class="orderListHeight tab-pane" style="overflow-y: scroll">
-                            <table class="table table-hover" ID="clientsTable">
-                                <input type="hidden" id="clientsPageNumber"
-                                       value="${clientsPaginatedList.getPageNumber()}"/>
-                                <tr>
-                                    <th><fmt:message key="clients.message.ID"/></th>
-                                    <th><fmt:message key="clients.message.last.name"/></th>
-                                    <th><fmt:message key="clients.message.first.name"/></th>
-                                    <th><fmt:message key="clients.message.middle.name"/></th>
-                                    <th><fmt:message key="clients.message.address"/></th>
-                                    <th><fmt:message key="clients.message.telephone"/></th>
-                                    <th><fmt:message key="clients.message.mobilephone"/></th>
-                                    <th><fmt:message key="button.order"/></th>
-                                </tr>
-                                <c:forEach var="row" items="${clientsPaginatedList}">
-                                    <tr>
-                                        <td class="id">${row.getId()}</td>
-                                        <td>${row.getLastName()}</td>
-                                        <td>${row.getFirstName()}</td>
-                                        <td>${row.getMiddleName()}</td>
-                                        <td>${row.getAddress()}</td>
-                                        <td>${row.getTelephone()}</td>
-                                        <td>${row.getMobilephone()}</td>
-                                        <td class=" createOrder">
-                                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                    value="${row.getId()}"
-                                                    data-target="#myModel"><fmt:message
-                                                    key="clients.message.create.order"/>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </table>
-                        </div>
-                    </div>
+                    <tClient:clientsBlock clientsPaginatedList="${clientsPaginatedList}"/>
                 </div>
 
                 <div class="orderListHeight tab-pane" id="Orders">

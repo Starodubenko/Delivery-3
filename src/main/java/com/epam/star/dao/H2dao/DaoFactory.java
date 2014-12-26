@@ -32,6 +32,7 @@ public class DaoFactory {
         config.setJdbcUrl(jdbcProperties.getProperty("jdbc.url"));
         config.setUsername(jdbcProperties.getProperty("user.name"));
         config.setPassword(jdbcProperties.getProperty("password"));
+        config.setMaxConnectionsPerPartition(20);
 
         try {
             connectionPool = new BoneCP(config);

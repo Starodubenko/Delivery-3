@@ -1,3 +1,8 @@
+$(function () {
+    $("li.cNumbered[value=" + 1 + "]").addClass("active");
+    $("li.oNumbered[value=" + 1 + "]").addClass("active");
+});
+
 $(document).ready(function () {
 
     $('#search-form').on('click', '#search-button', function () {
@@ -214,8 +219,6 @@ $(document).ready(function () {
 
     $('#confirmModal').on('click', '#confirmSave', function () {
 
-        var table = $('#entityName').val();
-        var selia = $('#editForm').serialize();
         $.post("save" + table + "Data", $('#editForm').serialize(),
             function (data) {
                 $('#saveMessage').html(data.errorMessage);
