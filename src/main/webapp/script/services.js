@@ -55,15 +55,18 @@ $(document).ready(function () {
 
     $("#Goods").on('click', '.adding-button', function() {
 
-        $(this).prop('disabled', true);
-        var id = $(this).attr("value");
+        $(this).parents('form').submit();
+        return false;
 
-        $.post("addGoods",
-            {
-                goodsId:id
-            },
-            function (data) {
-                $("[value="+id+"]").html(data);
-            })
+        //$(this).prop('disabled', true);
+        //var id = $(this).attr("value");
+        //
+        //$.post("addGoods",
+        //    {
+        //        goodsId:id
+        //    },
+        //    function (data) {
+        //        $(".adding-button[value="+id+"]").html(data);
+        //    })
     })
 });

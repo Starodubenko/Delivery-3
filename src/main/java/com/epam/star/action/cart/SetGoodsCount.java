@@ -9,6 +9,7 @@ import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.H2dao.H2GoodsDao;
 import com.epam.star.entity.Goods;
 import com.epam.star.entity.interfaces.ShoppingCart;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +20,7 @@ import java.sql.SQLException;
 @MappedAction("GET/set-goods-count")
 public class SetGoodsCount implements Action{
     private static final Logger LOGGER = LoggerFactory.getLogger(SetGoodsCount.class);
-    ActionResult message = new ActionResult("message");
+    ActionResult json = new ActionResult("json");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
@@ -29,16 +30,22 @@ public class SetGoodsCount implements Action{
         HttpSession session = request.getSession();
 
         ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("shoppingCart");
-        int goodsId = (int) request.getAttribute("goodsId");
-        int goodsCount = (int) request.getAttribute("goodsCount");
+        int goodsId = Integer.valueOf(request.getParameter("id"));
+        int goodsCount = Integer.valueOf(request.getParameter("goods-count"));
 
         Goods goods = goodsDao.findById(goodsId);
 
         shoppingCart.setGoodsCount(goods,goodsCount);
         session.setAttribute("shoppingCart", shoppingCart);
 
-        daoManager.closeConnection();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("cost", shoppingCart.getCostByGoodsId(goodsId));
+        jsonObject.put("total", shoppingCart.getTotalSum());
+        jsonObject.put("id", goodsId);
 
-        return message;
+        request.setAttribute("json",jsonObject);
+
+        daoManager.closeConnection();
+        return json;
     }
 }

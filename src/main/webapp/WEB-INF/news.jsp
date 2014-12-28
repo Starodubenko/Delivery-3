@@ -16,9 +16,11 @@
         </div>
         <hr class="hr-header">
         <div class="news-block-content panel panel-default">
-            Проект "Доставка" после долгого и крапотливого труда наконец-то закончен. Стародубенко Родион Викторович защищает проект 26.12.2014г.
+            Проект "Доставка" после долгого и крапотливого труда наконец-то закончен. Стародубенко Родион Викторович
+            защищает проект 30.12.2014г.
         </div>
         <a class="news-article-link" href="#news-article">Статья</a>
+
         <div class="clear"></div>
     </div>
     <div class="news-block panel panel-default">
@@ -27,20 +29,25 @@
         </div>
         <hr class="hr-header">
         <div class="news-block-content panel panel-default">
-            Проект "Доставка" после долгого и крапотливого труда наконец-то закончен. Стародубенко Родион Викторович защищает проект 26.12.2014г.
+            Проект "Доставка" после долгого и крапотливого труда наконец-то закончен. Стародубенко Родион Викторович
+            защищает проект 30.12.2014г.
         </div>
         <a class="news-article-link" href="#news-article">Статья</a>
+
         <div class="clear"></div>
-    </div><div class="news-block panel panel-default">
-    <div class="news-block-header text-center">
-        Проект закончен !
     </div>
-    <hr class="hr-header">
-    <div class="news-block-content panel panel-default">
-        Проект "Доставка" после долгого и крапотливого труда наконец-то закончен. Стародубенко Родион Викторович защищает проект 26.12.2014г.
+    <div class="news-block panel panel-default">
+        <div class="news-block-header text-center">
+            Проект закончен !
+        </div>
+        <hr class="hr-header">
+        <div class="news-block-content panel panel-default">
+            Проект "Доставка" после долгого и крапотливого труда наконец-то закончен. Стародубенко Родион Викторович
+            защищает проект 30.12.2014г.
+        </div>
+        <a class="news-article-link" href="#news-article">Статья</a>
+
+        <div class="clear"></div>
     </div>
-    <a class="news-article-link" href="#news-article">Статья</a>
-    <div class="clear"></div>
-</div>
 </t:gbody>
 </html>

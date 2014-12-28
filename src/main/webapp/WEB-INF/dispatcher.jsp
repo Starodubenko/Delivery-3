@@ -108,7 +108,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span
                                 aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="myModalLabel"><fmt:message key="order.create.message.header"/></h4>
+                        <h4 class="modal-title" id="myModalLabel"><fmt:message key="order.checkout.message.header"/></h4>
                     </div>
 
                     <form id="orderForm" onsubmit="return false;">

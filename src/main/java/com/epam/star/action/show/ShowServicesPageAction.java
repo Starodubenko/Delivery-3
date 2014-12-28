@@ -10,12 +10,13 @@ import com.epam.star.dao.H2dao.H2GoodsDao;
 import com.epam.star.dao.util.PaginatedList;
 import com.epam.star.dao.util.Pagination;
 import com.epam.star.entity.Goods;
-import com.epam.star.entity.ShoppingCart_HashMap;
+import com.epam.star.entity.Cart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
+import java.util.Map;
 
 @MappedAction("GET/services")
 public class ShowServicesPageAction implements Action {
@@ -32,13 +33,18 @@ public class ShowServicesPageAction implements Action {
         Pagination pagination = new Pagination();
 
         PaginatedList<Goods> goods = pagination.paginationEntity(request, goodsDao, "goods");
-        ShoppingCart_HashMap shoppingCart = (ShoppingCart_HashMap) request.getSession().getAttribute("shoppingCart");
+        Cart shoppingCart = (Cart) request.getSession().getAttribute("shoppingCart");
 
         for (Goods good : goods) {
-            for (Goods goods1 : shoppingCart.keySet()) {
+            for (Goods goods1 : shoppingCart.getCart().keySet()) {
                 if (good.equals(goods1))
                     good.setInCart(true);
             }
+        }
+
+        for (Map.Entry<Goods, Integer> entry : shoppingCart.getCart().entrySet()) {
+            entry.getKey();
+            entry.getValue();
         }
 
         request.setAttribute("goodsPaginatedList", goods);

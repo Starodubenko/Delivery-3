@@ -7,8 +7,31 @@ $('.datepicker').datepicker({
 
 $('#create').click(function () {
 
-    $.get("fastCreateOrder", $("#createForm").serialize(),
+    var goodsname = $('.goodsname').val();
+    var goodscount = $('.goodscount').val();
+
+    $.get("fastCreateOrder?"+$("#createForm").serialize(),
+        {
+            goodsname: goodsname,
+            goodscount: goodscount
+        },
         function (data) {
             $('.final-message').html(data);
         });
 });
+
+$('.param').change(function () {
+
+    var goodsname = $('.goodsname').val();
+    var goodscount = $('.goodscount').val();
+
+    $.get("calculate-order-cost",
+        {
+            goodsname: goodsname,
+            goodscount: goodscount
+        },
+        function (data) {
+            $('.order-cost').html(data.cost);
+        });
+})
+;

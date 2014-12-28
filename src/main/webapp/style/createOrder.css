@@ -1,4 +1,12 @@
+.total-sum{
+    float: right;
+    font-size: 20px;
+    margin: 10px 50px;
+}
 
+.payment-option {
+    margin: 10px;
+}
 
 .clear {
     clear: both;
@@ -28,14 +36,6 @@
 .orderInfo {
     margin-left: 5%;
     margin-right: 5%;
-}
-
-.nonLogin {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: auto;
-    margin-bottom: auto;
-    text-align: center;
 }
 
 .final-message{

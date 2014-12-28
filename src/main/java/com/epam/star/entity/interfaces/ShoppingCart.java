@@ -14,4 +14,6 @@ public interface ShoppingCart {
     public void setGoodsCount(Goods goods, int count);
 
     public void removeGoods(Goods goods);
+
+    public BigDecimal getCostByGoodsId(int Id);
 }

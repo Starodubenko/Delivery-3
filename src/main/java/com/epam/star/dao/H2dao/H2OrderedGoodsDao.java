@@ -1,8 +1,6 @@
 package com.epam.star.dao.H2dao;
 
-import com.epam.star.dao.GoodsDao;
-import com.epam.star.entity.Goods;
-import com.epam.star.entity.Image;
+import com.epam.star.entity.OrderedGoods;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,54 +8,34 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
+public class H2OrderedGoodsDao extends AbstractH2Dao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
-    private static final String ADD_GOODS = "INSERT INTO GOODS VALUES (?, ?, ?, ?)";
-    private static final String DELETE_GOODS = "DELETE FROM GOODS WHERE ID = ?";
-    private static final String UPDATE_GOODS = "UPDATE GOODS SET ID = ?, GOODS_NAME = ?, PRICE = ?, IMAGE = ? WHERE ID = ?";
+    private static final String ADD_GOODS = "INSERT INTO ORDERED_GOODS VALUES (?, ?, ?, ?)";
+    private static final String DELETE_GOODS = "DELETE FROM ORDERED_GOODS WHERE ID = ?";
+    private static final String UPDATE_GOODS = "UPDATE ORDERED_GOODS SET " +
+            "ID = ?, ORDER_NUMBER = ?, GOODS_ID = ?, GOODS_COUNT = ? WHERE ID = ?";
 
     private static final String NECESSARY_COLUMNS =
-            " GOODS.ID, GOODS.GOODS_NAME, GOODS.PRICE";
+            " ORDERED_GOODS.ID, ORDERED_GOODS.ORDER_NUMBER, ORDERED_GOODS.GOODS_ID, ORDERED_GOODS.GOODS_COUNT";
 
     private static final String ADDITIONAL_COLUMNS =
-            " GOODS.IMAGE";
+            "";
 
     private static final String FIND_BY_PARAMETERS_WITHOUT_COLUMNS =
-            " SELECT %s FROM GOODS";
+            " SELECT %s FROM ORDERED_GOODS";
 
-    private static final String ID_FIELD = " GOODS.ID, ";
+    private static final String ID_FIELD = " ORDERED_GOODS.ID, ";
 
 
-    protected H2GoodsDao(Connection conn, DaoManager daoManager) {
+    protected H2OrderedGoodsDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
     }
 
-    public List<Goods> getAllGoods() {
-        List<Goods> result = new ArrayList<>();
 
-        PreparedStatement prstm = null;
-        ResultSet resultSet = null;
-        try {
-            prstm = conn.prepareStatement("SELECT * FROM goods");
-            resultSet = prstm.executeQuery();
-            while (resultSet.next()) {
-                result.add(getEntityFromResultSet(resultSet));
-            }
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            closeStatement(prstm, resultSet);
-        }
-        return result;
-    }
-
-    @Override
-    public Goods findByGoodsName(String name) throws DaoException {
-        String sql = "SELECT * FROM goods WHERE goods_name = " + "'" + name + "'";
-        Goods goods = null;
+    public OrderedGoods findByOrderNumber(int orderNumber) throws DaoException {
+        String sql = "SELECT * FROM ORDERED_GOODS WHERE ORDER_NUMBER = " + orderNumber;
+        OrderedGoods goods = null;
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
         try {
@@ -75,9 +53,9 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
     }
 
     @Override
-    public Goods findById(int ID) throws DaoException {
-        String sql = "SELECT * FROM goods WHERE id = " + ID;
-        Goods goods = null;
+    public OrderedGoods findById(int ID) throws DaoException {
+        String sql = "SELECT * FROM ORDERED_GOODS WHERE id = " + ID;
+        OrderedGoods goods = null;
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
         try {
@@ -94,17 +72,17 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
         return goods;
     }
 
-    @Override
-    public String insert(Goods goods) throws DaoException {
+
+    public String insert(OrderedGoods goods) throws DaoException {
         String status = "Goods do not added";
 
         PreparedStatement prstm = null;
         try {
             prstm = conn.prepareStatement(ADD_GOODS);
             prstm.setString(1, null);
-            prstm.setString(2, goods.getGoodsName());
-            prstm.setBigDecimal(3, goods.getPrice());
-            prstm.setInt(4, goods.getImage().getId());
+            prstm.setInt(2, goods.getOrderNumber());
+            prstm.setInt(3, goods.getGoods().getId());
+            prstm.setInt(4, goods.getGoodsCount());
             prstm.execute();
             status = "Goods added successfully";
         } catch (SQLException e) {
@@ -115,13 +93,13 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
         return status;
     }
 
-    @Override
+
     public String deleteEntity(int ID) throws DaoException {
         return null;
     }
 
-    @Override
-    public String updateEntity(Goods goods) throws DaoException {
+
+    public String updateEntity(OrderedGoods goods) throws DaoException {
         String status = "Goods do not updated";
 
         PreparedStatement prstm = null;
@@ -129,8 +107,8 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
         try {
             prstm = conn.prepareStatement(UPDATE_GOODS);
             prstm.setInt(1, goods.getId());
-            prstm.setString(2, goods.getGoodsName());
-            prstm.setBigDecimal(3, goods.getPrice());
+            prstm.setInt(2, goods.getOrderNumber());
+            prstm.setInt(3, goods.getGoods().getId());
             prstm.setInt(4, goods.getId());
             prstm.executeUpdate();
             status = "Goods updated successfully";
@@ -143,18 +121,16 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
     }
 
     @Override
-    public Goods getEntityFromResultSet(ResultSet resultSet) throws DaoException {
+    public OrderedGoods getEntityFromResultSet(ResultSet resultSet) throws DaoException {
 
-        H2ImageDao imageDao = daoManager.getImageDao();
+        H2GoodsDao goodsDao = daoManager.getGoodsDao();
 
-        Goods goods = new Goods();
+        OrderedGoods goods = new OrderedGoods();
         try {
             goods.setId(resultSet.getInt("id"));
-            goods.setGoodsName(UTIL_DAO.getString(resultSet.getString("goods_name")));
-            goods.setPrice(resultSet.getBigDecimal("price"));
-
-            Image image = imageDao.findById(resultSet.getInt("image"));
-            goods.setImage(image);
+            goods.setOrderNumber(resultSet.getInt("order_number"));
+            goods.setGoods(goodsDao.findById(resultSet.getInt("goods_id")));
+            goods.setGoodsCount(resultSet.getInt("goods_count"));
         } catch (SQLException e) {
             throw new DaoException(e);
         }

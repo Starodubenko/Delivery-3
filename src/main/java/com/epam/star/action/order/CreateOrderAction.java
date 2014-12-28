@@ -33,11 +33,19 @@ public class CreateOrderAction implements Action {
     public ActionResult execute(HttpServletRequest request) throws ActionException {
         DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
 
+        Client user = (Client) request.getSession().getAttribute("user");
+
+
         Order order = null;
+        boolean haveMoney = false;
         try {
             OrderDao orderDao = daoManager.getOrderDao();
             order = createOrder(request, daoManager);
+
+            haveMoney = checkBalance(request, user, order);
+            if (haveMoney)
             orderDao.insert(order);
+            else request.setAttribute("message", "order.not.enough.money");
 
             daoManager.commit();
         } catch (Exception e) {
@@ -48,10 +56,20 @@ public class CreateOrderAction implements Action {
 
         JSONObject json = new JSONObject();
         if (order != null) {
+            if (haveMoney)
             request.setAttribute("message", "order.created.successful");
         } else request.setAttribute("message", "during.creating.error.occurred");
 
         return message;
+    }
+
+    private boolean checkBalance (HttpServletRequest request, Client client, Order order){
+        String paymentType = request.getParameter("paymentType");
+        int count = Integer.valueOf(request.getParameter("goodscount"));
+
+        if (client.getVirtualBalance().intValue() < order.getOrderCost().intValue() * count
+                && paymentType.equals("online")) return false;
+        else return true;
     }
 
     private Order createOrder(HttpServletRequest request, DaoManager daoManager) throws ActionException {

@@ -50,9 +50,9 @@ public class Goods extends AbstractEntity {
         Goods goods = (Goods) o;
 
         if (inCart != goods.inCart) return false;
-        if (!goodsName.equals(goods.goodsName)) return false;
-//        if (image != null ? !image.equals(goods.image) : goods.image != null) return false;
-        if (!price.equals(goods.price)) return false;
+        if (goodsName != null ? !goodsName.equals(goods.goodsName) : goods.goodsName != null) return false;
+        if (image != null ? !image.equals(goods.image) : goods.image != null) return false;
+        if (price != null ? !price.equals(goods.price) : goods.price != null) return false;
 
         return true;
     }
@@ -60,8 +60,8 @@ public class Goods extends AbstractEntity {
     @Override
     public int hashCode() {
         int result = image != null ? image.hashCode() : 0;
-        result = 31 * result + goodsName.hashCode();
-        result = 31 * result + price.hashCode();
+        result = 31 * result + (goodsName != null ? goodsName.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
         result = 31 * result + (inCart ? 1 : 0);
         return result;
     }

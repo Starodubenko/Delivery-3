@@ -19,7 +19,7 @@ import java.sql.SQLException;
 @MappedAction("POST/addGoods")
 public class AddGoodsToCart implements Action{
     private static final Logger LOGGER = LoggerFactory.getLogger(AddGoodsToCart.class);
-    ActionResult message = new ActionResult("message");
+    ActionResult message = new ActionResult("services",true);
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
@@ -29,13 +29,13 @@ public class AddGoodsToCart implements Action{
         HttpSession session = request.getSession();
 
         ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("shoppingCart");
-        int goodsId = Integer.parseInt(request.getParameter("goodsId"));
+        int goodsId = Integer.parseInt(request.getParameter("id"));
 
         Goods goods = goodsDao.findById(goodsId);
 
         shoppingCart.addGoods(goods);
         session.setAttribute("shoppingCart", shoppingCart);
-        request.setAttribute("message", "add.goods");
+//        request.setAttribute("message", "add.goods");
 
         daoManager.closeConnection();
 

@@ -125,5 +125,11 @@ public class DaoManager {
     public H2ImageDao getImageDao() {
         return new H2ImageDao(connection, this);
     }
+    public H2DiscountDao getDiscountDao() {
+        return new H2DiscountDao(connection, this);
+    }
+    public H2OrderedGoodsDao getOrderedGoodsDao() {
+        return new H2OrderedGoodsDao(connection, this);
+    }
 
 }

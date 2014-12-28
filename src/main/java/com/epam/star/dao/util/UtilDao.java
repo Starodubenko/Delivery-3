@@ -3,7 +3,6 @@ package com.epam.star.dao.util;
 import com.epam.star.dao.H2dao.DaoException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
@@ -61,13 +60,9 @@ public class UtilDao {
     public String getString(String fieldName, HttpServletRequest request) {
         return request.getParameter(fieldName);
     }
+
     public String getString(String string) {
-        try {
-            string = new String(string.getBytes("ISO-8859-1"),"windows-1251");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return string;
+        return string.trim();
     }
 
 }

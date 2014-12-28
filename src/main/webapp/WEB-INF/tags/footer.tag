@@ -10,6 +10,6 @@
             </c:forEach>
         </div>
 
-        <div class="center"><h1>FOOTER</h1></div>
+        <div class="center"><h1></h1></div>
     </div>
 </div>

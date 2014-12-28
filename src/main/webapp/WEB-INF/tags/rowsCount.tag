@@ -4,6 +4,7 @@
 <%@ attribute name="pageName"%>
 <%@ attribute name="target"%>
 <%@ attribute name="targetRowsCount"%>
+<fmt:setLocale value="${locale}"/>
 
 <fmt:bundle basename="i18n.messages">
     <link rel="stylesheet" href="<c:url value="/style/rowsCount.css"/>">

@@ -61,12 +61,7 @@
         <url-pattern>/do/*</url-pattern>
     </filter-mapping>
 
-    <!--error pages mapping-->
-
     <error-page>
         <location>/error</location>
-        <!--if u dont write errorcode or exc type every error will be redirected to this location-->
-        <!--<error-code>500</error-code>-->
-        <!--<exception-type>java.lang.NullPointerException</exception-type>-->
     </error-page>
 </web-app>

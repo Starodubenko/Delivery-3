@@ -8,7 +8,7 @@ import com.epam.star.dao.ContactDao;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.entity.Contact;
-import com.epam.star.entity.ShoppingCart_HashMap;
+import com.epam.star.entity.Cart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +30,7 @@ public class ShowWelcomePageAction implements Action {
         List<Contact> contacts = contactDao.getContacts();
 
         request.getSession().setAttribute("contacts", contacts);
-        request.getSession().setAttribute("shoppingCart", new ShoppingCart_HashMap());
+        request.getSession().setAttribute("shoppingCart", new Cart());
 
         daoManager.closeConnection();
 

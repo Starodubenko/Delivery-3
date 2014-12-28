@@ -63,7 +63,7 @@ public abstract class AbstractH2Dao<T extends AbstractEntity, E extends Abstract
         return result;
     }
 
-    protected abstract T findById(int i);
+    public abstract T findById(int i);
 
     public abstract String getFindByParameters(Boolean needAditionalColumns);
     public abstract String getFindByParametersWithoutColumns();

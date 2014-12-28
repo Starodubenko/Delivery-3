@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <fmt:setLocale value="${locale}"/>
 
 <fmt:bundle basename="i18n.messages">
@@ -22,10 +22,9 @@
                 <div class="center"><h1><fmt:message key="order.checkout.message.header"/></h1></div>
                 <div>
                     <div class="orderText form-group">
-                        <div class="center"><label for="Datee"><fmt:message key="orders.message.delivery.date"/></label>
+                        <div class="center"><label for="Date"><fmt:message key="orders.message.delivery.date"/></label>
                         </div>
-                        <input type="text" name="deliverydate" placeholder="Date" class="form-control datepicker"
-                               id="Datee">
+                        <input type="text" name="deliverydate" placeholder="Date" class="form-control datepicker" id="Date">
                     </div>
                     <div class="orderText form-group">
                         <div class="center"><label for="PeriodTime"><fmt:message
@@ -37,38 +36,6 @@
                             </c:forEach>
                         </select>
                     </div>
-                    <%--<form action="<c:url value="/do/calculate-order-cost"/>">--%>
-                        <div class="orderText form-group param">
-                            <div class="center"><label for="GoodsName"><fmt:message
-                                    key="orders.message.goods.name"/></label></div>
-                            <select class="form-control goodsname" name="goodsname" value="Goods name"
-                                    id="GoodsName">
-                                <c:forEach var="goodss" items="${goods}">
-                                    <option>${goodss.getGoodsName()}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-
-                        <div class="orderText form-group param">
-                            <div class="center"><label for="Count"><fmt:message
-                                    key="orders.message.goods.count"/></label></div>
-                            <input type="text" name="goodscount" value="0" class="form-control goodscount" id="Count">
-                        </div>
-                    <%--</form>--%>
-                    <div class="text-center">
-                            <fmt:message key="message.total.cost"/>:
-                        <label class="order-cost">
-                            <c:choose>
-                                <c:when test="${empty cost}">
-                                    0
-                                </c:when>
-                                <c:otherwise>
-                                    ${cost}
-                                </c:otherwise>
-                            </c:choose>
-                        </label>
-                    </div>
-
                     <div class="orderInfo form-group">
                         <div class="center"><label for="Additional Information"><fmt:message
                                 key="orders.message.additional.info"/></label></div>
@@ -77,8 +44,12 @@
                         </textarea>
                     </div>
                 </div>
-
-                <div class="center form-group">
+                <div class="total-sum">
+                    <label>
+                        <fmt:message key="message.orders.sum"/>: ${shoppingCart.getTotalSum()}
+                    </label>
+                </div>
+                <div class="payment-option form-group">
                     <div class="radio">
                         <label>
                             <input type="radio" name="paymentType" value="online" checked>

@@ -6,7 +6,7 @@
 <fmt:bundle basename="i18n.messages">
     <input type="hidden" id="goodsPageNumber" value="${goods.getPageNumber()}"/>
     <c:forEach var="good" items="${goods}">
-        <div class="panel panel-default goods-block">
+        <form class="panel panel-default goods-block" action="<c:url value="/do/addGoods"/>" method="post">
             <img class="goods-image" src="/image/${good.getImage().getFilename()}"/>
 
             <div class="goods-describe">
@@ -15,7 +15,8 @@
             <div class="goods-price">
                     ${good.getPrice()}
             </div>
-            <button class="adding-button" value="${good.getId()}" <c:if test="${good.inCart}">disabled</c:if>>
+            <input type="hidden" name="id" value="${good.getId()}">
+            <button class="adding-button" <c:if test="${good.inCart}">disabled</c:if>>
                 <c:choose>
                     <c:when test="${good.inCart}">
                         <fmt:message key="button.in.cart"/>
@@ -25,6 +26,6 @@
                     </c:otherwise>
                 </c:choose>
             </button>
-        </div>
+        </form>
     </c:forEach>
 </fmt:bundle>

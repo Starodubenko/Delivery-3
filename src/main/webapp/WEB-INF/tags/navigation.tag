@@ -21,7 +21,13 @@
                 </c:if>
             </ul>
 
-            <form method="post" action="<c:url value="/do/changeLocale"/>">
+            <div class="shopping-cart">
+                <a href="<c:url value="/do/shoppingCart"/>">
+                    <fmt:message key="orders.message.goods.in.cart"/>:
+                </a> ${shoppingCart.getGoodsCount()}
+            </div>
+
+            <form class="" method="post" action="<c:url value="/do/changeLocale"/>">
                 <select class="form-control language" id="switchLanguage" onchange="submit()" name="locale">
                     <option class="language-icon"
                             <c:if test="${locale == 'ru'}">selected</c:if> value="ru"><fmt:message key="navigation.rus"/></option>
@@ -30,6 +36,7 @@
                     </option>
                 </select>
             </form>
+
         </nav>
     </div>
 
