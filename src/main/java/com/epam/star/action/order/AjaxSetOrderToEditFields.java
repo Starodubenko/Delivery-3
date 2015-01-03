@@ -29,7 +29,7 @@ public class AjaxSetOrderToEditFields implements Action {
         H2OrderDao orderDao = daoManager.getOrderDao();
         Order order = orderDao.findById(id);
 
-        request.setAttribute("order", order);
+        request.getSession().setAttribute("order", order);
 
         daoManager.closeConnection();
         return editOrdersRow;

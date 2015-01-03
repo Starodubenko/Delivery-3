@@ -23,7 +23,6 @@ public class ActionException extends Exception{
 
     @Override
     public String toString() {
-//        if ()
         return "ActionException{" +
                 "detail=" + detail +
                 '}';

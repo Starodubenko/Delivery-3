@@ -219,6 +219,8 @@ $(document).ready(function () {
 
     $('#confirmModal').on('click', '#confirmSave', function () {
 
+        var table = $('#entityName').val();
+
         $.post("save" + table + "Data", $('#editForm').serialize(),
             function (data) {
                 $('#saveMessage').html(data.errorMessage);
