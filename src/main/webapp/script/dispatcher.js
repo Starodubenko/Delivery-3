@@ -1,15 +1,34 @@
 $(function () {
     $("li.cNumbered[value=" + 1 + "]").addClass("active");
     $("li.oNumbered[value=" + 1 + "]").addClass("active");
+    backNext(1,'c');
+    backNext(1,'o');
 });
+
+function backNext (page, target) {
+    if (page < $('.'+target+'Numbered').size() && page > 1){
+        $('#'+target+'Back').removeClass("disabledd");
+        $('#'+target+'Next').removeClass("disabledd");
+    } else
+    if (page < 2){
+        $('#'+target+'Back').addClass("disabledd");
+        $('#'+target+'Next').removeClass("disabledd");
+    } else
+    if (page > $('.'+target+'Numbered').size()-1){
+        $('#'+target+'Next').addClass("disabledd");
+        $('#'+target+'Back').removeClass("disabledd");
+    }
+}
 
 $(document).ready(function () {
 
     $('#search-form').on('click', '#search-button', function () {
         var entityName = $('#entityName').val();
+        var orderStatus = $('#switchStatusOrder').val();
 
         $.post("find" + entityName, $('#search-form').serialize() + "&"
-                                  + $(".rowsCountForm").serialize(),
+                                  + $(".rowsCountForm").serialize()
+                                  + "&orderStatus="+orderStatus,
             function (data) {
                 $("#" + entityName + "s-block").html(data);
             })
@@ -17,10 +36,12 @@ $(document).ready(function () {
 
     $('#search-form').keydown(function () {
         var entityName = $('#entityName').val();
+        var orderStatus = $('#switchStatusOrder').val();
 
         if (event.keyCode == 13) {
             $.post("find" + entityName, $('#search-form').serialize() + "&"
-                                      + $(".rowsCountForm").serialize(),
+                                      + $(".rowsCountForm").serialize()
+                                      + "&orderStatus="+orderStatus,
                 function (data) {
                     $("#" + entityName + "s-block").html(data);
                 })
@@ -30,6 +51,8 @@ $(document).ready(function () {
     $('#Clients').on('click', '#cBack', function () {
         var page = $('#clientsPageNumber').val() - 1;
         var rows = $('#clientsrows').val();
+
+        backNext(page,'c');
 
         $('.cNumbered').removeClass("active");
         $("li.cNumbered[value=" + page + "]").addClass("active");
@@ -50,6 +73,8 @@ $(document).ready(function () {
         var page = $(this).attr('value');
         var rows = $('#clientsrows').val();
 
+        backNext(page,'c');
+
         $.get("ajaxChangeClientsPage",
             {
                 clientspage: page,
@@ -65,8 +90,7 @@ $(document).ready(function () {
         var page = $('#clientsPageNumber').val() - 1 + 2;
         var rows = $('#clientsrows').val();
 
-        console.info("clientsPage=" + page);
-        console.info("clientsRows=" + rows);
+        backNext(page,'c');
 
         $('.cNumbered').removeClass("active");
         $("li.cNumbered[value=" + page + "]").addClass("active");
@@ -83,6 +107,8 @@ $(document).ready(function () {
     $('#Orders').on('click', '#oBack', function () {
         var page = $('#ordersPageNumber').val() - 1;
         var rows = $('#ordersrows').val();
+
+        backNext(page,'o');
 
         $('.oNumbered').removeClass("active");
         $("li.oNumbered[value=" + page + "]").addClass("active");
@@ -103,6 +129,8 @@ $(document).ready(function () {
         var page = $(this).attr('value');
         var rows = $('#ordersrows').val();
 
+        backNext(page,'o');
+
         $.get("ajaxChangeOrdersPage",
             {
                 orderspage: page,
@@ -116,6 +144,8 @@ $(document).ready(function () {
     $('#Orders').on('click', '#oNext', function () {
         var page = $('#ordersPageNumber').val() - 1 + 2;
         var rows = $('#ordersrows').val();
+
+        backNext(page,'o');
 
         $('.oNumbered').removeClass("active");
         $("li.oNumbered[value=" + page + "]").addClass("active");

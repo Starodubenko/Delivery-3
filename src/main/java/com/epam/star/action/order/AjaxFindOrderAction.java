@@ -9,6 +9,7 @@ import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.H2dao.H2OrderDao;
 import com.epam.star.dao.util.PaginatedList;
 import com.epam.star.dao.util.Pagination;
+import com.epam.star.entity.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +29,8 @@ public class AjaxFindOrderAction implements Action {
         H2OrderDao orderDao = daoManager.getOrderDao();
 
         Pagination pagination = new Pagination();
-        PaginatedList orders = pagination.paginationEntity(request, orderDao, "orders");
+        PaginatedList<Order> orders = pagination.paginationEntity(request, orderDao, "orders");
+
         request.setAttribute("ordersPaginatedList",orders);
 
         daoManager.closeConnection();

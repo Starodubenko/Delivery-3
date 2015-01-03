@@ -36,5 +36,11 @@
                 </c:otherwise>
             </c:choose>
         </div>
+
+        <script>
+            $(function () {
+                $("li.cNumbered[value=" + 1 + "]").addClass("active");
+            });
+        </script>
     </div>
 </fmt:bundle>

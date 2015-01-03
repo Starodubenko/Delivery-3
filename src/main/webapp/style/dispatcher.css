@@ -73,3 +73,8 @@
     z-index:1151 !important;
 }
 
+.disabledd {
+    pointer-events: none;
+    cursor: default;
+}
+

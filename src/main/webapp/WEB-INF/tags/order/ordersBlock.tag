@@ -20,7 +20,7 @@
             </ul>
 
             <div class="switcher above-table-row-content">
-                <select class="form-control" name="switchStatusOrder">
+                <select class="form-control" id="switchStatusOrder">
                     <option value="waiting"><fmt:message key="message.waiting"/></option>
                     <option value="active"><fmt:message key="message.active"/></option>
                     <option value="canceled"><fmt:message key="message.canceled"/></option>
@@ -48,4 +48,9 @@
         </div>
     </div>
 
+    <script>
+        $(function () {
+            $("li.oNumbered[value=" + 1 + "]").addClass("active");
+        });
+    </script>
 </fmt:bundle>

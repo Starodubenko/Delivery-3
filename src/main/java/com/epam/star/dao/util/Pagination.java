@@ -37,6 +37,7 @@ public class Pagination<T extends AbstractEntity, E extends AbstractH2Dao> {
             rowsCount = utilDao.getIntValue(targetName + "rows", request);
         int firstRow = pageNumber * rowsCount - rowsCount;
 
+        String orderStatus = request.getParameter("orderStatus");
 
         String searchString = utilDao.getString("searchString", request);
         return  genericDao.findRange(firstRow, rowsCount, pageNumber, genericDao, searchString);
