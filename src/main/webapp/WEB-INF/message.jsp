@@ -3,5 +3,5 @@
 <fmt:setLocale value="${locale}"/>
 
 <fmt:bundle basename="i18n.messages">
-<fmt:message key="message.${message}"/>
+    <fmt:message key="message.${message}"/>
 </fmt:bundle>

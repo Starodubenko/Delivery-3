@@ -43,6 +43,7 @@ public class AjaxClientRegistration implements Action {
 
                 client.setRole(positionDao.findByPositionName("Client"));
                 client.setVirtualBalance(new BigDecimal(0));
+                client.setAvatar(0);
                 clientDao.insert(client);
                 LOGGER.info("Client created successful, {}", client);
                 daoManager.commit();

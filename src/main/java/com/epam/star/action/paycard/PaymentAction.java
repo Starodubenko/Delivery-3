@@ -19,7 +19,7 @@ import java.sql.SQLException;
 public class PaymentAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(PaymentAction.class);
 
-    private ActionResult client = new ActionResult("registration");
+    ActionResult message = new ActionResult("message");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
@@ -42,9 +42,9 @@ public class PaymentAction implements Action {
             if (currentStatus.equals(notActivatedStatus)) {
                 Client user = (Client) request.getSession().getAttribute("user");
 
-                BigDecimal userbal = user.getVirtualBalance();
+                BigDecimal userBal = user.getVirtualBalance();
                 BigDecimal payBal = payCard.getBalance();
-                BigDecimal newBal = userbal.add(payBal);
+                BigDecimal newBal = userBal.add(payBal);
 
                 payCard.setStatusPayCard(statusPayCardDao.findByStatusName("activated"));
                 payCardDao.updateEntity(payCard);
@@ -52,26 +52,25 @@ public class PaymentAction implements Action {
                 user.setVirtualBalance(newBal);
 
                 Position userRole = user.getRole();
-                Position clientRole = userPositionDao.findByPositionName("registration");
+                Position clientRole = userPositionDao.findByPositionName("Client");
 
                 if (userRole.equals(clientRole)) {
-                    clientDao.updateEntity((Client) user);
+                    clientDao.updateEntity(user);
                 }
                 if (!userRole.equals(clientRole))
                     employeeDao.updateEntity((Employee) user);
+                request.setAttribute("message", "card.activation.successful");
             } else {
                 LOGGER.error("The payment card have status: {}", payCard.getStatusPayCard().getStatusName());
-                request.setAttribute("PaymentInfo", "The payment card already activated");
+                request.setAttribute("message", "card.already.activated");
             }
             daoManager.commit();
         } catch (Exception e) {
             daoManager.rollback();
-            request.setAttribute("PaymentError", "Payment error ! Try again later.");
+            request.setAttribute("message", "payment.error");
         } finally {
             daoManager.closeConnection();
         }
-
-
-        return client;
+        return message;
     }
 }
