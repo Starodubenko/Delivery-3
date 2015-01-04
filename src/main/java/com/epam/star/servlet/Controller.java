@@ -20,6 +20,7 @@ public class Controller extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
 
         String actionName = req.getMethod() + req.getPathInfo();
         LOGGER.debug("Action name which was obtained in Controller: {}", actionName);

@@ -28,7 +28,7 @@
                 <input class="image-block-buttons" type="file" name="image" id="image">
 
                 <div class="image-block-buttons">
-                    <button class="btn btn-default logoutbtn" type="submit">Save</button>
+                    <button class="btn btn-default logoutbtn" type="submit"><fmt:message key="button.save"/></button>
                 </div>
             </form>
         </div>

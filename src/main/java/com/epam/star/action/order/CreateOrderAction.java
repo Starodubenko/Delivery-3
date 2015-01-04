@@ -67,7 +67,7 @@ public class CreateOrderAction implements Action {
         String paymentType = request.getParameter("paymentType");
         int count = Integer.valueOf(request.getParameter("goodscount"));
 
-        if (client.getVirtualBalance().intValue() < order.getOrderCost().intValue() * count
+        if (client.getVirtualBalance().intValue() < order.getOrderCost().intValue()
                 && paymentType.equals("online")) return false;
         else return true;
     }
