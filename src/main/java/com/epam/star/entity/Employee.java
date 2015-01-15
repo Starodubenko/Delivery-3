@@ -8,12 +8,12 @@ public class Employee extends Client {
     private String RNN;
     private String SIK;
 
-    public Employee(int id, Integer avatar, String login, String password, String firstName, String lastName, String middleName, String address, String telephone, String mobilephone, Position role, BigDecimal virtualBalance, String identityCard, String workBook, String RNN, String SIK) {
-        super(id, avatar, login, password, firstName, lastName, middleName, address, telephone, mobilephone, role, virtualBalance);
+    public Employee(int id, String address, Integer avatar, Discount discount, String firstName, String lastName, String login, String middleName, String mobilephone, String password, Position role, String telephone, BigDecimal virtualBalance, String identityCard, String RNN, String SIK, String workBook) {
+        super(id, address, avatar, discount, firstName, lastName, login, middleName, mobilephone, password, role, telephone, virtualBalance);
         this.identityCard = identityCard;
-        this.workBook = workBook;
         this.RNN = RNN;
         this.SIK = SIK;
+        this.workBook = workBook;
     }
 
     public Employee() {

@@ -36,13 +36,13 @@ public class ShowServicesPageAction implements Action {
         Cart shoppingCart = (Cart) request.getSession().getAttribute("shoppingCart");
 
         for (Goods good : goods) {
-            for (Goods goods1 : shoppingCart.getCart().keySet()) {
+            for (Goods goods1 : shoppingCart.getGoods().keySet()) {
                 if (good.equals(goods1))
                     good.setInCart(true);
             }
         }
 
-        for (Map.Entry<Goods, Integer> entry : shoppingCart.getCart().entrySet()) {
+        for (Map.Entry<Goods, Integer> entry : shoppingCart.getGoods().entrySet()) {
             entry.getKey();
             entry.getValue();
         }

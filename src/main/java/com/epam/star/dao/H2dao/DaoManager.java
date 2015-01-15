@@ -131,5 +131,7 @@ public class DaoManager {
     public H2OrderedGoodsDao getOrderedGoodsDao() {
         return new H2OrderedGoodsDao(connection, this);
     }
-
+    public H2OrderDao2 getOrderDao2() {
+        return new H2OrderDao2(connection, this);
+    }
 }

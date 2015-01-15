@@ -162,6 +162,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     @Override
     public Employee getEntityFromResultSet(ResultSet resultSet) throws DaoException {
         PositionDao positionDao = daoManager.getPositionDao();
+        H2DiscountDao discountDao = daoManager.getDiscountDao();
 
         Employee employee = new Employee();
         try {
@@ -181,6 +182,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
             employee.setSIK(resultSet.getString("sik"));
             employee.setRole(positionDao.findById(resultSet.getInt("position_id")));
             employee.setVirtualBalance(new BigDecimal(resultSet.getInt("virtual_balance")));
+            employee.setDiscount(discountDao.findById(resultSet.getInt("discount")));
         } catch (SQLException e) {
             throw new DaoException(e);
         }

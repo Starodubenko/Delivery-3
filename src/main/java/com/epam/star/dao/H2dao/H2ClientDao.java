@@ -14,11 +14,11 @@ import java.sql.SQLException;
 
 public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
-    private static final String ADD_CLIENT = "INSERT INTO USERS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String ADD_CLIENT = "INSERT INTO USERS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String RANGE_CLIENT = "SELECT * FROM users LIMIT ? OFFSET ?";
     private static final String UPDATE_CLIENT = "UPDATE USERS SET ID = ?, LOGIN = ?, PASSWORD = ?, FIRSTNAME = ?, " +
             "LASTNAME = ?, MIDDLENAME = ?, ADDRESS = ?, TELEPHONE = ?, MOBILEPHONE = ?," +
-            "POSITION_ID = ?, VIRTUAL_BALANCE = ?, AVATAR = ? WHERE ID = ?";
+            "POSITION_ID = ?, VIRTUAL_BALANCE = ?, AVATAR = ?, DISCOUNT = ? WHERE ID = ?";
 
     private static final String NECESSARY_COLUMNS =
             " USERS.ID, USERS.LOGIN, USERS.PASSWORD, USERS.FIRSTNAME, USERS.LASTNAME, " +
@@ -26,7 +26,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
                     "POSITIONS.POSITION_NAME";
 
     private static final String ADDITIONAL_COLUMNS =
-            " USERS.VIRTUAL_BALANCE, USERS.AVATAR, ";
+            " ,USERS.VIRTUAL_BALANCE, USERS.AVATAR, USERS.DISCOUNT";
 
     private static final String FIND_BY_PARAMETERS_WITHOUT_COLUMNS =
             " SELECT %s" +
@@ -220,7 +220,8 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm.setString(13, null);
             prstm.setInt(14, client.getRole().getId());
             prstm.setBigDecimal(15, client.getVirtualBalance());
-            prstm.setString(16, null);
+            prstm.setInt(16, 0);
+            prstm.setInt(17, 0);
             prstm.execute();
             status = "Client added successfully";
         } catch (SQLException e) {
@@ -270,7 +271,8 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm.setInt(10, client.getRole().getId());
             prstm.setBigDecimal(11, client.getVirtualBalance());
             prstm.setInt(12, client.getAvatar().intValue());
-            prstm.setInt(13, client.getId());
+            prstm.setInt(13, client.getDiscount().getPercentage());
+            prstm.setInt(14, client.getId());
             prstm.executeUpdate();
             status = "Client updated successfully";
         } catch (SQLException e) {
@@ -320,6 +322,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     @Override
     public Client getEntityFromResultSet(ResultSet resultSet) throws DaoException {
         PositionDao positionDao = daoManager.getPositionDao();
+        H2DiscountDao discountDao = daoManager.getDiscountDao();
 
         Client client = new Client();
         try {
@@ -335,6 +338,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             client.setMobilephone(resultSet.getString("mobilephone"));
             client.setRole(positionDao.findById(resultSet.getInt("position_id")));
             client.setVirtualBalance(new BigDecimal(resultSet.getInt("virtual_balance")));
+            client.setDiscount(discountDao.findById(resultSet.getInt("discount")));
         } catch (SQLException e) {
             throw new DaoException(e);
         }

@@ -35,7 +35,7 @@ public class AjaxChangeGoodsPageAction implements Action {
         Cart shoppingCart = (Cart) request.getSession().getAttribute("shoppingCart");
 
         for (Goods good : goods) {
-            for (Goods goods1 : shoppingCart.getCart().keySet()) {
+            for (Goods goods1 : shoppingCart.getGoods().keySet()) {
                 if (good.equals(goods1))
                     good.setInCart(true);
             }

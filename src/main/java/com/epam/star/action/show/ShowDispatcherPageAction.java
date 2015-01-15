@@ -4,13 +4,11 @@ import com.epam.star.action.Action;
 import com.epam.star.action.ActionException;
 import com.epam.star.action.ActionResult;
 import com.epam.star.action.MappedAction;
-import com.epam.star.dao.H2dao.DaoFactory;
-import com.epam.star.dao.H2dao.DaoManager;
-import com.epam.star.dao.H2dao.H2ClientDao;
-import com.epam.star.dao.H2dao.H2OrderDao;
+import com.epam.star.dao.H2dao.*;
 import com.epam.star.dao.util.PaginatedList;
 import com.epam.star.dao.util.Pagination;
 import com.epam.star.entity.Goods;
+import com.epam.star.entity.Order2;
 import com.epam.star.entity.Period;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +38,12 @@ public class ShowDispatcherPageAction implements Action {
 
         Pagination pagination = new Pagination();
         PaginatedList clients = pagination.paginationEntity(request, clientDao, "clients");
-        PaginatedList orders = pagination.paginationEntity(request, orderDao, "orders");
+//        PaginatedList orders = pagination.paginationEntity(request, orderDao, "orders");
+
+        H2OrderDao2 orderDao2 = daoManager.getOrderDao2();
+//
+//        Pagination pagination = new Pagination();
+        PaginatedList<Order2> orders = pagination.paginationEntity(request, orderDao2, "orders");
 
         request.setAttribute("clientsPaginatedList",clients);
         request.setAttribute("ordersPaginatedList",orders);

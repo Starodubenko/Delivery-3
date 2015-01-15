@@ -14,24 +14,26 @@ public class Client extends AbstractEntity {
     private String telephone;
     private String mobilephone;
     private Position role;
-    private BigDecimal VirtualBalance;
+    private BigDecimal virtualBalance;
+    private Discount discount;
 
     public Client() {
     }
 
-    public Client(int id, Integer avatar, String login, String password, String firstName, String lastName, String middleName, String address, String telephone, String mobilephone, Position role, BigDecimal virtualBalance) {
+    public Client(int id, String address, Integer avatar, Discount discount, String firstName, String lastName, String login, String middleName, String mobilephone, String password, Position role, String telephone, BigDecimal virtualBalance) {
         super(id);
+        this.address = address;
         this.avatar = avatar;
-        this.login = login;
-        this.password = password;
+        this.discount = discount;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.login = login;
         this.middleName = middleName;
-        this.address = address;
-        this.telephone = telephone;
         this.mobilephone = mobilephone;
+        this.password = password;
         this.role = role;
-        this.VirtualBalance = virtualBalance;
+        this.telephone = telephone;
+        this.virtualBalance = virtualBalance;
     }
 
     public Integer getAvatar() {
@@ -59,11 +61,11 @@ public class Client extends AbstractEntity {
     }
 
     public BigDecimal getVirtualBalance() {
-        return VirtualBalance;
+        return virtualBalance;
     }
 
     public void setVirtualBalance(BigDecimal virtualBalance) {
-        VirtualBalance = virtualBalance;
+        this.virtualBalance = virtualBalance;
     }
 
     public String getLogin() {
@@ -120,5 +122,13 @@ public class Client extends AbstractEntity {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public Discount getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
     }
 }

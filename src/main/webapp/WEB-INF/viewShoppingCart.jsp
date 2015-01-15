@@ -19,7 +19,7 @@
 
         <div class="goods-list panel panel-default">
             <div class="goods">
-                <c:forEach var="entry" items="${shoppingCart.getCart()}">
+                <c:forEach var="entry" items="${shoppingCart.getGoods()}">
                     <tShoppingCart:good entry="${entry}"/>
                 </c:forEach>
             </div>

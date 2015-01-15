@@ -45,7 +45,8 @@
                 </div>
 
                 <div class="orderListHeight tab-pane" id="Orders">
-                    <tOrder:ordersBlock ordersPaginatedList="${ordersPaginatedList}"/>
+                    <%--<tOrder:ordersBlock ordersPaginatedList="${ordersPaginatedList}"/>--%>
+                    <tOrder:ordersBlock2 ordersPaginatedList="${ordersPaginatedList}"/>
 
                     <div class="under-orders-table-row">
                         <input type="button" class="under-orders-table-row-content btn btn-primary"

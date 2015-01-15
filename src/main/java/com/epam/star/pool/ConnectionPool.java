@@ -23,7 +23,6 @@ public class ConnectionPool {
 
         if (connectionList.isEmpty()) {
             if (CURRENT_POOL_SIZE >= MAX_POOL_SIZE) {
-                //todo will create PoolException
                 System.out.println("Maximum pool size is reaced. Can not create connection");
             }
             CURRENT_POOL_SIZE++;
@@ -35,10 +34,6 @@ public class ConnectionPool {
     }
 
     public static synchronized void addConnectionToPool(Connection conn) {
-//        if (CURRENT_POOL_SIZE >= MAX_POOL_SIZE) {
-//            //todo will create MyException
-//            System.out.println("Maximum pool size is reaced. Can not create connection");
-//        }
         connectionList.add(conn);
     }
 }

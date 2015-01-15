@@ -78,3 +78,8 @@
     cursor: default;
 }
 
+.table>tbody>tr>td{
+    padding: 0 8px;
+    vertical-align: middle;
+}
+

@@ -1,5 +1,6 @@
 package com.epam.star.entity;
 
+
 import java.sql.Date;
 
 public class Order2 extends Cart {
@@ -34,16 +35,16 @@ public class Order2 extends Cart {
         return deliveryDate;
     }
 
-    public void setDeliveryDate(Date deliveryDate) {
-        this.deliveryDate = deliveryDate;
+    public void setDeliveryDate(java.util.Date deliveryDate) {
+        this.deliveryDate = new Date(deliveryDate.getTime());
     }
 
     public Discount getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Discount discountId) {
-        this.discount = discountId;
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
     }
 
     public int getNumber() {
@@ -58,8 +59,8 @@ public class Order2 extends Cart {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
+    public void setOrderDate(java.util.Date orderDate) {
+        this.orderDate = new Date(orderDate.getTime());
     }
 
     public boolean isPaid() {

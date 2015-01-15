@@ -8,21 +8,21 @@ import java.util.Map;
 
 public class Cart extends AbstractEntity implements ShoppingCart {
 
-    private Map<Goods, Integer> cart = new HashMap<>();
+    private Map<Goods, Integer> goods = new HashMap<>();
 
-    public Map<Goods, Integer> getCart() {
-        return cart;
+    public Map<Goods, Integer> getGoods() {
+        return goods;
     }
 
-    public void setCart(Map<Goods, Integer> cart) {
-        this.cart = cart;
+    public void setGoods(Map<Goods, Integer> cart) {
+        this.goods = cart;
     }
 
     @Override
     public BigDecimal getTotalSum() {
         BigDecimal totalSum = new BigDecimal(0);
 
-        for (Map.Entry<Goods, Integer> goods : cart.entrySet()) {
+        for (Map.Entry<Goods, Integer> goods : this.goods.entrySet()) {
             BigDecimal price = goods.getKey().getPrice();
             Integer count = goods.getValue().intValue();
             BigDecimal cost = price.multiply(new BigDecimal(count));
@@ -33,33 +33,37 @@ public class Cart extends AbstractEntity implements ShoppingCart {
 
     @Override
     public int getGoodsCount() {
-        return cart.size();
+        return goods.size();
     }
 
     @Override
     public void addGoods(Goods goods) {
-        cart.put(goods, 1);
+        this.goods.put(goods, 1);
     }
 
     @Override
     public void setGoodsCount(Goods goods, int count) {
-        for (Map.Entry<Goods, Integer> entry : cart.entrySet()) {
+        for (Map.Entry<Goods, Integer> entry : this.goods.entrySet()) {
             if (entry.getKey().equals(goods)) entry.setValue(count);
         }
     }
 
     @Override
     public void removeGoods(Goods goods) {
-        cart.remove(goods);
+        this.goods.remove(goods);
     }
 
     @Override
     public BigDecimal getCostByGoodsId(int id) {
-        for (Map.Entry<Goods, Integer> entry : cart.entrySet()) {
+        for (Map.Entry<Goods, Integer> entry : goods.entrySet()) {
             if (entry.getKey().getId() == id) {
                 return entry.getKey().getPrice().multiply(new BigDecimal(entry.getValue()));
             }
         }
         return null;
+    }
+
+    public void clear() {
+        goods.clear();
     }
 }

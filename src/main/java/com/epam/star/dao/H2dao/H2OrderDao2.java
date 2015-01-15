@@ -1,8 +1,10 @@
 package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.*;
+import com.epam.star.entity.Goods;
 import com.epam.star.entity.Order;
 import com.epam.star.entity.Order2;
+import com.epam.star.entity.OrderedGoods;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,34 +12,41 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class H2OrderDao2 extends AbstractH2Dao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2OrderDao2.class);
-    private static final String INSERT_ORDER = "INSERT INTO  USER_ORDER VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String INSERT_ORDER = "INSERT INTO  USER_ORDER VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String RANGE_ORDERS = "SELECT * FROM ORDERS LIMIT ? OFFSET ?";
     private static final String UPDATE_ORDER = " UPDATE USER_ORDER SET ID = ?, USER_ID = ?, NUMBER = ?, PERIOD_ID = ?," +
-            " DELIVERY_DATE = ?, ORDER_DATE = ?, PAID = ?, DISCONT_ID = ?, ADDITIONAL_INFO = ?, STATUS_ID = ? where ID = ?";
+            " DELIVERY_DATE = ?, ORDER_DATE = ?, PAID = ?, DISCOUNT_ID = ?, ADDITIONAL_INFO = ?, STATUS_ID = ? where ID = ?";
 
     private static final String NECESSARY_COLUMNS =
-            " USER_ORDER.ID, USERS.FIRSTNAME , USERS.LASTNAME, USERS.MIDDLENAME, USERS.ADDRESS," +
-                    " ORDERS.ORDER_DATE, GOODS.GOODS_NAME, ORDERS.COUNT, ORDERS.ORDER_COST, ORDERS.PAID," +
-                    " ORDERS.DELIVERY_DATE, PERIOD.PERIOD, ORDERS.ADDITIONAL_INFO, STATUS.STATUS_NAME";
+            " USER_ORDER.ID," +
+                    "  USER_ORDER.NUMBER," +
+                    "  USERS.FIRSTNAME," +
+                    "  USERS.LASTNAME," +
+                    "  USERS.MIDDLENAME," +
+                    "  USERS.ADDRESS," +
+                    "  DISCOUNT.DISCOUNT_PERCENTAGE," +
+                    "  USER_ORDER.PAID," +
+                    "  USER_ORDER.ORDER_DATE," +
+                    "  USER_ORDER.DELIVERY_DATE," +
+                    "  PERIOD.PERIOD," +
+                    "  USER_ORDER.ADDITIONAL_INFO," +
+                    "  STATUS.STATUS_NAME";
 
     private static final String ADDITIONAL_COLUMNS = "";
 
     private static final String FIND_BY_PARAMETERS_WITHOUT_COLUMNS =
             " SELECT %s" +
-                    " FROM ORDERS" +
-                    " INNER JOIN USERS" +
-                    " ON ORDERS.USER_ID = USERS.ID" +
-                    " INNER JOIN PERIOD" +
-                    " ON ORDERS.PERIOD_ID = PERIOD.ID" +
-                    " INNER JOIN GOODS" +
-                    " ON ORDERS.GOODS_ID = GOODS.ID" +
-                    " INNER JOIN STATUS" +
-                    " ON ORDERS.STATUS_ID = STATUS.ID  ";
+                    " FROM USER_ORDER" +
+                    "  INNER JOIN USERS ON USER_ORDER.USER_ID = USERS.ID" +
+                    "  INNER JOIN PERIOD ON USER_ORDER.PERIOD_ID = PERIOD.ID" +
+                    "  INNER JOIN STATUS ON USER_ORDER.STATUS_ID = STATUS.ID" +
+                    "  INNER JOIN DISCOUNT ON USER_ORDER.DISCOUNT_ID = DISCOUNT.ID";
 
     private static final String ID_FIELD = " USER_ORDER.ID, ";
 
@@ -134,16 +143,31 @@ public class H2OrderDao2 extends AbstractH2Dao {
 
 
     public Order2 findById(int ID) throws DaoException {
-        String sql = "SELECT * FROM Orders WHERE id = " + ID;
+        String sqlOrder = "SELECT * FROM USER_ORDER WHERE id = " + ID;
+        String sqlGoods = "SELECT * FROM ORDERED_GOODS WHERE ORDER_NUMBER = ?";
         Order2 order = null;
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
         try {
-            prstm = conn.prepareStatement(sql);
+            prstm = conn.prepareStatement(sqlOrder);
             resultSet = prstm.executeQuery();
 
             if (resultSet.next())
                 order = getEntityFromResultSet(resultSet);
+
+
+            prstm = conn.prepareStatement(sqlGoods);
+            int number = order.getNumber();
+            prstm.setInt(1, number);
+            resultSet = prstm.executeQuery();
+
+            Map<Goods, Integer> goods = new HashMap<>();
+            while (resultSet.next()) {
+                OrderedGoods orderedGoods = getOrderedGoodsFromResultSet(resultSet);
+                goods.put(orderedGoods.getGoods(), orderedGoods.getGoodsCount());
+            }
+
+            order.setGoods(goods);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -170,7 +194,6 @@ public class H2OrderDao2 extends AbstractH2Dao {
             prstm.setInt(8, order.getDiscount().getId());
             prstm.setString(9, order.getAdditionalInfo());
             prstm.setInt(10, order.getStatus().getId());
-            prstm.setInt(11, order.getId());
             prstm.execute();
             status = "Order added successfully";
         } catch (SQLException e) {
@@ -215,13 +238,13 @@ public class H2OrderDao2 extends AbstractH2Dao {
 
         String columns = NECESSARY_COLUMNS;
 
-        if (needAditionalColumns == true){
+        if (needAditionalColumns == true) {
             columns = columns + ADDITIONAL_COLUMNS;
         }
 
-        String result = String.format(FIND_BY_PARAMETERS_WITHOUT_COLUMNS,columns);
+        String result = String.format(FIND_BY_PARAMETERS_WITHOUT_COLUMNS, columns);
 
-        result = String.format(result+"%s", LIMIT_OFFSET);
+        result = String.format(result + "%s", LIMIT_OFFSET);
 
         return result;
     }
@@ -247,10 +270,24 @@ public class H2OrderDao2 extends AbstractH2Dao {
     }
 
 
+    public OrderedGoods getOrderedGoodsFromResultSet(ResultSet resultSet) throws DaoException {
+        OrderedGoods goods = new OrderedGoods();
+        GoodsDao goodsDao = daoManager.getGoodsDao();
+
+        try {
+            goods.setId(resultSet.getInt("id"));
+            goods.setOrderNumber(resultSet.getInt("order_number"));
+            goods.setGoods(goodsDao.findById(resultSet.getInt("goods_id")));
+            goods.setGoodsCount(resultSet.getInt("goods_count"));
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return goods;
+    }
+
     public Order2 getEntityFromResultSet(ResultSet resultSet) throws DaoException {
         Order2 order = new Order2();
         PeriodDao periodDao = daoManager.getPeriodDao();
-        GoodsDao goodsDao = daoManager.getGoodsDao();
         StatusDao statusDao = daoManager.getStatusDao();
         ClientDao clientDao = daoManager.getClientDao();
         DiscountDao discountDao = daoManager.getDiscountDao();
@@ -266,12 +303,9 @@ public class H2OrderDao2 extends AbstractH2Dao {
             order.setDiscount(discountDao.findById(resultSet.getInt("discount_id")));
             order.setAdditionalInfo(UTIL_DAO.getString(resultSet.getString("additional_info")));
             order.setStatus(statusDao.findById(resultSet.getInt("status_id")));
-
-
         } catch (SQLException e) {
             throw new DaoException(e);
         }
-
         return order;
     }
 }

@@ -16,7 +16,7 @@ public class H2DiscountDao extends AbstractH2Dao implements DiscountDao {
     private static final String ADD_STATUS = "INSERT INTO DISCOUNT VALUES (?, ?, ?)";
     private static final String DELETE_STATUS = "DELETE FROM DISCOUNT WHERE ID = ?";
     private static final String UPDATE_STATUS = "UPDATE DISCOUNT SET DISCOUNT.ID = ?, DISCOUNT.NAME = ?," +
-            " DISCOUNT.PERCENTAGE = ? WHERE DISCOUNT.ID = ?";
+            " DISCOUNT.DISCOUNT_PERCENTAGE = ? WHERE DISCOUNT.ID = ?";
 
     private static final String NECESSARY_COLUMNS =
             " DISCOUNT.ID, DISCOUNT.NAME, DISCOUNT.PERCENTAGE ";
@@ -31,6 +31,25 @@ public class H2DiscountDao extends AbstractH2Dao implements DiscountDao {
 
     protected H2DiscountDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
+    }
+
+    public Discount findByName(String name) throws DaoException {
+        String sql = "SELECT * FROM DISCOUNT WHERE DISCOUNT.NAME = " + "'" + name + "'";
+        Discount discount = null;
+        PreparedStatement prstm = null;
+        ResultSet resultSet = null;
+        try {
+            prstm = conn.prepareStatement(sql);
+            resultSet = prstm.executeQuery();
+
+            if (resultSet.next())
+                discount = getEntityFromResultSet(resultSet);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm, resultSet);
+        }
+        return discount;
     }
 
     @Override
@@ -103,7 +122,7 @@ public class H2DiscountDao extends AbstractH2Dao implements DiscountDao {
         try {
             discount.setId(resultSet.getInt("id"));
             discount.setName(resultSet.getString("name"));
-            discount.setPercentage(resultSet.getInt("percentage"));
+            discount.setPercentage(resultSet.getInt("discount_percentage"));
         } catch (SQLException e) {
             throw new DaoException(e);
         }

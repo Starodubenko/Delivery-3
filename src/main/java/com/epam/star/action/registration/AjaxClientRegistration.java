@@ -7,6 +7,7 @@ import com.epam.star.action.MappedAction;
 import com.epam.star.dao.ClientDao;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
+import com.epam.star.dao.H2dao.H2DiscountDao;
 import com.epam.star.dao.PositionDao;
 import com.epam.star.entity.Client;
 import com.epam.star.util.Validator;
@@ -40,10 +41,12 @@ public class AjaxClientRegistration implements Action {
             try {
                 PositionDao positionDao = daoManager.getPositionDao();
                 ClientDao clientDao = daoManager.getClientDao();
+                H2DiscountDao discountDao = daoManager.getDiscountDao();
 
                 client.setRole(positionDao.findByPositionName("Client"));
                 client.setVirtualBalance(new BigDecimal(0));
                 client.setAvatar(0);
+                client.setDiscount(discountDao.findById(0));
                 clientDao.insert(client);
                 LOGGER.info("Client created successful, {}", client);
                 daoManager.commit();
